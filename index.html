@@ -249,19 +249,37 @@ nav.scrolled {
 
 /* Mobile menu */
 .mobile-menu {
-  position: fixed; top: 72px; left: 0; right: 0;
-  background: var(--bg2); border-bottom: 1px solid var(--border);
-  padding: 20px; z-index: 799;
-  transform: translateY(-110%); transition: transform var(--transition);
+  position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+  background: var(--bg2); border-top: 1px solid var(--border2);
+  padding: 24px 20px; z-index: 850;
+  transform: translateX(-100%); transition: transform var(--transition);
+  overflow-y: auto;
+  box-shadow: 4px 0 30px rgba(0,0,0,0.5);
 }
-.mobile-menu.open { transform: translateY(0); }
-.mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.mobile-menu.open { transform: translateX(0); }
+.mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .mobile-menu ul a {
-  display: block; padding: 12px 16px; border-radius: 8px;
-  font-weight: 500; color: var(--text-muted);
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; border-radius: 12px;
+  font-weight: 600; font-size: 16px; color: var(--text-main);
+  border: 1px solid transparent;
   transition: all var(--transition);
 }
-.mobile-menu ul a:hover { color: var(--gold); background: rgba(201,168,76,0.08); }
+.mobile-menu ul a:hover {
+  color: var(--gold); background: rgba(201,168,76,0.08);
+  border-color: var(--border); transform: translateX(4px);
+}
+.mobile-menu-divider {
+  height: 1px; background: var(--border); margin: 16px 0;
+}
+.mobile-menu-auth { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.mobile-lang { display: flex; gap: 8px; margin-top: 16px; }
+.mobile-lang-btn {
+  flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 700;
+  border: 1.5px solid var(--border); color: var(--text-muted);
+  transition: all var(--transition); text-align: center;
+}
+.mobile-lang-btn.active { background: var(--gold); border-color: var(--gold); color: var(--bg); }
 
 /* ===== HERO SECTION ===== */
 .hero {
@@ -884,6 +902,14 @@ footer {
   .products-grid { grid-template-columns: 1fr 1fr; }
   .product-img { height: 160px; font-size: 56px; }
 }
+/* Payment modal wider */
+#paymentModal .modal-box { max-width: 520px; max-height: 90vh; overflow-y: auto; }
+#payMethods label { transition: border-color var(--transition); cursor: pointer; }
+#payMethods label:hover { border-color: rgba(201,168,76,0.5) !important; }
+
+/* Auth modal z-index above overlay */
+.modal { z-index: 1100; }
+#paymentModal { z-index: 1100; }
 ```
 
   </style>
@@ -950,13 +976,27 @@ footer {
 
 <div class="mobile-menu" id="mobileMenu">
   <ul>
-    <li><a href="#" onclick="showPage('home');toggleMobile()">🏠 Home / ماڵەوە</a></li>
-    <li><a href="#" onclick="showPage('shop');toggleMobile()">🛍️ Shop / بازار</a></li>
-    <li><a href="#" onclick="showPage('about');toggleMobile()">ℹ️ About / دەربارە</a></li>
-    <li><a href="#" onclick="showPage('contact');toggleMobile()">📬 Contact / پەیوەندی</a></li>
-    <li><a href="#" onclick="openModal('login');toggleMobile()">🔑 Login / چوونەژوورەوە</a></li>
-    <li><a href="#" onclick="openModal('signup');toggleMobile()">✨ Sign Up / تۆمارکردن</a></li>
+    <li><a href="#" onclick="showPage('home');toggleMobile()">🏠 <span>Home</span> <span style="font-family:var(--font-kurdish);font-size:13px;color:var(--text-muted);margin-right:auto">ماڵەوە</span></a></li>
+    <li><a href="#" onclick="showPage('shop');toggleMobile()">🛍️ <span>Shop</span> <span style="font-family:var(--font-kurdish);font-size:13px;color:var(--text-muted);margin-right:auto">بازار</span></a></li>
+    <li><a href="#" onclick="showPage('about');toggleMobile()">ℹ️ <span>About</span> <span style="font-family:var(--font-kurdish);font-size:13px;color:var(--text-muted);margin-right:auto">دەربارە</span></a></li>
+    <li><a href="#" onclick="showPage('contact');toggleMobile()">📬 <span>Contact</span> <span style="font-family:var(--font-kurdish);font-size:13px;color:var(--text-muted);margin-right:auto">پەیوەندی</span></a></li>
   </ul>
+  <div class="mobile-menu-divider"></div>
+  <div class="mobile-menu-auth">
+    <button class="btn-ghost" style="width:100%;padding:14px;font-size:15px;border-radius:12px;" onclick="openModal('login');toggleMobile()">🔑 Login / چوونەژوورەوە</button>
+    <button class="btn-gold" style="width:100%;padding:14px;font-size:15px;border-radius:12px;" onclick="openModal('signup');toggleMobile()">✨ Sign Up / تۆمارکردن</button>
+  </div>
+  <div class="mobile-menu-divider"></div>
+  <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px;font-family:var(--font-kurdish);text-align:center;">زمان / Language</div>
+  <div class="mobile-lang">
+    <button class="mobile-lang-btn active" id="mobileLangEN" onclick="setLang('en')">🇬🇧 English</button>
+    <button class="mobile-lang-btn" id="mobileLangKU" onclick="setLang('ku')">🏳️ کوردی</button>
+  </div>
+  <!-- Mobile Search -->
+  <div class="mobile-menu-divider"></div>
+  <div style="position:relative;">
+    <input type="text" class="form-input" placeholder="🔍 گەڕان / Search..." oninput="handleSearch(this.value)" style="border-radius:50px;width:100%;" />
+  </div>
 </div>
 
 <!-- ===== HOME PAGE ===== -->
@@ -1227,7 +1267,7 @@ footer {
             <div class="icon">📧</div>
             <div class="info">
               <div class="label">Email / ئیمەیل</div>
-              <div class="value">hello@luxeshop.com</div>
+              <div class="value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c2aaa7aeaead82aeb7baa7b1aaadb2eca1adaf">[email&#160;protected]</a></div>
             </div>
           </div>
           <div class="contact-item">
@@ -1310,7 +1350,7 @@ footer {
       <span class="label">Total / کۆی گشتی</span>
       <span class="val" id="cartTotal">$0</span>
     </div>
-    <button class="checkout-btn" onclick="showToast('Redirecting to checkout... 💳','success')">
+    <button class="checkout-btn" onclick="openPayment()">
       Checkout Now 💳<br/><small style="font-size:11px;font-weight:400;">پرداختکردن</small>
     </button>
   </div>
@@ -1391,6 +1431,134 @@ footer {
   </div>
 </div>
 
+<!-- ===== PAYMENT MODAL ===== -->
+
+<div class="modal" id="paymentModal">
+  <div class="modal-box" style="max-width:520px;">
+    <button class="modal-close" onclick="closePayment()">✕</button>
+    <div class="modal-logo">Secure Checkout 💳</div>
+    <div class="modal-sub">Complete your order / تکایە داواکاریەکەت تەواو بکە<span class="ku">پارەدان بە ئەمنی</span></div>
+
+```
+<!-- Payment Steps -->
+<div id="payStep1">
+  <div style="display:flex;gap:8px;margin-bottom:24px;">
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--gold);"></div>
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--border);"></div>
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--border);"></div>
+  </div>
+  <div style="font-size:12px;color:var(--gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">Step 1: Delivery Info / زانیاری گوازراوە</div>
+
+  <div class="form-group">
+    <div class="form-label">Full Name <span class="ku">ناوی تەواو</span></div>
+    <input type="text" class="form-input" id="pay-name" placeholder="Ahmad Karimi" />
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="form-group">
+      <div class="form-label">Phone <span class="ku">تەلەفۆن</span></div>
+      <input type="tel" class="form-input" id="pay-phone" placeholder="+964 750..." />
+    </div>
+    <div class="form-group">
+      <div class="form-label">City <span class="ku">شار</span></div>
+      <input type="text" class="form-input" id="pay-city" placeholder="Erbil / هەولێر" />
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-label">Address <span class="ku">ناونیشان</span></div>
+    <input type="text" class="form-input" id="pay-address" placeholder="Street, District / کۆلان، شوێن" />
+  </div>
+  <button class="btn-primary" style="width:100%;padding:14px;margin-top:4px;" onclick="payStep(2)">
+    Next: Payment Method ➜ / شێوازی پارەدان
+  </button>
+</div>
+
+<!-- Step 2: Payment Method -->
+<div id="payStep2" class="hidden">
+  <div style="display:flex;gap:8px;margin-bottom:24px;">
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--gold);"></div>
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--gold);"></div>
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--border);"></div>
+  </div>
+  <div style="font-size:12px;color:var(--gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">Step 2: Payment Method / شێوازی پارەدان</div>
+
+  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;" id="payMethods">
+    <label style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:2px solid var(--gold);border-radius:12px;cursor:pointer;">
+      <input type="radio" name="payMethod" value="card" checked style="accent-color:var(--gold);width:18px;height:18px;" />
+      <span style="font-size:22px;">💳</span>
+      <div><div style="font-weight:700;font-size:15px;">Credit / Debit Card</div><div style="font-size:12px;color:var(--text-muted);">کارتی کرێدیت / دێبیت</div></div>
+    </label>
+    <label style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;" onclick="selectPay(this)">
+      <input type="radio" name="payMethod" value="cash" style="accent-color:var(--gold);width:18px;height:18px;" />
+      <span style="font-size:22px;">💵</span>
+      <div><div style="font-weight:700;font-size:15px;">Cash on Delivery</div><div style="font-size:12px;color:var(--text-muted);">پارە لە دەرگا / نەقد</div></div>
+    </label>
+    <label style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;" onclick="selectPay(this)">
+      <input type="radio" name="payMethod" value="zain" style="accent-color:var(--gold);width:18px;height:18px;" />
+      <span style="font-size:22px;">📱</span>
+      <div><div style="font-weight:700;font-size:15px;">Zain Cash / FastPay</div><div style="font-size:12px;color:var(--text-muted);">زەین کاش / فاستپەی</div></div>
+    </label>
+  </div>
+
+  <div id="cardFields">
+    <div class="form-group">
+      <div class="form-label">Card Number <span class="ku">ژمارەی کارت</span></div>
+      <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)" />
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <div class="form-label">Expiry <span class="ku">بەسەرچوون</span></div>
+        <input type="text" class="form-input" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)" />
+      </div>
+      <div class="form-group">
+        <div class="form-label">CVV <span class="ku">کۆدی پشت</span></div>
+        <input type="text" class="form-input" placeholder="123" maxlength="3" />
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px;">
+    <button class="btn-outline" style="padding:14px 20px;border-radius:12px;" onclick="payStep(1)">← Back</button>
+    <button class="btn-primary" style="flex:1;padding:14px;" onclick="payStep(3)">Review Order ➜ / پێداچوونەوەی داواکاری</button>
+  </div>
+</div>
+
+<!-- Step 3: Confirm -->
+<div id="payStep3" class="hidden">
+  <div style="display:flex;gap:8px;margin-bottom:24px;">
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--gold);"></div>
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--gold);"></div>
+    <div style="flex:1;height:4px;border-radius:2px;background:var(--gold);"></div>
+  </div>
+  <div style="font-size:12px;color:var(--gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">Step 3: Confirm / پشتڕاستکردنەوە</div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px;" id="orderSummary"></div>
+
+  <div style="background:rgba(201,168,76,0.06);border:1px solid var(--border2);border-radius:12px;padding:14px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+    <span style="font-size:20px;">🔒</span>
+    <div style="font-size:12px;color:var(--text-muted);">Your payment is secured with SSL encryption<br/><span style="font-family:var(--font-kurdish);">پارەدانەکەت بە SSL داپۆشراوە و ئەمنە</span></div>
+  </div>
+
+  <div style="display:flex;gap:10px;">
+    <button class="btn-outline" style="padding:14px 20px;border-radius:12px;" onclick="payStep(2)">← Back</button>
+    <button class="checkout-btn" style="flex:1;border-radius:12px;" onclick="placeOrder()">✅ Place Order / داواکاری تۆمار بکە</button>
+  </div>
+</div>
+
+<!-- Success -->
+<div id="paySuccess" class="hidden" style="text-align:center;padding:20px 0;">
+  <div style="font-size:72px;margin-bottom:16px;">🎉</div>
+  <h3 style="font-family:var(--font-display);font-size:26px;color:var(--gold);margin-bottom:8px;">Order Placed!</h3>
+  <p style="font-family:var(--font-kurdish);color:var(--text-muted);font-size:16px;line-height:2;">داواکاریت بەسەرکەوتووی تۆمارکرا!<br/>دەگاتە دەرگاکەت لە ٢-٥ ڕۆژدا</p>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin:20px 0;font-size:14px;">
+    Order #<strong style="color:var(--gold)" id="orderNum">LX-00000</strong> confirmed ✓
+  </div>
+  <button class="btn-primary" style="padding:14px 32px;" onclick="closePayment()">Continue Shopping 🛍️</button>
+</div>
+```
+
+  </div>
+</div>
+
 <!-- ===== FOOTER ===== -->
 
 <footer>
@@ -1451,280 +1619,391 @@ footer {
 
 <!-- ===== JAVASCRIPT ===== -->
 
-<script>
-  // ===== PRODUCT DATA =====
-  const products = [
-    { id:0, name:'Air Runner Pro', nameKu:'ئایر ڕەنەر پرۆ', category:'Shoes', price:129, oldPrice:189, emoji:'👟', badge:'new', stars:5, reviews:284 },
-    { id:1, name:'Luxe Leather Bag', nameKu:'جانتای چەرمی لوکس', category:'Fashion', price:349, oldPrice:499, emoji:'👜', badge:'hot', stars:5, reviews:193 },
-    { id:2, name:'Smart Watch X9', nameKu:'کاتژمێری زیرەک X9', category:'Electronics', price:299, oldPrice:399, emoji:'⌚', badge:'new', stars:4, reviews:521 },
-    { id:3, name:'UV Shield Sunglasses', nameKu:'چاوێلکەی UV', category:'Accessories', price:89, oldPrice:129, emoji:'🕶️', badge:'sale', stars:4, reviews:147 },
-    { id:4, name:'Silk Evening Dress', nameKu:'کراسی ئابرێشمی', category:'Fashion', price:219, oldPrice:null, emoji:'👗', badge:'new', stars:5, reviews:88 },
-    { id:5, name:'Wireless Earbuds', nameKu:'گوێبەستی وایەرلێس', category:'Electronics', price:149, oldPrice:199, emoji:'🎧', badge:'hot', stars:5, reviews:673 },
-    { id:6, name:'Gold Necklace', nameKu:'گەردەنبەندی زێڕ', category:'Accessories', price:189, oldPrice:null, emoji:'📿', badge:null, stars:5, reviews:234 },
-    { id:7, name:'Perfume Collection', nameKu:'کۆمەڵی بۆن', category:'Beauty', price:129, oldPrice:169, emoji:'🌸', badge:'sale', stars:4, reviews:412 },
-    { id:8, name:'Leather Sneakers', nameKu:'گوانیەی چەرمی', category:'Shoes', price:159, oldPrice:219, emoji:'👞', badge:'new', stars:4, reviews:156 },
-    { id:9, name:'Laptop Pro Max', nameKu:'لاپتۆپی پرۆ ماکس', category:'Electronics', price:1299, oldPrice:1599, emoji:'💻', badge:'hot', stars:5, reviews:89 },
-    { id:10, name:'Cashmere Sweater', nameKu:'سوێتەری کاشمیر', category:'Fashion', price:179, oldPrice:249, emoji:'🧥', badge:null, stars:4, reviews:203 },
-    { id:11, name:'Diamond Ring', nameKu:'ئەنگووستی ئەلماس', category:'Accessories', price:899, oldPrice:null, emoji:'💍', badge:'hot', stars:5, reviews:67 },
-  ];
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
-  let cart = [];
-  let currentLang = 'en';
-  let currentFilter = 'All';
-  let shopCurrentFilter = 'All';
+// ===== PRODUCT DATA =====
+const products = [
+{ id:0, name:‘Air Runner Pro’, nameKu:‘ئایر ڕەنەر پرۆ’, category:‘Shoes’, price:129, oldPrice:189, emoji:‘👟’, badge:‘new’, stars:5, reviews:284 },
+{ id:1, name:‘Luxe Leather Bag’, nameKu:‘جانتای چەرمی لوکس’, category:‘Fashion’, price:349, oldPrice:499, emoji:‘👜’, badge:‘hot’, stars:5, reviews:193 },
+{ id:2, name:‘Smart Watch X9’, nameKu:‘کاتژمێری زیرەک X9’, category:‘Electronics’, price:299, oldPrice:399, emoji:‘⌚’, badge:‘new’, stars:4, reviews:521 },
+{ id:3, name:‘UV Shield Sunglasses’, nameKu:‘چاوێلکەی UV’, category:‘Accessories’, price:89, oldPrice:129, emoji:‘🕶️’, badge:‘sale’, stars:4, reviews:147 },
+{ id:4, name:‘Silk Evening Dress’, nameKu:‘کراسی ئابرێشمی’, category:‘Fashion’, price:219, oldPrice:null, emoji:‘👗’, badge:‘new’, stars:5, reviews:88 },
+{ id:5, name:‘Wireless Earbuds’, nameKu:‘گوێبەستی وایەرلێس’, category:‘Electronics’, price:149, oldPrice:199, emoji:‘🎧’, badge:‘hot’, stars:5, reviews:673 },
+{ id:6, name:‘Gold Necklace’, nameKu:‘گەردەنبەندی زێڕ’, category:‘Accessories’, price:189, oldPrice:null, emoji:‘📿’, badge:null, stars:5, reviews:234 },
+{ id:7, name:‘Perfume Collection’, nameKu:‘کۆمەڵی بۆن’, category:‘Beauty’, price:129, oldPrice:169, emoji:‘🌸’, badge:‘sale’, stars:4, reviews:412 },
+{ id:8, name:‘Leather Sneakers’, nameKu:‘گوانیەی چەرمی’, category:‘Shoes’, price:159, oldPrice:219, emoji:‘👞’, badge:‘new’, stars:4, reviews:156 },
+{ id:9, name:‘Laptop Pro Max’, nameKu:‘لاپتۆپی پرۆ ماکس’, category:‘Electronics’, price:1299, oldPrice:1599, emoji:‘💻’, badge:‘hot’, stars:5, reviews:89 },
+{ id:10, name:‘Cashmere Sweater’, nameKu:‘سوێتەری کاشمیر’, category:‘Fashion’, price:179, oldPrice:249, emoji:‘🧥’, badge:null, stars:4, reviews:203 },
+{ id:11, name:‘Diamond Ring’, nameKu:‘ئەنگووستی ئەلماس’, category:‘Accessories’, price:899, oldPrice:null, emoji:‘💍’, badge:‘hot’, stars:5, reviews:67 },
+];
 
-  // ===== RENDER PRODUCTS =====
-  function createProductCard(p) {
-    const stars = '★'.repeat(p.stars) + '☆'.repeat(5-p.stars);
-    const badge = p.badge ? `<span class="product-badge badge-${p.badge}">${p.badge}</span>` : '';
-    const oldPrice = p.oldPrice ? `<span class="old">$${p.oldPrice}</span>` : '';
-    return `
-      <div class="product-card" data-category="${p.category}">
-        ${badge}
-        <button class="product-wishlist" onclick="toggleWish(this)">♡</button>
-        <div class="product-img">
-          <span>${p.emoji}</span>
-          <div class="product-overlay">
-            <button class="quick-view" onclick="event.stopPropagation();addToCart(${p.id})">Quick Add 🛒</button>
-          </div>
-        </div>
-        <div class="product-body">
-          <div class="product-category">${p.category}</div>
-          <div class="product-name">${p.name}</div>
-          <div class="product-name-ku">${p.nameKu}</div>
-          <div class="product-stars">${stars} <span>(${p.reviews})</span></div>
-          <div class="product-footer">
-            <div class="product-price">${oldPrice}$${p.price}</div>
-            <button class="add-cart-btn" id="addBtn-${p.id}" onclick="addToCart(${p.id})">🛒 Add</button>
-          </div>
-        </div>
-      </div>`;
-  }
+let cart = [];
+let currentLang = ‘en’;
+let currentFilter = ‘All’;
+let shopCurrentFilter = ‘All’;
 
-  function renderHomeProducts(filter='All') {
-    const el = document.getElementById('homeProducts');
-    const filtered = filter === 'All' ? products.slice(0,8) : products.filter(p=>p.category===filter);
-    el.innerHTML = filtered.map(createProductCard).join('');
-  }
+// ===== RENDER PRODUCTS =====
+function createProductCard(p) {
+const stars = ‘★’.repeat(p.stars) + ‘☆’.repeat(5-p.stars);
+const badge = p.badge ? `<span class="product-badge badge-${p.badge}">${p.badge}</span>` : ‘’;
+const oldPrice = p.oldPrice ? `<span class="old">$${p.oldPrice}</span>` : ‘’;
+return ` <div class="product-card" data-category="${p.category}"> ${badge} <button class="product-wishlist" onclick="toggleWish(this)">♡</button> <div class="product-img"> <span>${p.emoji}</span> <div class="product-overlay"> <button class="quick-view" onclick="event.stopPropagation();addToCart(${p.id})">Quick Add 🛒</button> </div> </div> <div class="product-body"> <div class="product-category">${p.category}</div> <div class="product-name">${p.name}</div> <div class="product-name-ku">${p.nameKu}</div> <div class="product-stars">${stars} <span>(${p.reviews})</span></div> <div class="product-footer"> <div class="product-price">${oldPrice}$${p.price}</div> <button class="add-cart-btn" id="addBtn-${p.id}" onclick="addToCart(${p.id})">🛒 Add</button> </div> </div> </div>`;
+}
 
-  function renderShopProducts(search='', filter='All') {
-    const el = document.getElementById('shopProducts');
-    let filtered = products;
-    if (filter !== 'All') filtered = filtered.filter(p=>p.category===filter);
-    if (search) filtered = filtered.filter(p=>p.name.toLowerCase().includes(search.toLowerCase())||p.nameKu.includes(search));
-    el.innerHTML = filtered.map(createProductCard).join('');
-  }
+function renderHomeProducts(filter=‘All’) {
+const el = document.getElementById(‘homeProducts’);
+const filtered = filter === ‘All’ ? products.slice(0,8) : products.filter(p=>p.category===filter);
+el.innerHTML = filtered.map(createProductCard).join(’’);
+}
 
-  // ===== FILTERS =====
-  function homeFilter(btn, cat) {
-    document.querySelectorAll('#homeFilters .filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = cat;
-    renderHomeProducts(cat);
-  }
-  function shopFilter(btn, cat) {
-    document.querySelectorAll('#shopFilters .filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    shopCurrentFilter = cat;
-    renderShopProducts(document.getElementById('shopSearch')?.value||'', cat);
-  }
-  function filterProducts(cat) {
-    showPage('shop');
-    setTimeout(()=>{
-      document.querySelectorAll('#shopFilters .filter-btn').forEach(b=>{
-        b.classList.toggle('active', b.textContent.includes(cat));
-      });
-      shopCurrentFilter = cat;
-      renderShopProducts('', cat);
-    }, 100);
-  }
+function renderShopProducts(search=’’, filter=‘All’) {
+const el = document.getElementById(‘shopProducts’);
+let filtered = products;
+if (filter !== ‘All’) filtered = filtered.filter(p=>p.category===filter);
+if (search) filtered = filtered.filter(p=>p.name.toLowerCase().includes(search.toLowerCase())||p.nameKu.includes(search));
+el.innerHTML = filtered.map(createProductCard).join(’’);
+}
 
-  // ===== CART =====
-  function addToCart(id) {
-    const p = products.find(x=>x.id===id);
-    const existing = cart.find(x=>x.id===id);
-    if (existing) existing.qty++;
-    else cart.push({...p, qty:1});
-    updateCartUI();
-    const btn = document.getElementById(`addBtn-${id}`);
-    if (btn) { btn.classList.add('added'); btn.textContent = '✓ Added'; setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='🛒 Add';},2000); }
-    showToast(`${p.emoji} ${p.name} added to cart!`, 'success');
-    toggleCart(true);
-  }
-  function addToCartById(id) { addToCart(id); }
+// ===== FILTERS =====
+function homeFilter(btn, cat) {
+document.querySelectorAll(’#homeFilters .filter-btn’).forEach(b=>b.classList.remove(‘active’));
+btn.classList.add(‘active’);
+currentFilter = cat;
+renderHomeProducts(cat);
+}
+function shopFilter(btn, cat) {
+document.querySelectorAll(’#shopFilters .filter-btn’).forEach(b=>b.classList.remove(‘active’));
+btn.classList.add(‘active’);
+shopCurrentFilter = cat;
+renderShopProducts(document.getElementById(‘shopSearch’)?.value||’’, cat);
+}
+function filterProducts(cat) {
+showPage(‘shop’);
+setTimeout(()=>{
+document.querySelectorAll(’#shopFilters .filter-btn’).forEach(b=>{
+b.classList.toggle(‘active’, b.textContent.includes(cat));
+});
+shopCurrentFilter = cat;
+renderShopProducts(’’, cat);
+}, 100);
+}
 
-  function updateCartUI() {
-    const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
-    const count = cart.reduce((s,i)=>s+i.qty,0);
-    const badge = document.getElementById('cartBadge');
-    badge.textContent = count;
-    badge.classList.toggle('show', count>0);
-    const itemsEl = document.getElementById('cartItems');
-    const footer = document.getElementById('cartFooter');
-    if (cart.length===0) {
-      itemsEl.innerHTML = `<div class="cart-empty"><div class="empty-icon">🛒</div><p>Your cart is empty</p><p class="ku">سەبەتەکەت بەتاڵە</p></div>`;
-      footer.style.display='none';
-    } else {
-      itemsEl.innerHTML = cart.map(i=>`
-        <div class="cart-item">
-          <div class="cart-item-img">${i.emoji}</div>
-          <div class="cart-item-info">
-            <div class="cart-item-name">${i.name}</div>
-            <div class="cart-item-price">$${(i.price*i.qty).toFixed(0)}</div>
-            <div class="cart-item-qty">
-              <button class="qty-btn" onclick="changeQty(${i.id},-1)">−</button>
-              <span class="qty-num">${i.qty}</span>
-              <button class="qty-btn" onclick="changeQty(${i.id},1)">+</button>
-            </div>
-          </div>
-          <button class="cart-item-remove" onclick="removeFromCart(${i.id})">✕</button>
-        </div>`).join('');
-      document.getElementById('cartSubtotal').textContent = `$${total.toFixed(0)}`;
-      document.getElementById('cartTotal').textContent = `$${total.toFixed(0)}`;
-      footer.style.display='block';
-    }
-  }
-  function changeQty(id,d) {
-    const item = cart.find(x=>x.id===id);
-    if (!item) return;
-    item.qty += d;
-    if (item.qty<=0) cart = cart.filter(x=>x.id!==id);
-    updateCartUI();
-  }
-  function removeFromCart(id) {
-    cart = cart.filter(x=>x.id!==id);
-    updateCartUI();
-  }
+// ===== CART =====
+function addToCart(id) {
+const p = products.find(x=>x.id===id);
+const existing = cart.find(x=>x.id===id);
+if (existing) existing.qty++;
+else cart.push({…p, qty:1});
+updateCartUI();
+const btn = document.getElementById(`addBtn-${id}`);
+if (btn) { btn.classList.add(‘added’); btn.textContent = ‘✓ Added’; setTimeout(()=>{btn.classList.remove(‘added’);btn.innerHTML=‘🛒 Add’;},2000); }
+showToast(`${p.emoji} ${p.name} added to cart!`, ‘success’);
+toggleCart(true);
+}
+function addToCartById(id) { addToCart(id); }
 
-  // ===== CART TOGGLE =====
-  let cartOpen = false;
-  function toggleCart(forceOpen=false) {
-    cartOpen = forceOpen || !cartOpen;
-    document.getElementById('cartSidebar').classList.toggle('open', cartOpen);
-    document.getElementById('overlay').classList.toggle('active', cartOpen);
-  }
-  function closeAll() {
-    cartOpen = false;
-    document.getElementById('cartSidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('active');
-    document.getElementById('authModal').classList.remove('open');
-    closeMobile();
-  }
+function updateCartUI() {
+const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+const count = cart.reduce((s,i)=>s+i.qty,0);
+const badge = document.getElementById(‘cartBadge’);
+badge.textContent = count;
+badge.classList.toggle(‘show’, count>0);
+const itemsEl = document.getElementById(‘cartItems’);
+const footer = document.getElementById(‘cartFooter’);
+if (cart.length===0) {
+itemsEl.innerHTML = `<div class="cart-empty"><div class="empty-icon">🛒</div><p>Your cart is empty</p><p class="ku">سەبەتەکەت بەتاڵە</p></div>`;
+footer.style.display=‘none’;
+} else {
+itemsEl.innerHTML = cart.map(i=>` <div class="cart-item"> <div class="cart-item-img">${i.emoji}</div> <div class="cart-item-info"> <div class="cart-item-name">${i.name}</div> <div class="cart-item-price">$${(i.price*i.qty).toFixed(0)}</div> <div class="cart-item-qty"> <button class="qty-btn" onclick="changeQty(${i.id},-1)">−</button> <span class="qty-num">${i.qty}</span> <button class="qty-btn" onclick="changeQty(${i.id},1)">+</button> </div> </div> <button class="cart-item-remove" onclick="removeFromCart(${i.id})">✕</button> </div>`).join(’’);
+document.getElementById(‘cartSubtotal’).textContent = `$${total.toFixed(0)}`;
+document.getElementById(‘cartTotal’).textContent = `$${total.toFixed(0)}`;
+footer.style.display=‘block’;
+}
+}
+function changeQty(id,d) {
+const item = cart.find(x=>x.id===id);
+if (!item) return;
+item.qty += d;
+if (item.qty<=0) cart = cart.filter(x=>x.id!==id);
+updateCartUI();
+}
+function removeFromCart(id) {
+cart = cart.filter(x=>x.id!==id);
+updateCartUI();
+}
 
-  // ===== SEARCH =====
-  function handleSearch(val) {
-    const resultsEl = document.getElementById('searchResults');
-    if (!val.trim()) { resultsEl.classList.add('hidden'); return; }
-    const results = products.filter(p=>p.name.toLowerCase().includes(val.toLowerCase())||p.nameKu.includes(val)).slice(0,5);
-    if (results.length===0) { resultsEl.classList.add('hidden'); return; }
-    resultsEl.innerHTML = results.map(p=>`
-      <div class="search-result-item" onclick="addToCart(${p.id})">
-        <div style="width:40px;height:40px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:22px;">${p.emoji}</div>
-        <div class="item-info"><div class="name">${p.name}</div><div class="price">$${p.price}</div></div>
-      </div>`).join('');
-    resultsEl.classList.remove('hidden');
-  }
-  document.addEventListener('click', e=>{ if (!e.target.closest('#navSearch')) document.getElementById('searchResults').classList.add('hidden'); });
+// ===== CART TOGGLE =====
+let cartOpen = false;
+function toggleCart(forceOpen=false) {
+cartOpen = forceOpen || !cartOpen;
+document.getElementById(‘cartSidebar’).classList.toggle(‘open’, cartOpen);
+document.getElementById(‘overlay’).classList.toggle(‘active’, cartOpen);
+}
+function closeAll() {
+cartOpen = false;
+document.getElementById(‘cartSidebar’).classList.remove(‘open’);
+document.getElementById(‘overlay’).classList.remove(‘active’);
+document.getElementById(‘authModal’).classList.remove(‘open’);
+document.getElementById(‘paymentModal’).classList.remove(‘open’);
+closeMobile();
+}
 
-  // ===== AUTH MODAL =====
-  function openModal(tab) {
-    switchTab(tab);
-    document.getElementById('authModal').classList.add('open');
-    document.getElementById('overlay').classList.add('active');
-  }
-  function closeModal() {
-    document.getElementById('authModal').classList.remove('open');
-    document.getElementById('overlay').classList.remove('active');
-  }
-  function switchTab(tab) {
-    document.getElementById('tabLogin').classList.toggle('active', tab==='login');
-    document.getElementById('tabSignup').classList.toggle('active', tab==='signup');
-    document.getElementById('loginForm').classList.toggle('hidden', tab!=='login');
-    document.getElementById('signupForm').classList.toggle('hidden', tab!=='signup');
-  }
+// ===== SEARCH =====
+function handleSearch(val) {
+const resultsEl = document.getElementById(‘searchResults’);
+if (!val.trim()) { resultsEl.classList.add(‘hidden’); return; }
+const results = products.filter(p=>p.name.toLowerCase().includes(val.toLowerCase())||p.nameKu.includes(val)).slice(0,5);
+if (results.length===0) { resultsEl.classList.add(‘hidden’); return; }
+resultsEl.innerHTML = results.map(p=>` <div class="search-result-item" onclick="addToCart(${p.id})"> <div style="width:40px;height:40px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:22px;">${p.emoji}</div> <div class="item-info"><div class="name">${p.name}</div><div class="price">$${p.price}</div></div> </div>`).join(’’);
+resultsEl.classList.remove(‘hidden’);
+}
+document.addEventListener(‘click’, e=>{ if (!e.target.closest(’#navSearch’)) document.getElementById(‘searchResults’).classList.add(‘hidden’); });
 
-  // ===== SEND CODE =====
-  let codeSent = false;
-  function sendCode() {
-    const phone = document.getElementById('loginPhone').value;
-    if (!phone) { showToast('Please enter your phone or email / تکایە ژمارەکەت بنووسە','error'); return; }
-    const btn = document.getElementById('sendCodeBtn');
-    btn.textContent = '✅ Code Sent! / کۆد نێردرا!';
-    btn.classList.add('sent');
-    document.getElementById('otpSection').classList.remove('hidden');
-    document.getElementById('otp0').focus();
-    showToast('Verification code sent! 📱','success');
-  }
-  function otpMove(input, index) {
-    if (input.value.length===1 && index<5) document.getElementById(`otp${index+1}`).focus();
-    if (index===5) { const full = [0,1,2,3,4,5].map(i=>document.getElementById(`otp${i}`).value).join(''); if(full.length===6) verifyCode(); }
-  }
-  function verifyCode() {
-    showToast('Welcome to LUXE SHOP! 🎉 / بەخێربێیتەوە!','success');
-    closeModal();
-  }
+// ===== AUTH MODAL =====
+function openModal(tab) {
+switchTab(tab);
+document.getElementById(‘authModal’).classList.add(‘open’);
+document.getElementById(‘overlay’).classList.add(‘active’);
+}
+function closeModal() {
+document.getElementById(‘authModal’).classList.remove(‘open’);
+document.getElementById(‘overlay’).classList.remove(‘active’);
+}
+function switchTab(tab) {
+document.getElementById(‘tabLogin’).classList.toggle(‘active’, tab===‘login’);
+document.getElementById(‘tabSignup’).classList.toggle(‘active’, tab===‘signup’);
+document.getElementById(‘loginForm’).classList.toggle(‘hidden’, tab!==‘login’);
+document.getElementById(‘signupForm’).classList.toggle(‘hidden’, tab!==‘signup’);
+}
 
-  // ===== WISHLIST =====
-  function toggleWish(btn) {
-    event.stopPropagation();
-    btn.classList.toggle('active');
-    btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
-  }
+// ===== SEND CODE =====
+let codeSent = false;
+function sendCode() {
+const phone = document.getElementById(‘loginPhone’).value;
+if (!phone) { showToast(‘Please enter your phone or email / تکایە ژمارەکەت بنووسە’,‘error’); return; }
+const btn = document.getElementById(‘sendCodeBtn’);
+btn.textContent = ‘✅ Code Sent! / کۆد نێردرا!’;
+btn.classList.add(‘sent’);
+document.getElementById(‘otpSection’).classList.remove(‘hidden’);
+document.getElementById(‘otp0’).focus();
+showToast(‘Verification code sent! 📱’,‘success’);
+}
+function otpMove(input, index) {
+if (input.value.length===1 && index<5) document.getElementById(`otp${index+1}`).focus();
+if (index===5) { const full = [0,1,2,3,4,5].map(i=>document.getElementById(`otp${i}`).value).join(’’); if(full.length===6) verifyCode(); }
+}
+function verifyCode() {
+showToast(‘Welcome to LUXE SHOP! 🎉 / بەخێربێیتەوە!’,‘success’);
+closeModal();
+}
 
-  // ===== LANGUAGE =====
-  function setLang(lang) {
-    currentLang = lang;
-    document.getElementById('langEN').classList.toggle('active', lang==='en');
-    document.getElementById('langKU').classList.toggle('active', lang==='ku');
-    showToast(lang==='ku' ? 'زمان گۆڕدرا بۆ کوردی ✓' : 'Language set to English ✓','success');
-  }
+// ===== WISHLIST =====
+function toggleWish(btn) {
+event.stopPropagation();
+btn.classList.toggle(‘active’);
+btn.textContent = btn.classList.contains(‘active’) ? ‘♥’ : ‘♡’;
+}
 
-  // ===== PAGE NAVIGATION =====
-  function showPage(page) {
-    document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
-    document.getElementById(`page-${page}`).classList.add('active');
-    document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
-    const link = document.getElementById(`link-${page}`);
-    if (link) link.classList.add('active');
-    window.scrollTo(0,0);
-    if (page==='shop') renderShopProducts('', shopCurrentFilter);
-  }
+// ===== LANGUAGE =====
+const translations = {
+en: {
+heroTag: ‘✦ New Season 2025 ✦ وەرزی نوێ’,
+heroLine1: ‘Discover’, heroLine2: ‘Luxury’, heroLine3: ‘Shopping’,
+shopNow: ‘Shop Now 🛍️’, ourStory: ‘Our Story ✦’,
+statProducts: ‘Products’, statClients: ‘Happy Clients’, statBrands: ‘Brands’,
+categoriesTitle: ‘Shop by Category’, productsTitle: ‘Featured Products’,
+navHome: ‘Home’, navShop: ‘Shop’, navAbout: ‘About’, navContact: ‘Contact’,
+loginBtn: ‘Login’, signupBtn: ‘Sign Up’,
+cartTitle: ‘Shopping Cart 🛒’, cartEmpty: ‘Your cart is empty’,
+checkoutBtn: ‘Checkout Now 💳’,
+contactTitle: ‘Contact Us’, sendMsg: ‘Send Message ✉️’,
+filterAll: ‘All ✦’,
+},
+ku: {
+heroTag: ‘✦ وەرزی نوێ ٢٠٢٥ ✦’,
+heroLine1: ‘دۆزینەوە’, heroLine2: ‘لوکس’, heroLine3: ‘شۆپینگ’,
+shopNow: ‘ئێستا بکڕە 🛍️’, ourStory: ‘چیرۆکمان ✦’,
+statProducts: ‘کاڵا’, statClients: ‘کڕیاری خۆشحاڵ’, statBrands: ‘براند’,
+categoriesTitle: ‘کاڵا بەپێی جۆر’, productsTitle: ‘کاڵاکانی تایبەت’,
+navHome: ‘ماڵەوە’, navShop: ‘بازار’, navAbout: ‘دەربارە’, navContact: ‘پەیوەندی’,
+loginBtn: ‘چوونەژوورەوە’, signupBtn: ‘تۆمارکردن’,
+cartTitle: ‘سەبەتەی کڕین 🛒’, cartEmpty: ‘سەبەتەکەت بەتاڵە’,
+checkoutBtn: ‘پرداختکردن 💳’,
+contactTitle: ‘پەیوەندیمان پێوەبکە’, sendMsg: ‘پەیام بنێرە ✉️’,
+filterAll: ‘هەموو ✦’,
+}
+};
 
-  // ===== MOBILE MENU =====
-  let mobileOpen = false;
-  function toggleMobile() {
-    mobileOpen = !mobileOpen;
-    document.getElementById('mobileMenu').classList.toggle('open', mobileOpen);
-    document.getElementById('hamburger').classList.toggle('open', mobileOpen);
-    document.getElementById('overlay').classList.toggle('active', mobileOpen);
-  }
-  function closeMobile() {
-    mobileOpen = false;
-    document.getElementById('mobileMenu').classList.remove('open');
-    document.getElementById('hamburger').classList.remove('open');
-  }
+function setLang(lang) {
+currentLang = lang;
+const t = translations[lang];
+const isKu = lang === ‘ku’;
 
-  // ===== TOAST =====
-  function showToast(msg, type='success') {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `<span class="toast-icon">${type==='success'?'✅':'❌'}</span><span>${msg}</span>`;
-    container.appendChild(toast);
-    setTimeout(()=>toast.style.opacity='0',2800);
-    setTimeout(()=>toast.remove(),3200);
-  }
+```
+// Navbar lang buttons
+document.getElementById('langEN').classList.toggle('active', !isKu);
+document.getElementById('langKU').classList.toggle('active', isKu);
+document.getElementById('mobileLangEN')?.classList.toggle('active', !isKu);
+document.getElementById('mobileLangKU')?.classList.toggle('active', isKu);
 
-  // ===== NAVBAR SCROLL =====
-  window.addEventListener('scroll', ()=>{
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>50);
-    document.getElementById('backTop').classList.toggle('show', window.scrollY>400);
-  });
+// HTML dir for body
+document.documentElement.lang = isKu ? 'ku' : 'en';
 
-  // ===== INIT =====
-  renderHomeProducts();
-  updateCartUI();
-</script>
+// Nav links
+const navLinks = document.querySelectorAll('.nav-links a');
+const keys = ['navHome','navShop','navAbout','navContact'];
+navLinks.forEach((a,i) => { if(keys[i]) a.textContent = t[keys[i]]; });
 
-</body>
-</html>
+// Nav auth
+const authBtns = document.querySelectorAll('.nav-auth button');
+if(authBtns[0]) authBtns[0].textContent = t.loginBtn;
+if(authBtns[1]) authBtns[1].textContent = t.signupBtn;
+
+// Hero
+const line1 = document.querySelector('.hero-title .line1');
+const line2 = document.querySelector('.hero-title .line2');
+const line3 = document.querySelector('.hero-title .line3');
+if(line1) line1.textContent = t.heroLine1;
+if(line2) line2.textContent = t.heroLine2;
+if(line3) line3.textContent = t.heroLine3;
+
+const heroTag = document.querySelector('.hero-tag');
+if(heroTag) heroTag.innerHTML = `${t.heroTag}`;
+
+const heroActions = document.querySelectorAll('.hero-actions button');
+if(heroActions[0]) heroActions[0].textContent = t.shopNow;
+if(heroActions[1]) heroActions[1].textContent = t.ourStory;
+
+// Stats
+const statLabels = document.querySelectorAll('.stat-label');
+const statKeys = ['statProducts','statClients','statBrands'];
+statLabels.forEach((el,i) => { if(statKeys[i]) el.textContent = t[statKeys[i]]; });
+
+// Section headers
+const headers = document.querySelectorAll('.section-header h2');
+if(headers[0]) headers[0].textContent = t.categoriesTitle;
+if(headers[1]) headers[1].textContent = t.productsTitle;
+
+// Cart
+const cartTitle = document.querySelector('.cart-header h3');
+if(cartTitle) cartTitle.textContent = t.cartTitle;
+
+// Filter buttons
+const filterAllBtns = document.querySelectorAll('.filter-btn');
+filterAllBtns.forEach(b => { if(b.textContent.includes('All') || b.textContent.includes('هەموو')) b.textContent = t.filterAll; });
+
+// Search placeholder
+const searchInput = document.getElementById('searchInput');
+if(searchInput) searchInput.placeholder = isKu ? 'گەڕان لە کاڵاکان...' : 'Search products... / گەڕان لە کاڵاکان';
+
+// Re-render products with current language
+renderHomeProducts(currentFilter);
+if(document.getElementById('page-shop').classList.contains('active')) renderShopProducts('', shopCurrentFilter);
+
+showToast(isKu ? '🌐 زمان گۆڕدرا بۆ کوردی ✓' : '🌐 Language set to English ✓', 'success');
+```
+
+}
+
+// ===== PAYMENT MODAL =====
+function openPayment() {
+if (cart.length === 0) { showToast(‘سەبەتەکەت بەتاڵە! / Cart is empty!’, ‘error’); return; }
+// close cart first
+cartOpen = false;
+document.getElementById(‘cartSidebar’).classList.remove(‘open’);
+// show payment
+document.getElementById(‘paymentModal’).classList.add(‘open’);
+document.getElementById(‘overlay’).classList.add(‘active’);
+payStep(1);
+}
+function closePayment() {
+document.getElementById(‘paymentModal’).classList.remove(‘open’);
+document.getElementById(‘overlay’).classList.remove(‘active’);
+}
+function payStep(step) {
+[‘payStep1’,‘payStep2’,‘payStep3’,‘paySuccess’].forEach(id => {
+const el = document.getElementById(id);
+if(el) el.classList.add(‘hidden’);
+});
+const target = document.getElementById(`payStep${step}`) || document.getElementById(‘paySuccess’);
+if(target) target.classList.remove(‘hidden’);
+
+```
+if(step === 3) {
+  // Build order summary
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const method = document.querySelector('input[name="payMethod"]:checked')?.value || 'card';
+  const methodLabels = {card:'💳 Credit Card', cash:'💵 Cash on Delivery', zain:'📱 Zain Cash'};
+  document.getElementById('orderSummary').innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:12px;">Order Summary / پوختەی داواکاری</div>
+    ${cart.map(i=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>${i.emoji} ${i.name} ×${i.qty}</span><span style="color:var(--gold);">$${i.price*i.qty}</span></div>`).join('')}
+    <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:15px;font-weight:700;"><span>Total / کۆی گشتی</span><span style="color:var(--gold);">$${total}</span></div>
+    <div style="margin-top:10px;font-size:12px;color:var(--text-muted);">Payment: ${methodLabels[method]}</div>`;
+}
+```
+
+}
+function selectPay(label) {
+document.querySelectorAll(’#payMethods label’).forEach(l=>l.style.borderColor=‘var(–border)’);
+label.style.borderColor = ‘var(–gold)’;
+const val = label.querySelector(‘input’).value;
+document.getElementById(‘cardFields’).style.display = val === ‘card’ ? ‘block’ : ‘none’;
+}
+function formatCard(inp) {
+let v = inp.value.replace(/\D/g,’’).substring(0,16);
+inp.value = v.replace(/(.{4})/g,’$1 ‘).trim();
+}
+function formatExpiry(inp) {
+let v = inp.value.replace(/\D/g,’’);
+if(v.length>=2) v = v.substring(0,2)+’/’+v.substring(2,4);
+inp.value = v;
+}
+function placeOrder() {
+const orderNum = ‘LX-’ + Math.floor(10000 + Math.random()*90000);
+document.getElementById(‘orderNum’).textContent = orderNum;
+[‘payStep1’,‘payStep2’,‘payStep3’].forEach(id=>document.getElementById(id).classList.add(‘hidden’));
+document.getElementById(‘paySuccess’).classList.remove(‘hidden’);
+cart = [];
+updateCartUI();
+showToast(‘🎉 Order placed successfully! / داواکاریت تۆمارکرا!’, ‘success’);
+}
+
+// ===== PAGE NAVIGATION =====
+function showPage(page) {
+document.querySelectorAll(’.page-section’).forEach(s=>s.classList.remove(‘active’));
+document.getElementById(`page-${page}`).classList.add(‘active’);
+document.querySelectorAll(’.nav-links a’).forEach(a=>a.classList.remove(‘active’));
+const link = document.getElementById(`link-${page}`);
+if (link) link.classList.add(‘active’);
+window.scrollTo(0,0);
+if (page===‘shop’) renderShopProducts(’’, shopCurrentFilter);
+}
+
+// ===== MOBILE MENU =====
+let mobileOpen = false;
+function toggleMobile() {
+mobileOpen = !mobileOpen;
+document.getElementById(‘mobileMenu’).classList.toggle(‘open’, mobileOpen);
+document.getElementById(‘hamburger’).classList.toggle(‘open’, mobileOpen);
+document.getElementById(‘overlay’).classList.toggle(‘active’, mobileOpen);
+}
+function closeMobile() {
+mobileOpen = false;
+document.getElementById(‘mobileMenu’).classList.remove(‘open’);
+document.getElementById(‘hamburger’).classList.remove(‘open’);
+}
+
+// ===== TOAST =====
+function showToast(msg, type=‘success’) {
+const container = document.getElementById(‘toastContainer’);
+const toast = document.createElement(‘div’);
+toast.className = `toast ${type}`;
+toast.innerHTML = `<span class="toast-icon">${type==='success'?'✅':'❌'}</span><span>${msg}</span>`;
+container.appendChild(toast);
+setTimeout(()=>toast.style.opacity=‘0’,2800);
+setTimeout(()=>toast.remove(),3200);
+}
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener(‘scroll’, ()=>{
+document.getElementById(‘navbar’).cl
