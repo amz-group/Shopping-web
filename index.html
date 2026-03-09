@@ -324,12 +324,13 @@ footer{background:var(–bg2);border-top:1px solid var(–brd);padding:56px clam
 .bktop.on{opacity:1;pointer-events:all}
 .bktop:hover{background:var(–gold);border-color:var(–gold);color:var(–bg);transform:translateY(-3px)}
 
-/* RESPONSIVE */
+/* ===== RESPONSIVE ===== */
 @media(max-width:1024px){
-.hero{grid-template-columns:1fr;text-align:center;padding-top:100px;gap:36px}
-.hku,.htitle .l3{text-align:center}
+.hero{grid-template-columns:1fr;text-align:center;padding-top:90px;gap:40px;min-height:auto;padding-bottom:60px}
+.hku{text-align:center;font-size:15px}
+.htitle .l3{text-align:center}
 .hacts,.hstats{justify-content:center}
-.hvisual{max-width:380px;margin:0 auto}
+.hvisual{max-width:420px;margin:0 auto}
 .bnr{grid-template-columns:1fr;text-align:center}
 .bnrk{text-align:center}
 .cgrd2{grid-template-columns:1fr}
@@ -339,19 +340,115 @@ footer{background:var(–bg2);border-top:1px solid var(–brd);padding:56px clam
 @media(max-width:768px){
 .nlinks,.nsearch,.nauth{display:none}
 .hbg{display:flex}
-.pgrid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+/* nav: logo left, lang+cart+burger right — compact */
+.ni{gap:10px}
+.logo-e{font-size:17px;letter-spacing:3px}
+.pgrid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
 .fgrd{grid-template-columns:1fr}
+/* hero title bigger and cleaner on mobile */
+.htitle{font-size:clamp(40px,11vw,68px);line-height:1.05;margin-bottom:12px}
+/* hero visual: 2x2 grid, smaller cards */
+.hvisual{grid-template-columns:1fr 1fr;max-width:100%;gap:10px}
+.hvisual .mpc:nth-child(2){margin-top:20px}
+.hvisual .mpc:nth-child(4){margin-top:-20px}
+.hvisual .mpc{display:block}
+.mpiw{height:110px;font-size:44px}
+.mpb{padding:10px}
+.mpb .n{font-size:11px}
+.mpb .p{font-size:12px}
+/* hero text */
+.hku{font-size:14px;line-height:1.85}
+.hacts{gap:10px}
+.hacts .btn1,.hacts .btn2{padding:12px 22px;font-size:13px}
+.hstats{gap:20px}
+.stn{font-size:22px}
+.stl{font-size:10px}
+/* section padding */
+.sec{padding:48px 16px}
+.sh{margin-bottom:36px}
+.sh h2{font-size:clamp(22px,6vw,36px)}
+/* categories: 3 cols on tablet */
+.cgrid{grid-template-columns:repeat(3,1fr);gap:10px}
+.ccard{padding:20px 10px}
+.ci{font-size:30px;margin-bottom:8px}
+.cn{font-size:11px}
+.cnk{font-size:10px}
+/* product cards */
+.pimg{height:160px;font-size:60px}
+.pbody{padding:13px}
+.pname{font-size:13px}
+.pprice{font-size:16px}
+.acb{padding:7px 12px;font-size:11px}
+/* banner */
+.bnr{padding:36px 24px}
+.bnem{display:none}
+/* footer */
+.fgrd{grid-template-columns:1fr 1fr;gap:24px}
+/* filters scroll on mobile */
+.fltrs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.fltrs::-webkit-scrollbar{height:3px}
+.fltrs::-webkit-scrollbar-thumb{background:var(–gold)}
+.fb{flex-shrink:0}
 }
 @media(max-width:480px){
-.htitle{font-size:34px}
-.hvisual{grid-template-columns:1fr;max-width:240px}
-.hvisual .mpc:nth-child(n+2){display:none}
-.cgrid{grid-template-columns:repeat(3,1fr)}
-.pgrid{grid-template-columns:1fr 1fr}
-.pimg{height:150px;font-size:54px}
-.bnr{grid-template-columns:1fr}
-.bnem{display:none}
+/* nav */
+nav{height:60px;padding:0 14px}
+.mmenu{top:60px}
+.ni{gap:8px}
+.logo-e{font-size:15px;letter-spacing:2px}
+.logo-k{font-size:9px}
+.lsw{padding:2px;gap:2px}
+.lb{padding:4px 9px;font-size:10px}
+.cartbtn{width:38px;height:38px;font-size:16px;border-radius:9px}
+.hbg{width:30px}
+/* hero */
+.hero{padding-top:80px;padding-left:16px;padding-right:16px}
+.htitle{font-size:clamp(36px,10vw,52px)}
+.htag{font-size:9px;padding:5px 13px}
+.hku{font-size:13px}
+/* hero cards: 2 col still, show all 4 */
+.hvisual{grid-template-columns:1fr 1fr;max-width:100%;gap:8px}
+.hvisual .mpc:nth-child(n){display:block}
+.mpiw{height:90px;font-size:36px}
+.mpb{padding:8px}
+.mpb .n{font-size:10px}
+.mpb .p{font-size:11px}
+.mpb .p button{width:22px;height:22px;font-size:12px}
+/* categories: 3 cols small */
+.cgrid{grid-template-columns:repeat(3,1fr);gap:8px}
+.ccard{padding:16px 8px}
+.ci{font-size:26px}
+/* products: 2 col */
+.pgrid{grid-template-columns:1fr 1fr;gap:10px}
+.pimg{height:130px;font-size:46px}
+.pbody{padding:11px}
+.pname{font-size:12px}
+.pnamek{font-size:10px;margin-bottom:7px}
+.pstars{font-size:10px;margin-bottom:8px}
+.pprice{font-size:15px}
+.pprice .old{font-size:10px}
+.acb{padding:6px 9px;font-size:10px;gap:3px}
+/* footer */
+.fgrd{grid-template-columns:1fr;gap:28px}
+/* cart sidebar full width */
+.cside{width:100%}
+/* modal full width */
+.mbox{padding:24px 20px;border-radius:18px}
+.otpr{gap:5px}
+.oi{width:42px;height:46px;font-size:18px}
 }
+/* fix: htitle l2 gradient must work everywhere */
+.htitle .l2{
+background:linear-gradient(135deg,var(–gold),var(–gold2),#f5e0a0);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+background-clip:text;
+display:block;
+/* fallback for browsers that block -webkit-text-fill-color in certain contexts */
+color:var(–gold2);
+}
+/* ensure all 3 hero title lines are block */
+.htitle .l1,.htitle .l2,.htitle .l3{display:block}
 </style>
 
 </head>
@@ -426,11 +523,11 @@ footer{background:var(–bg2);border-top:1px solid var(–brd);padding:56px clam
 <!-- HERO -->
 
 <section class="hero">
-  <div>
+  <div style="position:relative;z-index:1">
     <div class="htag" id="h-tag">✦ New Season 2025 ✦ وەرزی نوێ</div>
     <h1 class="htitle">
       <span class="l1" id="h-l1">Discover</span>
-      <span class="l2" id="h-l2">Luxury</span>
+      <span class="l2" id="h-l2" style="background:linear-gradient(135deg,#c9a84c,#e8c97a,#f5e0a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block">Luxury</span>
       <span class="l3" id="h-l3">Shopping</span>
     </h1>
     <p class="hku" id="h-ku"><strong>دۆزینەوەی جیهانی نوێ</strong><br/>کاڵاکانی باشترین براند لە جیهانەوە<br/>بەگوازراوەی خێرا تا دەرگاکەت</p>
@@ -445,10 +542,22 @@ footer{background:var(–bg2);border-top:1px solid var(–brd);padding:56px clam
     </div>
   </div>
   <div class="hvisual">
-    <div class="mpc" onclick="addToCart(0)"><div class="mpiw">👟</div><div class="mpb"><div class="n">Air Runner Pro</div><div class="p">$129<button>+</button></div></div></div>
-    <div class="mpc" onclick="addToCart(1)"><div class="mpiw">👜</div><div class="mpb"><div class="n">Luxe Handbag</div><div class="p">$349<button>+</button></div></div></div>
-    <div class="mpc" onclick="addToCart(2)"><div class="mpiw">⌚</div><div class="mpb"><div class="n">Smart Watch</div><div class="p">$299<button>+</button></div></div></div>
-    <div class="mpc" onclick="addToCart(3)"><div class="mpiw">🕶️</div><div class="mpb"><div class="n">Sunglasses</div><div class="p">$89<button>+</button></div></div></div>
+    <div class="mpc" onclick="addToCart(0)">
+      <div class="mpiw">👟</div>
+      <div class="mpb"><div class="n">Air Runner Pro</div><div class="p">$129<button onclick="event.stopPropagation();addToCart(0)">+</button></div></div>
+    </div>
+    <div class="mpc" onclick="addToCart(1)">
+      <div class="mpiw">👜</div>
+      <div class="mpb"><div class="n">Luxe Handbag</div><div class="p">$349<button onclick="event.stopPropagation();addToCart(1)">+</button></div></div>
+    </div>
+    <div class="mpc" onclick="addToCart(2)">
+      <div class="mpiw">⌚</div>
+      <div class="mpb"><div class="n">Smart Watch</div><div class="p">$299<button onclick="event.stopPropagation();addToCart(2)">+</button></div></div>
+    </div>
+    <div class="mpc" onclick="addToCart(3)">
+      <div class="mpiw">🕶️</div>
+      <div class="mpb"><div class="n">Sunglasses</div><div class="p">$89<button onclick="event.stopPropagation();addToCart(3)">+</button></div></div>
+    </div>
   </div>
 </section>
 
@@ -582,7 +691,7 @@ footer{background:var(–bg2);border-top:1px solid var(–brd);padding:56px clam
     <div>
       <h3 style="font-family:var(--fd);font-size:28px;font-weight:900;margin-bottom:14px">Let's Talk</h3>
       <p style="font-family:var(--fk);color:var(--mut);font-size:14px;line-height:2.1;direction:rtl;text-align:right;margin-bottom:28px">هەر پرسیارێکت هەیە؟ ئێمە ئامادەی هاریکاریتین!<br/>تیمی ئێمە لە ٢٤ کاتژمێر وەڵامی دەدەنەوە.</p>
-      <div class="ci-item"><div class="ci-icon">📧</div><div><div class="ci-lbl">Email / ئیمەیل</div><div class="ci-val">hello@luxeshop.com</div></div></div>
+      <div class="ci-item"><div class="ci-icon">📧</div><div><div class="ci-lbl">Email / ئیمەیل</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e189848d8d8ea18d94998492898e91cf828e8c">[email&#160;protected]</a></div></div></div>
       <div class="ci-item"><div class="ci-icon">📱</div><div><div class="ci-lbl">Phone / تەلەفۆن</div><div class="ci-val">+964 750 000 0000</div></div></div>
       <div class="ci-item"><div class="ci-icon">📍</div><div><div class="ci-lbl">Location / شوێن</div><div class="ci-val">Erbil, Kurdistan Region</div></div></div>
       <div class="ci-item"><div class="ci-icon">🕐</div><div><div class="ci-lbl">Hours / کاتەکان</div><div class="ci-val">Sun–Thu, 9AM–6PM</div></div></div>
@@ -760,7 +869,7 @@ footer{background:var(–bg2);border-top:1px solid var(–brd);padding:56px clam
   </div>
 </div>
 </footer>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ===== DATA =====
 const PRODS = [
   {id:0,name:'Air Runner Pro',ku:'ئایر ڕەنەر پرۆ',cat:'Shoes',price:129,old:189,em:'👟',badge:'new',stars:5,rev:284},
@@ -972,15 +1081,26 @@ const nbl=document.getElementById(‘nbtnLogin’);if(nbl) nbl.textContent=t.log
 const nbs=document.getElementById(‘nbtnSignup’);if(nbs) nbs.textContent=t.signup;
 const mbl=document.getElementById(‘mbtnLogin’);if(mbl) mbl.textContent=’🔑 ’+t.login;
 const mbs=document.getElementById(‘mbtnSignup’);if(mbs) mbs.textContent=‘✨ ‘+t.signup;
-// hero
+// hero - use innerHTML for l2 to keep gradient style
 const set=(id,v)=>{const e=document.getElementById(id);if(e) e.textContent=v;};
+const setL2=(v)=>{
+const e=document.getElementById(‘h-l2’);
+if(e){
+e.textContent=v;
+e.style.background=‘linear-gradient(135deg,#c9a84c,#e8c97a,#f5e0a0)’;
+e.style.webkitBackgroundClip=‘text’;
+e.style.webkitTextFillColor=‘transparent’;
+e.style.backgroundClip=‘text’;
+e.style.display=‘block’;
+}
+};
 if(ku){
-set(‘h-l1’,‘دۆزینەوە’);set(‘h-l2’,‘لوکس’);set(‘h-l3’,‘شۆپینگ’);
+set(‘h-l1’,‘دۆزینەوە’);setL2(‘لوکس’);set(‘h-l3’,‘شۆپینگ’);
 set(‘h-btn1’,‘ئێستا بکڕە 🛍️’);set(‘h-btn2’,‘چیرۆکمان ✦’);
 set(‘h-s1’,‘کاڵا’);set(‘h-s2’,‘کڕیاری خۆشحاڵ’);set(‘h-s3’,‘براند’);
 set(‘h-tag’,‘✦ وەرزی نوێ ٢٠٢٥ ✦’);
 } else {
-set(‘h-l1’,‘Discover’);set(‘h-l2’,‘Luxury’);set(‘h-l3’,‘Shopping’);
+set(‘h-l1’,‘Discover’);setL2(‘Luxury’);set(‘h-l3’,‘Shopping’);
 set(‘h-btn1’,‘Shop Now 🛍️’);set(‘h-btn2’,‘Our Story ✦’);
 set(‘h-s1’,‘Products’);set(‘h-s2’,‘Happy Clients’);set(‘h-s3’,‘Brands’);
 set(‘h-tag’,‘✦ New Season 2025 ✦ وەرزی نوێ’);
