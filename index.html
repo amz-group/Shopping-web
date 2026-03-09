@@ -114,19 +114,18 @@ nav.sc{box-shadow:0 2px 40px rgba(0,0,0,.5)}
 .hstats{display:flex;gap:32px}
 .stn{font-family:var(–fd);font-size:26px;font-weight:900;color:var(–gold)}
 .stl{font-size:11px;color:var(–mut);font-weight:500}
-.hvisual{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;position:relative;z-index:1}
-.mpc{background:var(–sur);border:1px solid var(–brd);border-radius:var(–r);overflow:hidden;cursor:pointer;transition:all var(–tr);animation:flt 6s ease-in-out infinite}
+.hvisual{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;position:relative;z-index:1;width:100%}
+.mpc{background:var(–sur);border:1px solid var(–brd);border-radius:var(–r);overflow:hidden;cursor:pointer;transition:all var(–tr);animation:flt 6s ease-in-out infinite;width:100%}
 .mpc:nth-child(2){animation-delay:1s;margin-top:28px}
 .mpc:nth-child(3){animation-delay:2s}
 .mpc:nth-child(4){animation-delay:.5s;margin-top:-28px}
-.mpc:hover{transform:translateY(-8px) scale(1.02);border-color:var(–gold);box-shadow:0 0 30px rgba(201,168,76,.15)}
+.mpc:hover{transform:translateY(-8px) scale(1.02);border-color:var(–gold);box-shadow:0 0 30px rgba(201,168,76,.15);animation:none}
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.mpc:hover{animation:none}
-.mpiw{height:150px;background:var(–bg3);display:flex;align-items:center;justify-content:center;font-size:58px}
-.mpb{padding:13px}
-.mpb .n{font-size:12px;font-weight:700;margin-bottom:3px}
-.mpb .p{font-size:14px;font-weight:800;color:var(–gold);display:flex;align-items:center;justify-content:space-between}
-.mpb .p button{width:26px;height:26px;border-radius:7px;background:var(–gold);color:var(–bg);display:flex;align-items:center;justify-content:center;font-size:15px;transition:transform var(–tr)}
+.mpiw{height:130px;background:var(–bg3);display:flex;align-items:center;justify-content:center;font-size:52px}
+.mpb{padding:12px}
+.mpb .n{font-size:12px;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mpb .p{font-size:13px;font-weight:800;color:var(–gold);display:flex;align-items:center;justify-content:space-between}
+.mpb .p button{width:26px;height:26px;border-radius:7px;background:var(–gold);color:var(–bg);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:transform var(–tr)}
 .mpc:hover .mpb .p button{transform:rotate(90deg)}
 
 /* SECTION */
@@ -340,58 +339,47 @@ footer{background:var(–bg2);border-top:1px solid var(–brd);padding:56px clam
 @media(max-width:768px){
 .nlinks,.nsearch,.nauth{display:none}
 .hbg{display:flex}
-/* nav: logo left, lang+cart+burger right — compact */
 .ni{gap:10px}
 .logo-e{font-size:17px;letter-spacing:3px}
 .pgrid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
 .fgrd{grid-template-columns:1fr}
-/* hero title bigger and cleaner on mobile */
 .htitle{font-size:clamp(40px,11vw,68px);line-height:1.05;margin-bottom:12px}
-/* hero visual: 2x2 grid, smaller cards */
-.hvisual{grid-template-columns:1fr 1fr;max-width:100%;gap:10px}
-.hvisual .mpc:nth-child(2){margin-top:20px}
-.hvisual .mpc:nth-child(4){margin-top:-20px}
-.hvisual .mpc{display:block}
-.mpiw{height:110px;font-size:44px}
+/* HERO VISUAL: force 2x2 grid, no staggered offsets on small screens */
+.hvisual{grid-template-columns:1fr 1fr !important;max-width:100%;gap:10px;align-items:stretch}
+.hvisual .mpc{display:block !important;margin-top:0 !important;animation:none}
+.mpiw{height:110px;font-size:42px}
 .mpb{padding:10px}
 .mpb .n{font-size:11px}
 .mpb .p{font-size:12px}
-/* hero text */
+.mpb .p button{width:24px;height:24px;font-size:13px}
 .hku{font-size:14px;line-height:1.85}
 .hacts{gap:10px}
 .hacts .btn1,.hacts .btn2{padding:12px 22px;font-size:13px}
 .hstats{gap:20px}
 .stn{font-size:22px}
 .stl{font-size:10px}
-/* section padding */
 .sec{padding:48px 16px}
 .sh{margin-bottom:36px}
 .sh h2{font-size:clamp(22px,6vw,36px)}
-/* categories: 3 cols on tablet */
 .cgrid{grid-template-columns:repeat(3,1fr);gap:10px}
 .ccard{padding:20px 10px}
 .ci{font-size:30px;margin-bottom:8px}
 .cn{font-size:11px}
 .cnk{font-size:10px}
-/* product cards */
 .pimg{height:160px;font-size:60px}
 .pbody{padding:13px}
 .pname{font-size:13px}
 .pprice{font-size:16px}
 .acb{padding:7px 12px;font-size:11px}
-/* banner */
 .bnr{padding:36px 24px}
 .bnem{display:none}
-/* footer */
 .fgrd{grid-template-columns:1fr 1fr;gap:24px}
-/* filters scroll on mobile */
-.fltrs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.fltrs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
 .fltrs::-webkit-scrollbar{height:3px}
-.fltrs::-webkit-scrollbar-thumb{background:var(–gold)}
+.fltrs::-webkit-scrollbar-thumb{background:var(–gold);border-radius:2px}
 .fb{flex-shrink:0}
 }
 @media(max-width:480px){
-/* nav */
 nav{height:60px;padding:0 14px}
 .mmenu{top:60px}
 .ni{gap:8px}
@@ -401,24 +389,21 @@ nav{height:60px;padding:0 14px}
 .lb{padding:4px 9px;font-size:10px}
 .cartbtn{width:38px;height:38px;font-size:16px;border-radius:9px}
 .hbg{width:30px}
-/* hero */
 .hero{padding-top:80px;padding-left:16px;padding-right:16px}
-.htitle{font-size:clamp(36px,10vw,52px)}
+.htitle{font-size:clamp(34px,10vw,50px)}
 .htag{font-size:9px;padding:5px 13px}
 .hku{font-size:13px}
-/* hero cards: 2 col still, show all 4 */
-.hvisual{grid-template-columns:1fr 1fr;max-width:100%;gap:8px}
-.hvisual .mpc:nth-child(n){display:block}
-.mpiw{height:90px;font-size:36px}
+/* 2x2 grid on small phones too */
+.hvisual{grid-template-columns:1fr 1fr !important;max-width:100%;gap:8px;align-items:stretch}
+.hvisual .mpc{display:block !important;margin-top:0 !important;animation:none}
+.mpiw{height:90px;font-size:34px}
 .mpb{padding:8px}
 .mpb .n{font-size:10px}
 .mpb .p{font-size:11px}
-.mpb .p button{width:22px;height:22px;font-size:12px}
-/* categories: 3 cols small */
+.mpb .p button{width:22px;height:22px;font-size:11px}
 .cgrid{grid-template-columns:repeat(3,1fr);gap:8px}
 .ccard{padding:16px 8px}
 .ci{font-size:26px}
-/* products: 2 col */
 .pgrid{grid-template-columns:1fr 1fr;gap:10px}
 .pimg{height:130px;font-size:46px}
 .pbody{padding:11px}
@@ -428,16 +413,17 @@ nav{height:60px;padding:0 14px}
 .pprice{font-size:15px}
 .pprice .old{font-size:10px}
 .acb{padding:6px 9px;font-size:10px;gap:3px}
-/* footer */
 .fgrd{grid-template-columns:1fr;gap:28px}
-/* cart sidebar full width */
 .cside{width:100%}
-/* modal full width */
 .mbox{padding:24px 20px;border-radius:18px}
 .otpr{gap:5px}
 .oi{width:42px;height:46px;font-size:18px}
 }
-/* fix: htitle l2 gradient must work everywhere */
+/* force reset stagger on ALL mobile — desktop stagger handled via JS class */
+@media(max-width:1024px){
+.hvisual .mpc:nth-child(n){margin-top:0 !important;animation:none}
+.hvisual{grid-template-columns:1fr 1fr !important;align-items:stretch;max-width:440px;margin:0 auto}
+}
 .htitle .l2{
 background:linear-gradient(135deg,var(–gold),var(–gold2),#f5e0a0);
 -webkit-background-clip:text;
