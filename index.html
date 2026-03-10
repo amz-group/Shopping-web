@@ -816,78 +816,108 @@ body{padding-bottom:62px;}
       </button>
     </div>
 
-```
-<!-- LOGIN -->
-<div id="formLogin" class="auth-body">
-  <div class="auth-top">
-    <div class="auth-top-icon" style="background:linear-gradient(135deg,#1a1a2e,#e94560)">👤</div>
-    <h2><span class="et">Welcome Back!</span><span class="kt ku" style="display:none">بەخێرهاتیتەوە!</span></h2>
-    <p><span class="et">Sign in to your AMZ Shopping account</span><span class="kt ku" style="display:none">بچۆرە ژوورەوەی ئەکاونتی AMZ Shopping</span></p>
-  </div>
-  <div class="form-group">
-    <label><span class="et">Email</span><span class="kt" style="display:none">ئیمەیل</span></label>
-    <input type="email" id="loginEmail" placeholder="you@example.com">
-  </div>
-  <div class="form-group">
-    <label><span class="et">Password</span><span class="kt" style="display:none">وشەی نهێنی</span></label>
-    <input type="password" id="loginPass" placeholder="••••••••">
-  </div>
-  <div class="form-extras">
-    <label><input type="checkbox" style="width:auto"> <span class="et">Remember me</span><span class="kt" style="display:none">بمبیرەوە</span></label>
-    <a href="#"><span class="et">Forgot password?</span><span class="kt" style="display:none">وشەی نهێنیت بیرچووەتەوە؟</span></a>
-  </div>
-  <button class="btn-submit" onclick="doLogin()">
-    <span class="et">Sign In →</span><span class="kt" style="display:none">چوونەژوورەوە →</span>
-  </button>
-  <p class="auth-switch">
-    <span class="et">Don't have an account?</span><span class="kt" style="display:none">ئەکاونتت نییە؟</span>
-    <a href="#" onclick="switchAuth('register')"><span class="et">Register</span><span class="kt" style="display:none">تۆمار بکە</span></a>
-  </p>
-</div>
+<!-- ── LOGIN ── -->
+    <div id="formLogin" class="auth-body">
+      <div class="form-group">
+        <label><span class="et">Email Address</span><span class="kt" style="display:none">ئیمەیل</span></label>
+        <div class="inp-wrap">
+          <span class="inp-icon">✉️</span>
+          <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label><span class="et">Password</span><span class="kt" style="display:none">وشەی نهێنی</span></label>
+        <div class="inp-wrap">
+          <span class="inp-icon">🔒</span>
+          <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+          <button class="inp-toggle" type="button" onclick="togglePass('loginPass',this)">👁</button>
+        </div>
+      </div>
+      <div class="form-extras">
+        <label><input type="checkbox" id="rememberMe" style="width:auto;accent-color:#e94560"> <span class="et">Remember me</span><span class="kt" style="display:none">بمبیرەوە</span></label>
+        <a href="#"><span class="et">Forgot password?</span><span class="kt" style="display:none">وشەی نهێنیت بیرچووەتەوە؟</span></a>
+      </div>
+      <button class="btn-submit" id="loginBtn" onclick="doLogin()">
+        <span class="et">Sign In →</span><span class="kt" style="display:none">چوونەژوورەوە →</span>
+      </button>
+      <div id="loginErr" style="display:none;margin-top:10px;padding:9px 13px;background:#fff5f6;border:1px solid #fecdd3;border-radius:9px;color:#e94560;font-size:.8rem;text-align:center;"></div>
+      <p class="auth-switch" style="margin-top:16px">
+        <span class="et">Don't have an account?</span><span class="kt" style="display:none">ئەکاونتت نییە؟</span>
+        <a href="#" onclick="switchAuth('register')"><span class="et">Create one free →</span><span class="kt" style="display:none">تۆمار بکە →</span></a>
+      </p>
+    </div>
 
-<!-- REGISTER -->
-<div id="formReg" class="auth-body" style="display:none">
-  <div class="auth-top">
-    <div class="auth-top-icon" style="background:linear-gradient(135deg,#e94560,#f5a623)">✨</div>
-    <h2><span class="et">Join AMZ Shopping</span><span class="kt ku" style="display:none">بەشداری AMZ Shopping بکە</span></h2>
-    <p><span class="et">Create your account today</span><span class="kt ku" style="display:none">ئەمڕۆ ئەکاونتەکەت دروست بکە</span></p>
-  </div>
-  <div class="form-group">
-    <label><span class="et">Full Name</span><span class="kt" style="display:none">ناوی تەواو</span></label>
-    <input type="text" id="regName" placeholder="Ahmad Karimi">
-  </div>
-  <div class="form-group">
-    <label>Email</label>
-    <input type="email" id="regEmail" placeholder="you@example.com">
-  </div>
-  <div class="form-group">
-    <label><span class="et">Phone</span><span class="kt" style="display:none">مۆبایل</span></label>
-    <input type="tel" id="regPhone" placeholder="+964 750 000 0000">
-  </div>
-  <div class="form-group">
-    <label><span class="et">Password</span><span class="kt" style="display:none">وشەی نهێنی</span></label>
-    <input type="password" id="regPass" placeholder="••••••••">
-  </div>
-  <div class="form-group">
-    <label><span class="et">Confirm Password</span><span class="kt" style="display:none">دووبارەکردنەوەی وشەی نهێنی</span></label>
-    <input type="password" id="regPass2" placeholder="••••••••">
-  </div>
-  <div class="form-check">
-    <input type="checkbox" id="regTerms">
-    <label for="regTerms">
-      <span class="et">I agree to the <a href="#">Terms & Conditions</a></span>
-      <span class="kt" style="display:none">ڕازیم بە <a href="#">مەرج و مەرجەکان</a></span>
-    </label>
-  </div>
-  <button class="btn-submit" onclick="doRegister()">
-    <span class="et">Create Account →</span><span class="kt" style="display:none">دروستکردنی ئەکاونت →</span>
-  </button>
-  <p class="auth-switch">
-    <span class="et">Already have an account?</span><span class="kt" style="display:none">ئەکاونتت هەیە؟</span>
-    <a href="#" onclick="switchAuth('login')"><span class="et">Sign In</span><span class="kt" style="display:none">چوونەژوورەوە</span></a>
-  </p>
-</div>
-```
+    <!-- ── REGISTER ── -->
+    <div id="formReg" class="auth-body" style="display:none">
+      <div class="form-group">
+        <label><span class="et">Full Name</span><span class="kt" style="display:none">ناوی تەواو</span></label>
+        <div class="inp-wrap">
+          <span class="inp-icon">👤</span>
+          <input type="text" id="regName" placeholder="Ahmad Karimi" autocomplete="name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label><span class="et">Email Address</span><span class="kt" style="display:none">ئیمەیل</span></label>
+        <div class="inp-wrap">
+          <span class="inp-icon">✉️</span>
+          <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label><span class="et">Phone Number</span><span class="kt" style="display:none">مۆبایل</span></label>
+        <div class="inp-wrap">
+          <span class="inp-icon">📱</span>
+          <input type="tel" id="regPhone" placeholder="+964 750 000 0000" autocomplete="tel">
+        </div>
+      </div>
+      <div class="form-group">
+        <label><span class="et">Password</span><span class="kt" style="display:none">وشەی نهێنی</span></label>
+        <div class="inp-wrap">
+          <span class="inp-icon">🔒</span>
+          <input type="password" id="regPass" placeholder="Min 6 characters" autocomplete="new-password" oninput="checkStrength(this.value)">
+          <button class="inp-toggle" type="button" onclick="togglePass('regPass',this)">👁</button>
+        </div>
+        <div class="strength-wrap">
+          <div class="strength-bar"><div class="strength-fill" id="strFill"></div></div>
+          <div class="strength-label" id="strLabel"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label><span class="et">Confirm Password</span><span class="kt" style="display:none">دووبارەکردنەوەی وشەی نهێنی</span></label>
+        <div class="inp-wrap">
+          <span class="inp-icon">🔒</span>
+          <input type="password" id="regPass2" placeholder="••••••••" autocomplete="new-password">
+          <button class="inp-toggle" type="button" onclick="togglePass('regPass2',this)">👁</button>
+        </div>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="regTerms">
+        <label for="regTerms">
+          <span class="et">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></span>
+          <span class="kt" style="display:none">ڕازیم بە <a href="#">مەرج و مەرجەکان</a></span>
+        </label>
+      </div>
+      <button class="btn-submit" id="regBtn" onclick="doRegister()">
+        <span class="et">Create My Account →</span><span class="kt" style="display:none">دروستکردنی ئەکاونت →</span>
+      </button>
+      <div id="regErr" style="display:none;margin-top:10px;padding:9px 13px;background:#fff5f6;border:1px solid #fecdd3;border-radius:9px;color:#e94560;font-size:.8rem;text-align:center;"></div>
+      <p class="auth-switch" style="margin-top:16px">
+        <span class="et">Already have an account?</span><span class="kt" style="display:none">ئەکاونتت هەیە؟</span>
+        <a href="#" onclick="switchAuth('login')"><span class="et">Sign In →</span><span class="kt" style="display:none">چوونەژوورەوە →</span></a>
+      </p>
+    </div>
+
+    <!-- ── SUCCESS ── -->
+    <div id="authSuccess" style="display:none">
+      <div class="auth-success">
+        <div class="auth-success-icon">✓</div>
+        <h3 id="authSuccessTitle">Welcome!</h3>
+        <p id="authSuccessMsg">You are now signed in.</p>
+        <button class="btn-submit" style="margin-top:20px" onclick="closeOverlay('authOverlay')">
+          <span class="et">Continue Shopping →</span><span class="kt" style="display:none">بەردەوام بە کڕین →</span>
+        </button>
+      </div>
+    </div>
 
   </div>
 </div>
@@ -1365,7 +1395,179 @@ function doSignOut() {
   closeOverlay('profOverlay');
   showToast(isKu ? 'بەسەرکەوتوویی دەرچووی!' : 'Signed out!', 'ok');
 }
+// ══════════ AUTH (localStorage account system) ══════════
 
+// Load accounts from localStorage
+function getAccounts() {
+  try { return JSON.parse(localStorage.getItem('amz_accounts') || '[]'); } catch(e) { return []; }
+}
+function saveAccounts(arr) {
+  try { localStorage.setItem('amz_accounts', JSON.stringify(arr)); } catch(e) {}
+}
+function getSession() {
+  try { return JSON.parse(localStorage.getItem('amz_session') || 'null'); } catch(e) { return null; }
+}
+function saveSession(user) {
+  try { localStorage.setItem('amz_session', user ? JSON.stringify(user) : 'null'); } catch(e) {}
+}
+
+function openAuth(t) {
+  // reset to forms
+  document.getElementById('formLogin').style.display = t === 'login' ? 'block' : 'none';
+  document.getElementById('formReg').style.display = t === 'register' ? 'block' : 'none';
+  document.getElementById('authSuccess').style.display = 'none';
+  document.getElementById('loginErr').style.display = 'none';
+  document.getElementById('regErr').style.display = 'none';
+  document.getElementById('tabLogin').classList.toggle('active', t === 'login');
+  document.getElementById('tabReg').classList.toggle('active', t === 'register');
+  openOverlay('authOverlay');
+}
+
+function switchAuth(t) {
+  document.getElementById('formLogin').style.display = t === 'login' ? 'block' : 'none';
+  document.getElementById('formReg').style.display = t === 'register' ? 'block' : 'none';
+  document.getElementById('authSuccess').style.display = 'none';
+  document.getElementById('tabLogin').classList.toggle('active', t === 'login');
+  document.getElementById('tabReg').classList.toggle('active', t === 'register');
+}
+
+function showAuthErr(id, msg) {
+  var el = document.getElementById(id);
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function doLogin() {
+  var e = document.getElementById('loginEmail').value.trim().toLowerCase();
+  var p = document.getElementById('loginPass').value;
+  var rem = document.getElementById('rememberMe').checked;
+  document.getElementById('loginErr').style.display = 'none';
+
+  if (!e || !p) { showAuthErr('loginErr', isKu ? '⚠️ هەموو خانەکان پڕ بکەرەوە!' : '⚠️ Please fill all fields!'); return; }
+  if (e.indexOf('@') < 1) { showAuthErr('loginErr', isKu ? '⚠️ ئیمەیلی دروست بنووسە!' : '⚠️ Enter a valid email!'); return; }
+
+  // Set loading
+  var btn = document.getElementById('loginBtn');
+  btn.innerHTML = '<span class="spin"></span>';
+  btn.disabled = true;
+
+  setTimeout(function() {
+    btn.disabled = false;
+    btn.innerHTML = '<span class="et">Sign In →</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">چوونەژوورەوە →</span>';
+
+    var accounts = getAccounts();
+    var user = accounts.find(function(a){ return a.email === e; });
+    if (!user) { showAuthErr('loginErr', isKu ? '❌ ئەم ئیمەیلە تۆمار نەکراوە!' : '❌ No account found with this email.'); return; }
+    if (user.password !== btoa(p)) { showAuthErr('loginErr', isKu ? '❌ وشەی نهێنی هەڵەیە!' : '❌ Incorrect password. Try again.'); return; }
+
+    curUser = {name: user.name, email: user.email, phone: user.phone, date: user.date};
+    if (rem) saveSession(curUser);
+    afterLogin();
+
+    // Show success screen
+    document.getElementById('formLogin').style.display = 'none';
+    document.getElementById('authSuccess').style.display = 'block';
+    document.getElementById('authSuccessTitle').textContent = isKu ? 'بەخێرهاتیتەوە، ' + user.name + '! 👋' : 'Welcome back, ' + user.name + '! 👋';
+    document.getElementById('authSuccessMsg').textContent = isKu ? 'بەسەرکەوتوویی چووی ژوورەوە بۆ ئەکاونتی AMZ Shopping.' : 'You have signed in to your AMZ Shopping account.';
+    setTimeout(function(){ closeOverlay('authOverlay'); }, 1800);
+  }, 700);
+}
+
+function doRegister() {
+  var n = document.getElementById('regName').value.trim();
+  var e = document.getElementById('regEmail').value.trim().toLowerCase();
+  var ph = document.getElementById('regPhone').value.trim();
+  var p = document.getElementById('regPass').value;
+  var p2 = document.getElementById('regPass2').value;
+  var terms = document.getElementById('regTerms').checked;
+  document.getElementById('regErr').style.display = 'none';
+
+  if (!n || !e || !p) { showAuthErr('regErr', isKu ? '⚠️ خانە پێویستەکان پڕ بکەرەوە!' : '⚠️ Please fill all required fields!'); return; }
+  if (e.indexOf('@') < 1) { showAuthErr('regErr', isKu ? '⚠️ ئیمەیلی دروست بنووسە!' : '⚠️ Enter a valid email address!'); return; }
+  if (p.length < 6) { showAuthErr('regErr', isKu ? '⚠️ وشەی نهێنی کەمە — کەمترین ٦ پیت!' : '⚠️ Password too short — minimum 6 characters!'); return; }
+  if (p !== p2) { showAuthErr('regErr', isKu ? '⚠️ وشەکانی نهێنی یەک ناکەنەوە!' : '⚠️ Passwords do not match!'); return; }
+  if (!terms) { showAuthErr('regErr', isKu ? '⚠️ تکایە ڕازیبە بە مەرجەکان!' : '⚠️ Please accept the Terms & Conditions!'); return; }
+
+  var accounts = getAccounts();
+  if (accounts.find(function(a){ return a.email === e; })) {
+    showAuthErr('regErr', isKu ? '❌ ئەم ئیمەیلە پێشتر تۆمار کراوە!' : '❌ An account with this email already exists. Sign in instead.');
+    return;
+  }
+
+  // Loading
+  var btn = document.getElementById('regBtn');
+  btn.innerHTML = '<span class="spin"></span>';
+  btn.disabled = true;
+
+  setTimeout(function() {
+    btn.disabled = false;
+    btn.innerHTML = '<span class="et">Create My Account →</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">دروستکردنی ئەکاونت →</span>';
+
+    var newUser = {
+      name: n, email: e, phone: ph || '—',
+      password: btoa(p),
+      date: new Date().toLocaleDateString()
+    };
+    accounts.push(newUser);
+    saveAccounts(accounts);
+    curUser = {name: n, email: e, phone: ph || '—', date: newUser.date};
+    saveSession(curUser);
+    afterLogin();
+
+    // Show success
+    document.getElementById('formReg').style.display = 'none';
+    document.getElementById('authSuccess').style.display = 'block';
+    document.getElementById('authSuccessTitle').textContent = isKu ? 'بەخێربێیت، ' + n + '! 🎉' : 'Welcome to AMZ, ' + n + '! 🎉';
+    document.getElementById('authSuccessMsg').textContent = isKu ? 'ئەکاونتەکەت بەسەرکەوتوویی دروست کرا!' : 'Your account has been created successfully!';
+    setTimeout(function(){ closeOverlay('authOverlay'); }, 1800);
+  }, 700);
+}
+
+function afterLogin() {
+  document.getElementById('navProfile').style.display = 'flex';
+  document.getElementById('navSignIn').style.display = 'none';
+  document.getElementById('navRegister').style.display = 'none';
+}
+
+function acctBtnClick() { if (curUser) openProfile(); else openAuth('login'); }
+
+function doSignOut() {
+  curUser = null;
+  saveSession(null);
+  document.getElementById('navProfile').style.display = 'none';
+  document.getElementById('navSignIn').style.display = '';
+  document.getElementById('navRegister').style.display = '';
+  closeOverlay('profOverlay');
+  showToast(isKu ? 'بەسەرکەوتوویی دەرچووی!' : 'Signed out successfully!', 'ok');
+}
+
+// Helper: toggle password visibility
+function togglePass(id, btn) {
+  var inp = document.getElementById(id);
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+// Helper: password strength indicator
+function checkStrength(val) {
+  var fill = document.getElementById('strFill');
+  var label = document.getElementById('strLabel');
+  if (!fill) return;
+  var score = 0;
+  if (val.length >= 6) score++;
+  if (val.length >= 10) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  var pct = Math.min(100, score * 22);
+  var colors = ['#ef4444','#f59e0b','#f59e0b','#10b981','#10b981'];
+  var labels = isKu
+    ? ['زۆر قەلس','قەلس','مامناوەند','بەهێز','زۆر بەهێز']
+    : ['Very weak','Weak','Fair','Strong','Very strong'];
+  fill.style.width = pct + '%';
+  fill.style.background = colors[Math.max(0,score-1)] || '#e5e7eb';
+  label.textContent = val.length ? labels[Math.max(0,score-1)] : '';
+}
 // ══════════ PROFILE ══════════
 function openProfile() {
   if (!curUser) return;
