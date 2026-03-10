@@ -346,43 +346,128 @@ padding:13px;border-radius:12px;font-size:.94rem;font-weight:700;cursor:pointer;
 .btn-checkout:hover{background:#c73652;}
 
 /* ── AUTH MODAL ── */
-.auth-modal{max-width:420px;}
-.auth-tabs{display:flex;background:#f3f4f6;border-radius:0;}
-.auth-tab{flex:1;padding:13px;text-align:center;font-weight:600;font-size:.9rem;cursor:pointer;border:none;background:transparent;color:#6b7280;transition:.2s;}
-.auth-tab.active{background:#fff;color:#1a1a2e;box-shadow:0 1px 8px rgba(0,0,0,.06);}
-.auth-body{padding:24px;}
-.auth-top{text-align:center;margin-bottom:18px;}
-.auth-top-icon{
-width:54px;height:54px;border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-font-size:1.5rem;margin:0 auto 10px;
+.auth-modal{max-width:440px;overflow:hidden;}
+
+/* Branded header strip */
+.auth-hero{
+background:linear-gradient(135deg,#1a1a2e 0%,#2d1f3d 100%);
+padding:32px 28px 24px;text-align:center;position:relative;overflow:hidden;
 }
-.auth-top h2{font-family:‘Playfair Display’,serif;font-size:1.38rem;color:#1a1a2e;margin-bottom:3px;}
-.auth-top p{color:#6b7280;font-size:.82rem;}
-.form-group{margin-bottom:12px;}
-.form-group label{display:block;font-size:.8rem;font-weight:600;color:#1a1a2e;margin-bottom:4px;}
+.auth-hero::before{
+content:’’;position:absolute;top:-40px;right:-40px;
+width:160px;height:160px;border-radius:50%;
+background:rgba(233,69,96,.12);
+}
+.auth-hero::after{
+content:’’;position:absolute;bottom:-30px;left:-30px;
+width:120px;height:120px;border-radius:50%;
+background:rgba(245,166,35,.08);
+}
+.auth-logo{
+font-family:‘Playfair Display’,serif;font-size:1.55rem;font-weight:900;
+color:#fff;margin-bottom:6px;position:relative;z-index:1;
+}
+.auth-logo span{color:#e94560;}
+.auth-tagline{color:#94a3b8;font-size:.78rem;position:relative;z-index:1;}
+
+/* Tab switcher — pill style */
+.auth-tabs{
+display:flex;margin:20px 20px 0;
+background:#f3f4f6;border-radius:12px;padding:4px;gap:4px;
+}
+.auth-tab{
+flex:1;padding:9px 12px;text-align:center;
+font-weight:600;font-size:.84rem;cursor:pointer;
+border:none;background:transparent;color:#6b7280;
+border-radius:9px;transition:.2s;
+}
+.auth-tab.active{background:#fff;color:#1a1a2e;box-shadow:0 1px 6px rgba(0,0,0,.08);}
+
+/* Body */
+.auth-body{padding:20px 20px 24px;}
+
+/* Input groups */
+.form-group{margin-bottom:14px;position:relative;}
+.form-group label{
+display:block;font-size:.76rem;font-weight:700;
+color:#1a1a2e;margin-bottom:5px;letter-spacing:.3px;text-transform:uppercase;
+}
+.inp-wrap{position:relative;display:flex;align-items:center;}
+.inp-icon{
+position:absolute;left:13px;font-size:.95rem;
+color:#94a3b8;pointer-events:none;z-index:1;
+}
 .form-group input{
-width:100%;padding:9px 13px;
-border:1.5px solid #e5e7eb;border-radius:10px;
+width:100%;padding:11px 13px 11px 38px;
+border:1.5px solid #e5e7eb;border-radius:11px;
 font-size:.9rem;outline:none;transition:.2s;
 font-family:‘DM Sans’,sans-serif;
-background:#fff;color:#1a1a2e;
+background:#fafafa;color:#1a1a2e;
 }
-.form-group input:focus{border-color:#e94560;}
-.form-extras{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.form-group input:focus{border-color:#e94560;background:#fff;box-shadow:0 0 0 3px rgba(233,69,96,.08);}
+.inp-toggle{
+position:absolute;right:12px;background:none;border:none;
+cursor:pointer;color:#94a3b8;font-size:.88rem;padding:0;line-height:1;
+}
+.inp-toggle:hover{color:#1a1a2e;}
+
+/* Strength bar */
+.strength-wrap{margin-top:6px;}
+.strength-bar{height:3px;border-radius:2px;background:#e5e7eb;overflow:hidden;}
+.strength-fill{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0;}
+.strength-label{font-size:.68rem;color:#6b7280;margin-top:3px;}
+
+/* Extras row */
+.form-extras{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
 .form-extras label{display:flex;align-items:center;gap:6px;font-size:.79rem;cursor:pointer;color:#6b7280;}
-.form-extras a{color:#e94560;font-size:.79rem;text-decoration:none;}
+.form-extras a{color:#e94560;font-size:.79rem;text-decoration:none;font-weight:500;}
+.form-extras a:hover{text-decoration:underline;}
+
+/* Submit button */
 .btn-submit{
 width:100%;background:#1a1a2e;color:#fff;border:none;
-padding:11px;border-radius:10px;font-size:.93rem;font-weight:700;cursor:pointer;transition:.2s;
+padding:12px;border-radius:11px;font-size:.94rem;font-weight:700;
+cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;gap:8px;
+letter-spacing:.2px;
 }
-.btn-submit:hover{background:#e94560;}
-.auth-switch{text-align:center;margin-top:14px;font-size:.8rem;color:#6b7280;}
+.btn-submit:hover{background:#e94560;transform:translateY(-1px);box-shadow:0 6px 20px rgba(233,69,96,.3);}
+.btn-submit:active{transform:translateY(0);}
+
+/* Divider */
+.auth-divider{
+display:flex;align-items:center;gap:12px;
+margin:14px 0;color:#94a3b8;font-size:.75rem;
+}
+.auth-divider::before,.auth-divider::after{content:’’;flex:1;height:1px;background:#e5e7eb;}
+
+/* Switch */
+.auth-switch{text-align:center;font-size:.8rem;color:#6b7280;}
 .auth-switch a{color:#e94560;font-weight:600;text-decoration:none;margin-left:4px;}
-.form-check{display:flex;align-items:flex-start;gap:8px;margin-bottom:12px;}
-.form-check input{width:auto;margin-top:3px;}
-.form-check label{font-size:.79rem;color:#6b7280;cursor:pointer;}
+.auth-switch a:hover{text-decoration:underline;}
+
+/* Checkbox */
+.form-check{display:flex;align-items:flex-start;gap:9px;margin-bottom:14px;}
+.form-check input{width:15px;height:15px;margin-top:2px;accent-color:#e94560;cursor:pointer;flex-shrink:0;}
+.form-check label{font-size:.79rem;color:#6b7280;cursor:pointer;line-height:1.5;}
 .form-check a{color:#e94560;text-decoration:none;}
+
+/* Success state */
+.auth-success{
+text-align:center;padding:32px 20px 28px;
+}
+.auth-success-icon{
+width:70px;height:70px;border-radius:50%;
+background:linear-gradient(135deg,#10b981,#059669);
+display:flex;align-items:center;justify-content:center;
+font-size:2rem;margin:0 auto 16px;
+box-shadow:0 8px 24px rgba(16,185,129,.3);
+}
+.auth-success h3{font-family:‘Playfair Display’,serif;font-size:1.4rem;color:#1a1a2e;margin-bottom:6px;}
+.auth-success p{color:#6b7280;font-size:.84rem;line-height:1.6;}
+
+/* Loading spinner on button */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
 
 /* ── PROFILE MODAL ── */
 .prof-modal{max-width:460px;}
@@ -756,7 +841,7 @@ body{padding-bottom:62px;}
     </div>
     <div class="page-body">
       <div class="contact-grid">
-        <div class="contact-card"><div class="contact-icon">📧</div><h4>Email</h4><p>support@amzshopping.com</p></div>
+        <div class="contact-card"><div class="contact-icon">📧</div><h4>Email</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bbc8cecbcbd4c9cffbdad6c1c8d3d4cbcbd2d5dc95d8d4d6">[email&#160;protected]</a></p></div>
         <div class="contact-card"><div class="contact-icon">📱</div><h4>WhatsApp</h4><p>+964 750 000 0000</p></div>
         <div class="contact-card"><div class="contact-icon">📍</div><h4><span class="et">Location</span><span class="kt" style="display:none">شوێن</span></h4><p>Erbil, Kurdistan Region</p></div>
         <div class="contact-card"><div class="contact-icon">⏰</div><h4><span class="et">Hours</span><span class="kt" style="display:none">کاتی کار</span></h4><p>9:00 AM – 9:00 PM</p></div>
@@ -807,85 +892,125 @@ body{padding-bottom:62px;}
 <div class="overlay" id="authOverlay" onclick="if(event.target===this)closeOverlay('authOverlay')">
   <div class="modal auth-modal">
     <button class="modal-close" onclick="closeOverlay('authOverlay')">✕</button>
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="tabLogin" onclick="switchAuth('login')">
-        <span class="et">Sign In</span><span class="kt" style="display:none">چوونەژوورەوە</span>
-      </button>
-      <button class="auth-tab" id="tabReg" onclick="switchAuth('register')">
-        <span class="et">Register</span><span class="kt" style="display:none">تۆمارکردن</span>
-      </button>
-    </div>
 
 ```
-<!-- LOGIN -->
+<!-- Branded top -->
+<div class="auth-hero">
+  <div class="auth-logo">AMZ<span>.</span>Shopping</div>
+  <div class="auth-tagline"><span class="et">Your premium shopping destination</span><span class="kt ku" style="display:none">شوێنی کڕینی بەرزەکەت</span></div>
+</div>
+
+<!-- Tabs -->
+<div class="auth-tabs">
+  <button class="auth-tab active" id="tabLogin" onclick="switchAuth('login')">
+    <span class="et">Sign In</span><span class="kt" style="display:none">چوونەژوورەوە</span>
+  </button>
+  <button class="auth-tab" id="tabReg" onclick="switchAuth('register')">
+    <span class="et">Create Account</span><span class="kt" style="display:none">تۆمارکردن</span>
+  </button>
+</div>
+
+<!-- ── LOGIN ── -->
 <div id="formLogin" class="auth-body">
-  <div class="auth-top">
-    <div class="auth-top-icon" style="background:linear-gradient(135deg,#1a1a2e,#e94560)">👤</div>
-    <h2><span class="et">Welcome Back!</span><span class="kt ku" style="display:none">بەخێرهاتیتەوە!</span></h2>
-    <p><span class="et">Sign in to your AMZ Shopping account</span><span class="kt ku" style="display:none">بچۆرە ژوورەوەی ئەکاونتی AMZ Shopping</span></p>
-  </div>
   <div class="form-group">
-    <label><span class="et">Email</span><span class="kt" style="display:none">ئیمەیل</span></label>
-    <input type="email" id="loginEmail" placeholder="you@example.com">
+    <label><span class="et">Email Address</span><span class="kt" style="display:none">ئیمەیل</span></label>
+    <div class="inp-wrap">
+      <span class="inp-icon">✉️</span>
+      <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+    </div>
   </div>
   <div class="form-group">
     <label><span class="et">Password</span><span class="kt" style="display:none">وشەی نهێنی</span></label>
-    <input type="password" id="loginPass" placeholder="••••••••">
+    <div class="inp-wrap">
+      <span class="inp-icon">🔒</span>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+      <button class="inp-toggle" type="button" onclick="togglePass('loginPass',this)">👁</button>
+    </div>
   </div>
   <div class="form-extras">
-    <label><input type="checkbox" style="width:auto"> <span class="et">Remember me</span><span class="kt" style="display:none">بمبیرەوە</span></label>
+    <label><input type="checkbox" id="rememberMe" style="width:auto;accent-color:#e94560"> <span class="et">Remember me</span><span class="kt" style="display:none">بمبیرەوە</span></label>
     <a href="#"><span class="et">Forgot password?</span><span class="kt" style="display:none">وشەی نهێنیت بیرچووەتەوە؟</span></a>
   </div>
-  <button class="btn-submit" onclick="doLogin()">
+  <button class="btn-submit" id="loginBtn" onclick="doLogin()">
     <span class="et">Sign In →</span><span class="kt" style="display:none">چوونەژوورەوە →</span>
   </button>
-  <p class="auth-switch">
+  <div id="loginErr" style="display:none;margin-top:10px;padding:9px 13px;background:#fff5f6;border:1px solid #fecdd3;border-radius:9px;color:#e94560;font-size:.8rem;text-align:center;"></div>
+  <p class="auth-switch" style="margin-top:16px">
     <span class="et">Don't have an account?</span><span class="kt" style="display:none">ئەکاونتت نییە؟</span>
-    <a href="#" onclick="switchAuth('register')"><span class="et">Register</span><span class="kt" style="display:none">تۆمار بکە</span></a>
+    <a href="#" onclick="switchAuth('register')"><span class="et">Create one free →</span><span class="kt" style="display:none">تۆمار بکە →</span></a>
   </p>
 </div>
 
-<!-- REGISTER -->
+<!-- ── REGISTER ── -->
 <div id="formReg" class="auth-body" style="display:none">
-  <div class="auth-top">
-    <div class="auth-top-icon" style="background:linear-gradient(135deg,#e94560,#f5a623)">✨</div>
-    <h2><span class="et">Join AMZ Shopping</span><span class="kt ku" style="display:none">بەشداری AMZ Shopping بکە</span></h2>
-    <p><span class="et">Create your account today</span><span class="kt ku" style="display:none">ئەمڕۆ ئەکاونتەکەت دروست بکە</span></p>
-  </div>
   <div class="form-group">
     <label><span class="et">Full Name</span><span class="kt" style="display:none">ناوی تەواو</span></label>
-    <input type="text" id="regName" placeholder="Ahmad Karimi">
+    <div class="inp-wrap">
+      <span class="inp-icon">👤</span>
+      <input type="text" id="regName" placeholder="Ahmad Karimi" autocomplete="name">
+    </div>
   </div>
   <div class="form-group">
-    <label>Email</label>
-    <input type="email" id="regEmail" placeholder="you@example.com">
+    <label><span class="et">Email Address</span><span class="kt" style="display:none">ئیمەیل</span></label>
+    <div class="inp-wrap">
+      <span class="inp-icon">✉️</span>
+      <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email">
+    </div>
   </div>
   <div class="form-group">
-    <label><span class="et">Phone</span><span class="kt" style="display:none">مۆبایل</span></label>
-    <input type="tel" id="regPhone" placeholder="+964 750 000 0000">
+    <label><span class="et">Phone Number</span><span class="kt" style="display:none">مۆبایل</span></label>
+    <div class="inp-wrap">
+      <span class="inp-icon">📱</span>
+      <input type="tel" id="regPhone" placeholder="+964 750 000 0000" autocomplete="tel">
+    </div>
   </div>
   <div class="form-group">
     <label><span class="et">Password</span><span class="kt" style="display:none">وشەی نهێنی</span></label>
-    <input type="password" id="regPass" placeholder="••••••••">
+    <div class="inp-wrap">
+      <span class="inp-icon">🔒</span>
+      <input type="password" id="regPass" placeholder="Min 6 characters" autocomplete="new-password" oninput="checkStrength(this.value)">
+      <button class="inp-toggle" type="button" onclick="togglePass('regPass',this)">👁</button>
+    </div>
+    <div class="strength-wrap">
+      <div class="strength-bar"><div class="strength-fill" id="strFill"></div></div>
+      <div class="strength-label" id="strLabel"></div>
+    </div>
   </div>
   <div class="form-group">
     <label><span class="et">Confirm Password</span><span class="kt" style="display:none">دووبارەکردنەوەی وشەی نهێنی</span></label>
-    <input type="password" id="regPass2" placeholder="••••••••">
+    <div class="inp-wrap">
+      <span class="inp-icon">🔒</span>
+      <input type="password" id="regPass2" placeholder="••••••••" autocomplete="new-password">
+      <button class="inp-toggle" type="button" onclick="togglePass('regPass2',this)">👁</button>
+    </div>
   </div>
   <div class="form-check">
     <input type="checkbox" id="regTerms">
     <label for="regTerms">
-      <span class="et">I agree to the <a href="#">Terms & Conditions</a></span>
+      <span class="et">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></span>
       <span class="kt" style="display:none">ڕازیم بە <a href="#">مەرج و مەرجەکان</a></span>
     </label>
   </div>
-  <button class="btn-submit" onclick="doRegister()">
-    <span class="et">Create Account →</span><span class="kt" style="display:none">دروستکردنی ئەکاونت →</span>
+  <button class="btn-submit" id="regBtn" onclick="doRegister()">
+    <span class="et">Create My Account →</span><span class="kt" style="display:none">دروستکردنی ئەکاونت →</span>
   </button>
-  <p class="auth-switch">
+  <div id="regErr" style="display:none;margin-top:10px;padding:9px 13px;background:#fff5f6;border:1px solid #fecdd3;border-radius:9px;color:#e94560;font-size:.8rem;text-align:center;"></div>
+  <p class="auth-switch" style="margin-top:16px">
     <span class="et">Already have an account?</span><span class="kt" style="display:none">ئەکاونتت هەیە؟</span>
-    <a href="#" onclick="switchAuth('login')"><span class="et">Sign In</span><span class="kt" style="display:none">چوونەژوورەوە</span></a>
+    <a href="#" onclick="switchAuth('login')"><span class="et">Sign In →</span><span class="kt" style="display:none">چوونەژوورەوە →</span></a>
   </p>
+</div>
+
+<!-- ── SUCCESS ── -->
+<div id="authSuccess" style="display:none">
+  <div class="auth-success">
+    <div class="auth-success-icon">✓</div>
+    <h3 id="authSuccessTitle">Welcome!</h3>
+    <p id="authSuccessMsg">You are now signed in.</p>
+    <button class="btn-submit" style="margin-top:20px" onclick="closeOverlay('authOverlay')">
+      <span class="et">Continue Shopping →</span><span class="kt" style="display:none">بەردەوام بە کڕین →</span>
+    </button>
+  </div>
 </div>
 ```
 
@@ -1058,461 +1183,596 @@ body{padding-bottom:62px;}
 
 <div class="toast" id="toastEl"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
 // ══════════ DATA ══════════
 var products = [
-  {id:1,name:"Sony WH-1000XM5 Headphones",cat:"Electronics",price:349,old:449,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80",desc:"Premium noise cancelling headphones with 30hr battery life.",badge:"SALE",rating:4.8,rev:2341},
-  {id:2,name:"Minimalist Leather Wallet",cat:"Accessories",price:59,old:null,img:"https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80",desc:"Slim genuine leather bifold wallet with RFID blocking.",badge:"NEW",rating:4.6,rev:892},
-  {id:3,name:"Summer Floral Dress",cat:"Fashion",price:89,old:120,img:"https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&q=80",desc:"Light and breezy floral dress perfect for warm days.",badge:"SALE",rating:4.5,rev:567},
-  {id:4,name:"Matte Lipstick Collection",cat:"Beauty",price:35,old:null,img:"https://images.unsplash.com/photo-1586495777744-4e6232bf5fd0?w=600&q=80",desc:"Long-lasting matte lipstick in 12 vibrant shades.",badge:"NEW",rating:4.7,rev:1203},
-  {id:5,name:"Chronograph Watch",cat:"Accessories",price:289,old:399,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80",desc:"Elegant stainless steel chronograph with sapphire crystal.",badge:"SALE",rating:4.9,rev:445},
-  {id:6,name:"Running Shoes Pro",cat:"Sports",price:145,old:180,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80",desc:"Lightweight performance running shoes.",badge:"",rating:4.6,rev:789},
-  {id:7,name:'4K Smart TV 55"',cat:"Electronics",price:699,old:899,img:"https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&q=80",desc:"Crystal clear 4K display with smart features.",badge:"SALE",rating:4.7,rev:1567},
-  {id:8,name:"Yoga Mat Premium",cat:"Sports",price:68,old:null,img:"https://images.unsplash.com/photo-1601925228628-fe81c15d8cdf?w=600&q=80",desc:"Extra thick non-slip yoga mat with alignment lines.",badge:"NEW",rating:4.8,rev:334},
-  {id:9,name:"Perfume Oud Royale",cat:"Beauty",price:125,old:160,img:"https://images.unsplash.com/photo-1541643600914-78b084683702?w=600&q=80",desc:"Luxurious oriental fragrance with oud, rose and amber.",badge:"HOT",rating:4.9,rev:678},
-  {id:10,name:"Slim Fit Blazer",cat:"Fashion",price:155,old:210,img:"https://images.unsplash.com/photo-1594938298603-c8148c4b4f5d?w=600&q=80",desc:"Tailored slim fit blazer in premium wool blend.",badge:"",rating:4.5,rev:412},
-  {id:11,name:"Smart Home Speaker",cat:"Electronics",price:99,old:129,img:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80",desc:"360-degree sound with voice assistant.",badge:"NEW",rating:4.6,rev:923},
-  {id:12,name:"Linen Bedding Set",cat:"Home",price:189,old:250,img:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80",desc:"Premium linen bedding set with duvet cover.",badge:"SALE",rating:4.8,rev:289}
+{id:1,name:“Sony WH-1000XM5 Headphones”,cat:“Electronics”,price:349,old:449,img:“https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80”,desc:“Premium noise cancelling headphones with 30hr battery life.”,badge:“SALE”,rating:4.8,rev:2341},
+{id:2,name:“Minimalist Leather Wallet”,cat:“Accessories”,price:59,old:null,img:“https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80”,desc:“Slim genuine leather bifold wallet with RFID blocking.”,badge:“NEW”,rating:4.6,rev:892},
+{id:3,name:“Summer Floral Dress”,cat:“Fashion”,price:89,old:120,img:“https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&q=80”,desc:“Light and breezy floral dress perfect for warm days.”,badge:“SALE”,rating:4.5,rev:567},
+{id:4,name:“Matte Lipstick Collection”,cat:“Beauty”,price:35,old:null,img:“https://images.unsplash.com/photo-1586495777744-4e6232bf5fd0?w=600&q=80”,desc:“Long-lasting matte lipstick in 12 vibrant shades.”,badge:“NEW”,rating:4.7,rev:1203},
+{id:5,name:“Chronograph Watch”,cat:“Accessories”,price:289,old:399,img:“https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80”,desc:“Elegant stainless steel chronograph with sapphire crystal.”,badge:“SALE”,rating:4.9,rev:445},
+{id:6,name:“Running Shoes Pro”,cat:“Sports”,price:145,old:180,img:“https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80”,desc:“Lightweight performance running shoes.”,badge:””,rating:4.6,rev:789},
+{id:7,name:‘4K Smart TV 55”’,cat:“Electronics”,price:699,old:899,img:“https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&q=80”,desc:“Crystal clear 4K display with smart features.”,badge:“SALE”,rating:4.7,rev:1567},
+{id:8,name:“Yoga Mat Premium”,cat:“Sports”,price:68,old:null,img:“https://images.unsplash.com/photo-1601925228628-fe81c15d8cdf?w=600&q=80”,desc:“Extra thick non-slip yoga mat with alignment lines.”,badge:“NEW”,rating:4.8,rev:334},
+{id:9,name:“Perfume Oud Royale”,cat:“Beauty”,price:125,old:160,img:“https://images.unsplash.com/photo-1541643600914-78b084683702?w=600&q=80”,desc:“Luxurious oriental fragrance with oud, rose and amber.”,badge:“HOT”,rating:4.9,rev:678},
+{id:10,name:“Slim Fit Blazer”,cat:“Fashion”,price:155,old:210,img:“https://images.unsplash.com/photo-1594938298603-c8148c4b4f5d?w=600&q=80”,desc:“Tailored slim fit blazer in premium wool blend.”,badge:””,rating:4.5,rev:412},
+{id:11,name:“Smart Home Speaker”,cat:“Electronics”,price:99,old:129,img:“https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80”,desc:“360-degree sound with voice assistant.”,badge:“NEW”,rating:4.6,rev:923},
+{id:12,name:“Linen Bedding Set”,cat:“Home”,price:189,old:250,img:“https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80”,desc:“Premium linen bedding set with duvet cover.”,badge:“SALE”,rating:4.8,rev:289}
 ];
 
 var cart = [];
 var orders = [];
-var activeCat = 'All';
-var selOpt = 'web';
+var activeCat = ‘All’;
+var selOpt = ‘web’;
 var isKu = false;
 var curUser = null;
 var admLoggedIn = false;
 var slideIdx = 0;
 var slideTimer;
-var WA = '9647515329774';
-var APASS = 'admin123';
+var WA = ‘9647515329774’;
+var APASS = ‘amzadmin123’;
 
 // ══════════ SLIDER ══════════
 function initSlider() {
-  var n = document.querySelectorAll('.slide').length;
-  var dotsEl = document.getElementById('slideDots');
-  dotsEl.innerHTML = '';
-  for (var i = 0; i < n; i++) {
-    var d = document.createElement('div');
-    d.className = 'sdot' + (i === 0 ? ' active' : '');
-    (function(x){ d.onclick = function(){ goSlide(x); }; })(i);
-    dotsEl.appendChild(d);
-  }
-  slideTimer = setInterval(function(){ goSlide(slideIdx + 1); }, 4500);
+var n = document.querySelectorAll(’.slide’).length;
+var dotsEl = document.getElementById(‘slideDots’);
+dotsEl.innerHTML = ‘’;
+for (var i = 0; i < n; i++) {
+var d = document.createElement(‘div’);
+d.className = ‘sdot’ + (i === 0 ? ’ active’ : ‘’);
+(function(x){ d.onclick = function(){ goSlide(x); }; })(i);
+dotsEl.appendChild(d);
+}
+slideTimer = setInterval(function(){ goSlide(slideIdx + 1); }, 4500);
 }
 function goSlide(n) {
-  var slides = document.querySelectorAll('.slide');
-  slideIdx = (n + slides.length) % slides.length;
-  document.getElementById('slidesWrap').style.transform = 'translateX(-' + (slideIdx * 100) + '%)';
-  document.querySelectorAll('.sdot').forEach(function(d, i){
-    d.classList.toggle('active', i === slideIdx);
-  });
+var slides = document.querySelectorAll(’.slide’);
+slideIdx = (n + slides.length) % slides.length;
+document.getElementById(‘slidesWrap’).style.transform = ‘translateX(-’ + (slideIdx * 100) + ‘%)’;
+document.querySelectorAll(’.sdot’).forEach(function(d, i){
+d.classList.toggle(‘active’, i === slideIdx);
+});
 }
 function nextSlide() { clearInterval(slideTimer); goSlide(slideIdx + 1); slideTimer = setInterval(function(){ goSlide(slideIdx + 1); }, 4500); }
 function prevSlide() { clearInterval(slideTimer); goSlide(slideIdx - 1); slideTimer = setInterval(function(){ goSlide(slideIdx + 1); }, 4500); }
 
 // ══════════ LANGUAGE ══════════
 function toggleLang() {
-  isKu = !isKu;
-  document.querySelectorAll('.et').forEach(function(e){ e.style.display = isKu ? 'none' : ''; });
-  document.querySelectorAll('.kt').forEach(function(e){ e.style.display = isKu ? '' : 'none'; });
-  document.getElementById('langBtn').textContent = isKu ? '🌐 English' : '🌐 کوردی';
-  // update category buttons
-  renderCats();
+isKu = !isKu;
+document.querySelectorAll(’.et’).forEach(function(e){ e.style.display = isKu ? ‘none’ : ‘’; });
+document.querySelectorAll(’.kt’).forEach(function(e){ e.style.display = isKu ? ‘’ : ‘none’; });
+document.getElementById(‘langBtn’).textContent = isKu ? ‘🌐 English’ : ‘🌐 کوردی’;
+// update category buttons
+renderCats();
 }
 
 // ══════════ PRODUCTS ══════════
 var catMap = {
-  en: {All:'All',Electronics:'Electronics',Fashion:'Fashion',Accessories:'Accessories',Beauty:'Beauty',Sports:'Sports',Home:'Home'},
-  ku: {All:'هەموو',Electronics:'ئەلکترۆنیک',Fashion:'مۆد',Accessories:'ئەکسسوار',Beauty:'جوانکاری',Sports:'وەرزش',Home:'ماڵ'}
+en: {All:‘All’,Electronics:‘Electronics’,Fashion:‘Fashion’,Accessories:‘Accessories’,Beauty:‘Beauty’,Sports:‘Sports’,Home:‘Home’},
+ku: {All:‘هەموو’,Electronics:‘ئەلکترۆنیک’,Fashion:‘مۆد’,Accessories:‘ئەکسسوار’,Beauty:‘جوانکاری’,Sports:‘وەرزش’,Home:‘ماڵ’}
 };
 
 function renderCats() {
-  var cats = ['All'].concat(Array.from(new Set(products.map(function(p){ return p.cat; }))));
-  var map = isKu ? catMap.ku : catMap.en;
-  document.getElementById('catRow').innerHTML = cats.map(function(c){
-    return '<button class="cat-btn' + (c === activeCat ? ' active' : '') + '" onclick="filterCat(\'' + c + '\')">' + (map[c] || c) + '</button>';
-  }).join('');
+var cats = [‘All’].concat(Array.from(new Set(products.map(function(p){ return p.cat; }))));
+var map = isKu ? catMap.ku : catMap.en;
+document.getElementById(‘catRow’).innerHTML = cats.map(function(c){
+return ‘<button class="cat-btn' + (c === activeCat ? ' active' : '') + '" onclick="filterCat(\'' + c + '\')">’ + (map[c] || c) + ‘</button>’;
+}).join(’’);
 }
 
 function filterCat(cat) {
-  activeCat = cat;
-  renderCats();
-  var list = cat === 'All' ? products : products.filter(function(p){ return p.cat === cat; });
-  renderProducts(list);
-  if (cat !== 'All') document.getElementById('products').scrollIntoView({behavior:'smooth'});
+activeCat = cat;
+renderCats();
+var list = cat === ‘All’ ? products : products.filter(function(p){ return p.cat === cat; });
+renderProducts(list);
+if (cat !== ‘All’) document.getElementById(‘products’).scrollIntoView({behavior:‘smooth’});
 }
 
 function renderProducts(list) {
-  var grid = document.getElementById('prodGrid');
-  if (!list.length) {
-    grid.innerHTML = '<p style="color:#6b7280;grid-column:1/-1;text-align:center;padding:40px">No products found.</p>';
-    return;
-  }
-  grid.innerHTML = list.map(function(p){
-    var stars = '★'.repeat(Math.round(p.rating)) + '☆'.repeat(5 - Math.round(p.rating));
-    var badgeCls = p.badge === 'NEW' ? 'badge-new' : p.badge === 'HOT' ? 'badge-hot' : 'badge-sale';
-    return '<div class="prod-card" onclick="openProduct(' + p.id + ')">'
-      + '<div class="prod-img">'
-      + '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy">'
-      + (p.badge ? '<span class="prod-badge ' + badgeCls + '">' + p.badge + '</span>' : '')
-      + '<button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">♡</button>'
-      + '</div>'
-      + '<div class="prod-info">'
-      + '<div class="prod-cat">' + p.cat + '</div>'
-      + '<div class="prod-name">' + p.name + '</div>'
-      + '<div class="prod-stars">' + stars + ' <span>(' + p.rev + ')</span></div>'
-      + '<div class="prod-prices"><span class="prod-price">$' + p.price + '</span>' + (p.old ? '<span class="prod-old">$' + p.old + '</span>' : '') + '</div>'
-      + '<button class="add-cart-btn" onclick="event.stopPropagation();addToCart(' + p.id + ',false)"><span class="et">Add to Cart 🛒</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">زیادکردن 🛒</span></button>'
-      + '</div></div>';
-  }).join('');
+var grid = document.getElementById(‘prodGrid’);
+if (!list.length) {
+grid.innerHTML = ‘<p style="color:#6b7280;grid-column:1/-1;text-align:center;padding:40px">No products found.</p>’;
+return;
+}
+grid.innerHTML = list.map(function(p){
+var stars = ‘★’.repeat(Math.round(p.rating)) + ‘☆’.repeat(5 - Math.round(p.rating));
+var badgeCls = p.badge === ‘NEW’ ? ‘badge-new’ : p.badge === ‘HOT’ ? ‘badge-hot’ : ‘badge-sale’;
+return ‘<div class="prod-card" onclick="openProduct(' + p.id + ')">’
++ ‘<div class="prod-img">’
++ ‘<img src="' + p.img + '" alt="' + p.name + '" loading="lazy">’
++ (p.badge ? ‘<span class="prod-badge ' + badgeCls + '">’ + p.badge + ‘</span>’ : ‘’)
++ ‘<button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">♡</button>’
++ ‘</div>’
++ ‘<div class="prod-info">’
++ ‘<div class="prod-cat">’ + p.cat + ‘</div>’
++ ‘<div class="prod-name">’ + p.name + ‘</div>’
++ ‘<div class="prod-stars">’ + stars + ’ <span>(’ + p.rev + ‘)</span></div>’
++ ‘<div class="prod-prices"><span class="prod-price">$’ + p.price + ‘</span>’ + (p.old ? ‘<span class="prod-old">$’ + p.old + ‘</span>’ : ‘’) + ‘</div>’
++ ‘<button class="add-cart-btn" onclick="event.stopPropagation();addToCart(' + p.id + ',false)"><span class="et">Add to Cart 🛒</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">زیادکردن 🛒</span></button>’
++ ‘</div></div>’;
+}).join(’’);
 }
 
 function doSearch() {
-  var q = document.getElementById('searchDesk').value.toLowerCase();
-  document.getElementById('searchMob').value = q;
-  renderProducts(products.filter(function(p){ return p.name.toLowerCase().indexOf(q) > -1 || p.cat.toLowerCase().indexOf(q) > -1; }));
-  if (q) { activeCat = 'All'; renderCats(); }
+var q = document.getElementById(‘searchDesk’).value.toLowerCase();
+document.getElementById(‘searchMob’).value = q;
+renderProducts(products.filter(function(p){ return p.name.toLowerCase().indexOf(q) > -1 || p.cat.toLowerCase().indexOf(q) > -1; }));
+if (q) { activeCat = ‘All’; renderCats(); }
 }
 function doSearchMob() {
-  var q = document.getElementById('searchMob').value.toLowerCase();
-  document.getElementById('searchDesk').value = q;
-  renderProducts(products.filter(function(p){ return p.name.toLowerCase().indexOf(q) > -1 || p.cat.toLowerCase().indexOf(q) > -1; }));
-  if (q) { activeCat = 'All'; renderCats(); }
+var q = document.getElementById(‘searchMob’).value.toLowerCase();
+document.getElementById(‘searchDesk’).value = q;
+renderProducts(products.filter(function(p){ return p.name.toLowerCase().indexOf(q) > -1 || p.cat.toLowerCase().indexOf(q) > -1; }));
+if (q) { activeCat = ‘All’; renderCats(); }
 }
 
 // ══════════ PRODUCT DETAIL ══════════
 function openProduct(id) {
-  var p = products.find(function(x){ return x.id === id; });
-  if (!p) return;
-  var stars = '★'.repeat(Math.round(p.rating)) + '☆'.repeat(5 - Math.round(p.rating));
-  document.getElementById('pdBody').innerHTML =
-    '<div class="pd-img"><img src="' + p.img + '" alt="' + p.name + '"></div>'
-    + '<div class="pd-info">'
-    + '<div class="pd-cat">' + p.cat + '</div>'
-    + '<div class="pd-name">' + p.name + '</div>'
-    + '<div class="prod-stars">' + stars + ' <span style="color:#6b7280">' + p.rating + ' (' + p.rev + ' reviews)</span></div>'
-    + '<div class="pd-price">$' + p.price + (p.old ? ' <span style="font-size:.85rem;color:#6b7280;font-weight:400;text-decoration:line-through;margin-left:6px">$' + p.old + '</span>' : '') + '</div>'
-    + '<div class="pd-desc">' + p.desc + '</div>'
-    + '<div class="qty-row"><span style="font-size:.84rem;font-weight:600;color:#1a1a2e">Qty:</span>'
-    + '<button class="qty-btn" onclick="chQty(-1)">−</button>'
-    + '<input class="qty-inp" type="number" id="pdQty" value="1" min="1" max="99">'
-    + '<button class="qty-btn" onclick="chQty(1)">+</button></div>'
-    + '<button class="btn-add-modal" onclick="addToCartQty(' + id + ')"><span class="et">Add to Cart 🛒</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">زیادکردن 🛒</span></button>'
-    + '</div>';
-  openOverlay('pdOverlay');
+var p = products.find(function(x){ return x.id === id; });
+if (!p) return;
+var stars = ‘★’.repeat(Math.round(p.rating)) + ‘☆’.repeat(5 - Math.round(p.rating));
+document.getElementById(‘pdBody’).innerHTML =
+‘<div class="pd-img"><img src="' + p.img + '" alt="' + p.name + '"></div>’
++ ‘<div class="pd-info">’
++ ‘<div class="pd-cat">’ + p.cat + ‘</div>’
++ ‘<div class="pd-name">’ + p.name + ‘</div>’
++ ‘<div class="prod-stars">’ + stars + ’ <span style="color:#6b7280">’ + p.rating + ’ (’ + p.rev + ’ reviews)</span></div>’
++ ‘<div class="pd-price">$’ + p.price + (p.old ? ’ <span style="font-size:.85rem;color:#6b7280;font-weight:400;text-decoration:line-through;margin-left:6px">$’ + p.old + ‘</span>’ : ‘’) + ‘</div>’
++ ‘<div class="pd-desc">’ + p.desc + ‘</div>’
++ ‘<div class="qty-row"><span style="font-size:.84rem;font-weight:600;color:#1a1a2e">Qty:</span>’
++ ‘<button class="qty-btn" onclick="chQty(-1)">−</button>’
++ ‘<input class="qty-inp" type="number" id="pdQty" value="1" min="1" max="99">’
++ ‘<button class="qty-btn" onclick="chQty(1)">+</button></div>’
++ ‘<button class="btn-add-modal" onclick="addToCartQty(' + id + ')"><span class="et">Add to Cart 🛒</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">زیادکردن 🛒</span></button>’
++ ‘</div>’;
+openOverlay(‘pdOverlay’);
 }
-function chQty(d) { var i = document.getElementById('pdQty'); i.value = Math.max(1, parseInt(i.value || 1) + d); }
+function chQty(d) { var i = document.getElementById(‘pdQty’); i.value = Math.max(1, parseInt(i.value || 1) + d); }
 function addToCartQty(id) {
-  var qty = parseInt(document.getElementById('pdQty').value) || 1;
-  for (var i = 0; i < qty; i++) addToCart(id, true);
-  showToast((isKu ? qty + ' کەلوپەل زیادکرا! 🛒' : qty + ' item(s) added to cart! 🛒'), 'ok');
-  closeOverlay('pdOverlay');
+var qty = parseInt(document.getElementById(‘pdQty’).value) || 1;
+for (var i = 0; i < qty; i++) addToCart(id, true);
+showToast((isKu ? qty + ’ کەلوپەل زیادکرا! 🛒’ : qty + ’ item(s) added to cart! 🛒’), ‘ok’);
+closeOverlay(‘pdOverlay’);
 }
 
 // ══════════ CART ══════════
 function addToCart(id, silent) {
-  var p = products.find(function(x){ return x.id === id; });
-  if (!p) return;
-  var ex = cart.find(function(c){ return c.id === id; });
-  if (ex) ex.qty++;
-  else cart.push(Object.assign({}, p, {qty:1}));
-  updateCart();
-  if (!silent) showToast((isKu ? p.name + ' زیادکرا! 🛒' : p.name + ' added! 🛒'), 'ok');
+var p = products.find(function(x){ return x.id === id; });
+if (!p) return;
+var ex = cart.find(function(c){ return c.id === id; });
+if (ex) ex.qty++;
+else cart.push(Object.assign({}, p, {qty:1}));
+updateCart();
+if (!silent) showToast((isKu ? p.name + ’ زیادکرا! 🛒’ : p.name + ’ added! 🛒’), ‘ok’);
 }
 function removeFromCart(id) { cart = cart.filter(function(c){ return c.id !== id; }); updateCart(); renderCart(); }
 function changeCartQty(id, d) {
-  var it = cart.find(function(c){ return c.id === id; });
-  if (!it) return;
-  it.qty += d;
-  if (it.qty < 1) removeFromCart(id);
-  else { updateCart(); renderCart(); }
+var it = cart.find(function(c){ return c.id === id; });
+if (!it) return;
+it.qty += d;
+if (it.qty < 1) removeFromCart(id);
+else { updateCart(); renderCart(); }
 }
 function updateCart() {
-  var total = cart.reduce(function(s, c){ return s + c.qty; }, 0);
-  document.getElementById('cartBadge').textContent = total;
-  var bb = document.getElementById('bnbBadge');
-  if (bb) { bb.style.display = total > 0 ? 'flex' : 'none'; bb.textContent = total; }
-  renderCart();
+var total = cart.reduce(function(s, c){ return s + c.qty; }, 0);
+document.getElementById(‘cartBadge’).textContent = total;
+var bb = document.getElementById(‘bnbBadge’);
+if (bb) { bb.style.display = total > 0 ? ‘flex’ : ‘none’; bb.textContent = total; }
+renderCart();
 }
 function renderCart() {
-  var el = document.getElementById('cartItems');
-  if (!cart.length) {
-    el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛍️</div><p>' + (isKu ? 'سەبەتەت بەتاڵە' : 'Your cart is empty') + '</p></div>';
-    document.getElementById('cartTotal').textContent = '$0.00';
-    return;
-  }
-  el.innerHTML = cart.map(function(c){
-    return '<div class="cart-item">'
-      + '<div class="cart-item-img"><img src="' + c.img + '" alt="' + c.name + '"></div>'
-      + '<div class="cart-item-info">'
-      + '<div class="ci-name">' + c.name + '</div>'
-      + '<div class="ci-price">$' + (c.price * c.qty).toFixed(2) + '</div>'
-      + '<div class="ci-row">'
-      + '<button class="ci-qbtn" onclick="changeCartQty(' + c.id + ',-1)">−</button>'
-      + '<span class="ci-qnum">' + c.qty + '</span>'
-      + '<button class="ci-qbtn" onclick="changeCartQty(' + c.id + ',1)">+</button>'
-      + '<button class="ci-del" onclick="removeFromCart(' + c.id + ')">🗑 ' + (isKu ? 'سڕینەوە' : 'Remove') + '</button>'
-      + '</div></div></div>';
-  }).join('');
-  document.getElementById('cartTotal').textContent = '$' + cart.reduce(function(s, c){ return s + (c.price * c.qty); }, 0).toFixed(2);
+var el = document.getElementById(‘cartItems’);
+if (!cart.length) {
+el.innerHTML = ‘<div class="cart-empty"><div class="cart-empty-icon">🛍️</div><p>’ + (isKu ? ‘سەبەتەت بەتاڵە’ : ‘Your cart is empty’) + ‘</p></div>’;
+document.getElementById(‘cartTotal’).textContent = ‘$0.00’;
+return;
 }
-function openCart() { document.getElementById('cartSide').classList.add('open'); document.getElementById('cartBg').classList.add('open'); renderCart(); }
-function closeCart() { document.getElementById('cartSide').classList.remove('open'); document.getElementById('cartBg').classList.remove('open'); }
+el.innerHTML = cart.map(function(c){
+return ‘<div class="cart-item">’
++ ‘<div class="cart-item-img"><img src="' + c.img + '" alt="' + c.name + '"></div>’
++ ‘<div class="cart-item-info">’
++ ‘<div class="ci-name">’ + c.name + ‘</div>’
++ ‘<div class="ci-price">$’ + (c.price * c.qty).toFixed(2) + ‘</div>’
++ ‘<div class="ci-row">’
++ ‘<button class="ci-qbtn" onclick="changeCartQty(' + c.id + ',-1)">−</button>’
++ ‘<span class="ci-qnum">’ + c.qty + ‘</span>’
++ ‘<button class="ci-qbtn" onclick="changeCartQty(' + c.id + ',1)">+</button>’
++ ‘<button class="ci-del" onclick="removeFromCart(' + c.id + ')">🗑 ’ + (isKu ? ‘سڕینەوە’ : ‘Remove’) + ‘</button>’
++ ‘</div></div></div>’;
+}).join(’’);
+document.getElementById(‘cartTotal’).textContent = ‘$’ + cart.reduce(function(s, c){ return s + (c.price * c.qty); }, 0).toFixed(2);
+}
+function openCart() { document.getElementById(‘cartSide’).classList.add(‘open’); document.getElementById(‘cartBg’).classList.add(‘open’); renderCart(); }
+function closeCart() { document.getElementById(‘cartSide’).classList.remove(‘open’); document.getElementById(‘cartBg’).classList.remove(‘open’); }
 
 // ══════════ CHECKOUT ══════════
 function openCheckout() {
-  if (!cart.length) { showToast(isKu ? 'سەبەتەت بەتاڵە!' : 'Your cart is empty!', 'err'); return; }
-  var total = cart.reduce(function(s, c){ return s + (c.price * c.qty); }, 0);
-  document.getElementById('coSummary').innerHTML = cart.map(function(c){
-    return '<div class="co-sum-item"><span>' + c.name + ' x' + c.qty + '</span><span>$' + (c.price * c.qty).toFixed(2) + '</span></div>';
-  }).join('') + '<div class="co-sum-total"><span>' + (isKu ? 'کۆی گشتی' : 'Total') + '</span><span>$' + total.toFixed(2) + '</span></div>';
-  closeCart();
-  openOverlay('checkoutOverlay');
+if (!cart.length) { showToast(isKu ? ‘سەبەتەت بەتاڵە!’ : ‘Your cart is empty!’, ‘err’); return; }
+var total = cart.reduce(function(s, c){ return s + (c.price * c.qty); }, 0);
+document.getElementById(‘coSummary’).innerHTML = cart.map(function(c){
+return ‘<div class="co-sum-item"><span>’ + c.name + ’ x’ + c.qty + ‘</span><span>$’ + (c.price * c.qty).toFixed(2) + ‘</span></div>’;
+}).join(’’) + ‘<div class="co-sum-total"><span>’ + (isKu ? ‘کۆی گشتی’ : ‘Total’) + ‘</span><span>$’ + total.toFixed(2) + ‘</span></div>’;
+closeCart();
+openOverlay(‘checkoutOverlay’);
 }
 function selectOpt(o) {
-  selOpt = o;
-  document.querySelectorAll('.co-opt').forEach(function(el){ el.classList.remove('active'); });
-  document.getElementById('opt-' + o).classList.add('active');
+selOpt = o;
+document.querySelectorAll(’.co-opt’).forEach(function(el){ el.classList.remove(‘active’); });
+document.getElementById(‘opt-’ + o).classList.add(‘active’);
 }
 function placeOrder() {
-  var fn = document.getElementById('coFName').value.trim();
-  var ln = document.getElementById('coLName').value.trim();
-  var em = document.getElementById('coEmail').value.trim();
-  var ph = document.getElementById('coPhone').value.trim();
-  var ct = document.getElementById('coCity').value.trim();
-  var ad = document.getElementById('coAddr').value.trim();
-  if (!fn || !ln || !em || !ph || !ct || !ad) {
-    showToast(isKu ? 'تکایە هەموو خانە پێویستەکان پڕ بکەرەوە!' : 'Please fill all required fields!', 'err');
-    return;
-  }
-  if (em.indexOf('@') < 1) { showToast(isKu ? 'ئیمەیلی دروست بنووسە!' : 'Enter a valid email!', 'err'); return; }
-  var ord = {
-    id: Date.now(), customer: fn + ' ' + ln,
-    email: em, phone: ph, city: ct, address: ad,
-    items: cart.slice(), total: cart.reduce(function(s, c){ return s + (c.price * c.qty); }, 0),
-    date: new Date().toLocaleDateString(), status: 'Pending'
-  };
-  orders.push(ord);
-  if (selOpt === 'wa') {
-    var msg = encodeURIComponent(
-      '🛒 *New Order - AMZ Shopping*\n\n*Customer:* ' + fn + ' ' + ln +
-      '\n*Phone:* ' + ph + '\n*Email:* ' + em +
-      '\n*City:* ' + ct + '\n*Address:* ' + ad +
-      '\n\n*Items:*\n' + cart.map(function(c){ return '• ' + c.name + ' x' + c.qty + ' - $' + (c.price * c.qty).toFixed(2); }).join('\n') +
-      '\n\n*Total: $' + ord.total.toFixed(2) + '*'
-    );
-    window.open('https://wa.me/' + WA + '?text=' + msg, '_blank');
-  }
-  cart = [];
-  updateCart();
-  document.getElementById('coBody').innerHTML =
-    '<div class="success-screen">'
-    + '<div class="s-icon">🎉</div>'
-    + '<h2>' + (isKu ? 'داواکاری ناردرا!' : 'Order Placed!') + '</h2>'
-    + '<p>' + (isKu ? 'سوپاس، ' : 'Thank you, ') + '<strong>' + fn + '</strong>! ' + (isKu ? 'زوو پەیوەندیت پێوە دەکەین.' : 'We\'ll contact you at <strong>' + ph + '</strong> soon.') + '</p>'
-    + '<button class="btn-place" onclick="closeOverlay(\'checkoutOverlay\')">' + (isKu ? 'بەردەوام بە کڕین →' : 'Continue Shopping →') + '</button>'
-    + '</div>';
+var fn = document.getElementById(‘coFName’).value.trim();
+var ln = document.getElementById(‘coLName’).value.trim();
+var em = document.getElementById(‘coEmail’).value.trim();
+var ph = document.getElementById(‘coPhone’).value.trim();
+var ct = document.getElementById(‘coCity’).value.trim();
+var ad = document.getElementById(‘coAddr’).value.trim();
+if (!fn || !ln || !em || !ph || !ct || !ad) {
+showToast(isKu ? ‘تکایە هەموو خانە پێویستەکان پڕ بکەرەوە!’ : ‘Please fill all required fields!’, ‘err’);
+return;
+}
+if (em.indexOf(’@’) < 1) { showToast(isKu ? ‘ئیمەیلی دروست بنووسە!’ : ‘Enter a valid email!’, ‘err’); return; }
+var ord = {
+id: Date.now(), customer: fn + ’ ’ + ln,
+email: em, phone: ph, city: ct, address: ad,
+items: cart.slice(), total: cart.reduce(function(s, c){ return s + (c.price * c.qty); }, 0),
+date: new Date().toLocaleDateString(), status: ‘Pending’
+};
+orders.push(ord);
+if (selOpt === ‘wa’) {
+var msg = encodeURIComponent(
+’🛒 *New Order - AMZ Shopping*\n\n*Customer:* ’ + fn + ’ ’ + ln +
+‘\n*Phone:* ’ + ph + ‘\n*Email:* ’ + em +
+‘\n*City:* ’ + ct + ‘\n*Address:* ’ + ad +
+‘\n\n*Items:*\n’ + cart.map(function(c){ return ‘• ’ + c.name + ’ x’ + c.qty + ’ - $’ + (c.price * c.qty).toFixed(2); }).join(’\n’) +
+‘\n\n*Total: $’ + ord.total.toFixed(2) + ’*’
+);
+window.open(‘https://wa.me/’ + WA + ‘?text=’ + msg, ‘_blank’);
+}
+cart = [];
+updateCart();
+document.getElementById(‘coBody’).innerHTML =
+‘<div class="success-screen">’
++ ‘<div class="s-icon">🎉</div>’
++ ‘<h2>’ + (isKu ? ‘داواکاری ناردرا!’ : ‘Order Placed!’) + ‘</h2>’
++ ‘<p>’ + (isKu ? ’سوپاس، ’ : ’Thank you, ’) + ‘<strong>’ + fn + ’</strong>! ’ + (isKu ? ‘زوو پەیوەندیت پێوە دەکەین.’ : ‘We'll contact you at <strong>’ + ph + ‘</strong> soon.’) + ‘</p>’
++ ‘<button class="btn-place" onclick="closeOverlay(\'checkoutOverlay\')">’ + (isKu ? ‘بەردەوام بە کڕین →’ : ‘Continue Shopping →’) + ‘</button>’
++ ‘</div>’;
 }
 
-// ══════════ AUTH ══════════
-function openAuth(t) { openOverlay('authOverlay'); switchAuth(t); }
+// ══════════ AUTH (localStorage account system) ══════════
+
+// Load accounts from localStorage
+function getAccounts() {
+try { return JSON.parse(localStorage.getItem(‘amz_accounts’) || ‘[]’); } catch(e) { return []; }
+}
+function saveAccounts(arr) {
+try { localStorage.setItem(‘amz_accounts’, JSON.stringify(arr)); } catch(e) {}
+}
+function getSession() {
+try { return JSON.parse(localStorage.getItem(‘amz_session’) || ‘null’); } catch(e) { return null; }
+}
+function saveSession(user) {
+try { localStorage.setItem(‘amz_session’, user ? JSON.stringify(user) : ‘null’); } catch(e) {}
+}
+
+function openAuth(t) {
+// reset to forms
+document.getElementById(‘formLogin’).style.display = t === ‘login’ ? ‘block’ : ‘none’;
+document.getElementById(‘formReg’).style.display = t === ‘register’ ? ‘block’ : ‘none’;
+document.getElementById(‘authSuccess’).style.display = ‘none’;
+document.getElementById(‘loginErr’).style.display = ‘none’;
+document.getElementById(‘regErr’).style.display = ‘none’;
+document.getElementById(‘tabLogin’).classList.toggle(‘active’, t === ‘login’);
+document.getElementById(‘tabReg’).classList.toggle(‘active’, t === ‘register’);
+openOverlay(‘authOverlay’);
+}
+
 function switchAuth(t) {
-  document.getElementById('formLogin').style.display = t === 'login' ? 'block' : 'none';
-  document.getElementById('formReg').style.display = t === 'register' ? 'block' : 'none';
-  document.getElementById('tabLogin').classList.toggle('active', t === 'login');
-  document.getElementById('tabReg').classList.toggle('active', t === 'register');
+document.getElementById(‘formLogin’).style.display = t === ‘login’ ? ‘block’ : ‘none’;
+document.getElementById(‘formReg’).style.display = t === ‘register’ ? ‘block’ : ‘none’;
+document.getElementById(‘authSuccess’).style.display = ‘none’;
+document.getElementById(‘tabLogin’).classList.toggle(‘active’, t === ‘login’);
+document.getElementById(‘tabReg’).classList.toggle(‘active’, t === ‘register’);
 }
+
+function showAuthErr(id, msg) {
+var el = document.getElementById(id);
+el.textContent = msg;
+el.style.display = ‘block’;
+}
+
 function doLogin() {
-  var e = document.getElementById('loginEmail').value.trim();
-  var p = document.getElementById('loginPass').value;
-  if (!e || !p) { showToast(isKu ? 'هەموو خانەکان پڕ بکەرەوە!' : 'Fill all fields!', 'err'); return; }
-  if (e.indexOf('@') < 1) { showToast(isKu ? 'ئیمەیلی دروست بنووسە!' : 'Invalid email!', 'err'); return; }
-  if (p.length < 6) { showToast(isKu ? 'وشەی نهێنی کەمە (٦ پیت کەمترین)' : 'Password too short (min 6)', 'err'); return; }
-  curUser = {name: e.split('@')[0], email: e, phone: '—', date: new Date().toLocaleDateString()};
-  afterLogin();
-  showToast(isKu ? 'بەسەرکەوتوویی چووی ژوورەوە! 👋' : 'Signed in! 👋', 'ok');
-  closeOverlay('authOverlay');
+var e = document.getElementById(‘loginEmail’).value.trim().toLowerCase();
+var p = document.getElementById(‘loginPass’).value;
+var rem = document.getElementById(‘rememberMe’).checked;
+document.getElementById(‘loginErr’).style.display = ‘none’;
+
+if (!e || !p) { showAuthErr(‘loginErr’, isKu ? ‘⚠️ هەموو خانەکان پڕ بکەرەوە!’ : ‘⚠️ Please fill all fields!’); return; }
+if (e.indexOf(’@’) < 1) { showAuthErr(‘loginErr’, isKu ? ‘⚠️ ئیمەیلی دروست بنووسە!’ : ‘⚠️ Enter a valid email!’); return; }
+
+// Set loading
+var btn = document.getElementById(‘loginBtn’);
+btn.innerHTML = ‘<span class="spin"></span>’;
+btn.disabled = true;
+
+setTimeout(function() {
+btn.disabled = false;
+btn.innerHTML = ‘<span class="et">Sign In →</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">چوونەژوورەوە →</span>’;
+
+
+var accounts = getAccounts();
+var user = accounts.find(function(a){ return a.email === e; });
+if (!user) { showAuthErr('loginErr', isKu ? '❌ ئەم ئیمەیلە تۆمار نەکراوە!' : '❌ No account found with this email.'); return; }
+if (user.password !== btoa(p)) { showAuthErr('loginErr', isKu ? '❌ وشەی نهێنی هەڵەیە!' : '❌ Incorrect password. Try again.'); return; }
+
+curUser = {name: user.name, email: user.email, phone: user.phone, date: user.date};
+if (rem) saveSession(curUser);
+afterLogin();
+
+// Show success screen
+document.getElementById('formLogin').style.display = 'none';
+document.getElementById('authSuccess').style.display = 'block';
+document.getElementById('authSuccessTitle').textContent = isKu ? 'بەخێرهاتیتەوە، ' + user.name + '! 👋' : 'Welcome back, ' + user.name + '! 👋';
+document.getElementById('authSuccessMsg').textContent = isKu ? 'بەسەرکەوتوویی چووی ژوورەوە بۆ ئەکاونتی AMZ Shopping.' : 'You have signed in to your AMZ Shopping account.';
+setTimeout(function(){ closeOverlay('authOverlay'); }, 1800);
+
+
+}, 700);
 }
+
 function doRegister() {
-  var n = document.getElementById('regName').value.trim();
-  var e = document.getElementById('regEmail').value.trim();
-  var ph = document.getElementById('regPhone').value.trim();
-  var p = document.getElementById('regPass').value;
-  var p2 = document.getElementById('regPass2').value;
-  var terms = document.getElementById('regTerms').checked;
-  if (!n || !e || !p) { showToast(isKu ? 'خانە پێویستەکان پڕ بکەرەوە!' : 'Fill required fields!', 'err'); return; }
-  if (e.indexOf('@') < 1) { showToast(isKu ? 'ئیمەیلی دروست بنووسە!' : 'Invalid email!', 'err'); return; }
-  if (p.length < 6) { showToast(isKu ? 'وشەی نهێنی کەمە (٦ پیت کەمترین)' : 'Password too short (min 6)', 'err'); return; }
-  if (p !== p2) { showToast(isKu ? 'وشەکانی نهێنی یەک ناکەنەوە!' : 'Passwords do not match!', 'err'); return; }
-  if (!terms) { showToast(isKu ? 'ڕازیبە بە مەرجەکان!' : 'Accept Terms & Conditions!', 'err'); return; }
-  curUser = {name: n, email: e, phone: ph || '—', date: new Date().toLocaleDateString()};
-  afterLogin();
-  showToast(isKu ? 'ئەکاونت دروست کرا! بەخێربێیت 🎉' : 'Account created! Welcome 🎉', 'ok');
-  closeOverlay('authOverlay');
+var n = document.getElementById(‘regName’).value.trim();
+var e = document.getElementById(‘regEmail’).value.trim().toLowerCase();
+var ph = document.getElementById(‘regPhone’).value.trim();
+var p = document.getElementById(‘regPass’).value;
+var p2 = document.getElementById(‘regPass2’).value;
+var terms = document.getElementById(‘regTerms’).checked;
+document.getElementById(‘regErr’).style.display = ‘none’;
+
+if (!n || !e || !p) { showAuthErr(‘regErr’, isKu ? ‘⚠️ خانە پێویستەکان پڕ بکەرەوە!’ : ‘⚠️ Please fill all required fields!’); return; }
+if (e.indexOf(’@’) < 1) { showAuthErr(‘regErr’, isKu ? ‘⚠️ ئیمەیلی دروست بنووسە!’ : ‘⚠️ Enter a valid email address!’); return; }
+if (p.length < 6) { showAuthErr(‘regErr’, isKu ? ‘⚠️ وشەی نهێنی کەمە — کەمترین ٦ پیت!’ : ‘⚠️ Password too short — minimum 6 characters!’); return; }
+if (p !== p2) { showAuthErr(‘regErr’, isKu ? ‘⚠️ وشەکانی نهێنی یەک ناکەنەوە!’ : ‘⚠️ Passwords do not match!’); return; }
+if (!terms) { showAuthErr(‘regErr’, isKu ? ‘⚠️ تکایە ڕازیبە بە مەرجەکان!’ : ‘⚠️ Please accept the Terms & Conditions!’); return; }
+
+var accounts = getAccounts();
+if (accounts.find(function(a){ return a.email === e; })) {
+showAuthErr(‘regErr’, isKu ? ‘❌ ئەم ئیمەیلە پێشتر تۆمار کراوە!’ : ‘❌ An account with this email already exists. Sign in instead.’);
+return;
 }
+
+// Loading
+var btn = document.getElementById(‘regBtn’);
+btn.innerHTML = ‘<span class="spin"></span>’;
+btn.disabled = true;
+
+setTimeout(function() {
+btn.disabled = false;
+btn.innerHTML = ‘<span class="et">Create My Account →</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">دروستکردنی ئەکاونت →</span>’;
+
+var newUser = {
+  name: n, email: e, phone: ph || '—',
+  password: btoa(p),
+  date: new Date().toLocaleDateString()
+};
+accounts.push(newUser);
+saveAccounts(accounts);
+curUser = {name: n, email: e, phone: ph || '—', date: newUser.date};
+saveSession(curUser);
+afterLogin();
+
+// Show success
+document.getElementById('formReg').style.display = 'none';
+document.getElementById('authSuccess').style.display = 'block';
+document.getElementById('authSuccessTitle').textContent = isKu ? 'بەخێربێیت، ' + n + '! 🎉' : 'Welcome to AMZ, ' + n + '! 🎉';
+document.getElementById('authSuccessMsg').textContent = isKu ? 'ئەکاونتەکەت بەسەرکەوتوویی دروست کرا!' : 'Your account has been created successfully!';
+setTimeout(function(){ closeOverlay('authOverlay'); }, 1800);
+
+}, 700);
+}
+
 function afterLogin() {
-  document.getElementById('navProfile').style.display = 'flex';
-  document.getElementById('navSignIn').style.display = 'none';
-  document.getElementById('navRegister').style.display = 'none';
+document.getElementById(‘navProfile’).style.display = ‘flex’;
+document.getElementById(‘navSignIn’).style.display = ‘none’;
+document.getElementById(‘navRegister’).style.display = ‘none’;
 }
-function acctBtnClick() { if (curUser) openProfile(); else openAuth('login'); }
+
+function acctBtnClick() { if (curUser) openProfile(); else openAuth(‘login’); }
+
 function doSignOut() {
-  curUser = null;
-  document.getElementById('navProfile').style.display = 'none';
-  document.getElementById('navSignIn').style.display = '';
-  document.getElementById('navRegister').style.display = '';
-  closeOverlay('profOverlay');
-  showToast(isKu ? 'بەسەرکەوتوویی دەرچووی!' : 'Signed out!', 'ok');
+curUser = null;
+saveSession(null);
+document.getElementById(‘navProfile’).style.display = ‘none’;
+document.getElementById(‘navSignIn’).style.display = ‘’;
+document.getElementById(‘navRegister’).style.display = ‘’;
+closeOverlay(‘profOverlay’);
+showToast(isKu ? ‘بەسەرکەوتوویی دەرچووی!’ : ‘Signed out successfully!’, ‘ok’);
+}
+
+// Helper: toggle password visibility
+function togglePass(id, btn) {
+var inp = document.getElementById(id);
+if (inp.type === ‘password’) { inp.type = ‘text’; btn.textContent = ‘🙈’; }
+else { inp.type = ‘password’; btn.textContent = ‘👁’; }
+}
+
+// Helper: password strength indicator
+function checkStrength(val) {
+var fill = document.getElementById(‘strFill’);
+var label = document.getElementById(‘strLabel’);
+if (!fill) return;
+var score = 0;
+if (val.length >= 6) score++;
+if (val.length >= 10) score++;
+if (/[A-Z]/.test(val)) score++;
+if (/[0-9]/.test(val)) score++;
+if (/[^A-Za-z0-9]/.test(val)) score++;
+var pct = Math.min(100, score * 22);
+var colors = [’#ef4444’,’#f59e0b’,’#f59e0b’,’#10b981’,’#10b981’];
+var labels = isKu
+? [‘زۆر قەلس’,‘قەلس’,‘مامناوەند’,‘بەهێز’,‘زۆر بەهێز’]
+: [‘Very weak’,‘Weak’,‘Fair’,‘Strong’,‘Very strong’];
+fill.style.width = pct + ‘%’;
+fill.style.background = colors[Math.max(0,score-1)] || ‘#e5e7eb’;
+label.textContent = val.length ? labels[Math.max(0,score-1)] : ‘’;
 }
 
 // ══════════ PROFILE ══════════
 function openProfile() {
-  if (!curUser) return;
-  document.getElementById('profAvatar').textContent = curUser.name.charAt(0).toUpperCase();
-  document.getElementById('profName').textContent = curUser.name;
-  document.getElementById('profEmail').textContent = curUser.email;
-  document.getElementById('pName').textContent = curUser.name;
-  document.getElementById('pEmail').textContent = curUser.email;
-  document.getElementById('pPhone').textContent = curUser.phone;
-  document.getElementById('pDate').textContent = curUser.date;
-  document.getElementById('pstatOrders').textContent = orders.length;
-  document.getElementById('pstatCart').textContent = cart.reduce(function(s,c){ return s+c.qty; }, 0);
-  document.getElementById('pstatWish').textContent = document.querySelectorAll('.wish-btn.active').length;
-  var po = document.getElementById('profOrders');
-  if (!orders.length) {
-    po.textContent = isKu ? 'هیچ داواکاریەک نییە.' : 'No orders yet.';
-  } else {
-    po.innerHTML = orders.slice(-3).reverse().map(function(o){
-      return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:.82rem">'
-        + '<span>#' + o.id.toString().slice(-4) + ' — ' + o.date + '</span>'
-        + '<span style="color:#e94560;font-weight:700">$' + o.total.toFixed(2) + '</span></div>';
-    }).join('');
-  }
-  openOverlay('profOverlay');
+if (!curUser) return;
+document.getElementById(‘profAvatar’).textContent = curUser.name.charAt(0).toUpperCase();
+document.getElementById(‘profName’).textContent = curUser.name;
+document.getElementById(‘profEmail’).textContent = curUser.email;
+document.getElementById(‘pName’).textContent = curUser.name;
+document.getElementById(‘pEmail’).textContent = curUser.email;
+document.getElementById(‘pPhone’).textContent = curUser.phone;
+document.getElementById(‘pDate’).textContent = curUser.date;
+document.getElementById(‘pstatOrders’).textContent = orders.length;
+document.getElementById(‘pstatCart’).textContent = cart.reduce(function(s,c){ return s+c.qty; }, 0);
+document.getElementById(‘pstatWish’).textContent = document.querySelectorAll(’.wish-btn.active’).length;
+var po = document.getElementById(‘profOrders’);
+if (!orders.length) {
+po.textContent = isKu ? ‘هیچ داواکاریەک نییە.’ : ‘No orders yet.’;
+} else {
+po.innerHTML = orders.slice(-3).reverse().map(function(o){
+return ‘<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:.82rem">’
++ ‘<span>#’ + o.id.toString().slice(-4) + ’ — ’ + o.date + ‘</span>’
++ ‘<span style="color:#e94560;font-weight:700">$’ + o.total.toFixed(2) + ‘</span></div>’;
+}).join(’’);
+}
+openOverlay(‘profOverlay’);
 }
 
 // ══════════ ADMIN ══════════
-function openAdmin() { openOverlay('adminOverlay'); }
+function openAdmin() { openOverlay(‘adminOverlay’); }
 function checkAdmin() {
-  if (document.getElementById('admPass').value === APASS) {
-    admLoggedIn = true;
-    document.getElementById('admLoginWrap').style.display = 'none';
-    document.getElementById('admPanelWrap').style.display = 'block';
-    renderAdminOrders();
-    renderAdminProducts();
-  } else {
-    showToast('Wrong password!', 'err');
-    document.getElementById('admPass').value = '';
-  }
+if (document.getElementById(‘admPass’).value === APASS) {
+admLoggedIn = true;
+document.getElementById(‘admLoginWrap’).style.display = ‘none’;
+document.getElementById(‘admPanelWrap’).style.display = ‘block’;
+renderAdminOrders();
+renderAdminProducts();
+} else {
+showToast(‘Wrong password!’, ‘err’);
+document.getElementById(‘admPass’).value = ‘’;
+}
 }
 function admTab(t, btn) {
-  document.querySelectorAll('.adm-tab').forEach(function(b){ b.classList.remove('active'); });
-  document.querySelectorAll('.adm-panel').forEach(function(p){ p.classList.remove('active'); });
-  btn.classList.add('active');
-  document.getElementById('ap' + t.charAt(0).toUpperCase() + t.slice(1)).classList.add('active');
+document.querySelectorAll(’.adm-tab’).forEach(function(b){ b.classList.remove(‘active’); });
+document.querySelectorAll(’.adm-panel’).forEach(function(p){ p.classList.remove(‘active’); });
+btn.classList.add(‘active’);
+document.getElementById(‘ap’ + t.charAt(0).toUpperCase() + t.slice(1)).classList.add(‘active’);
 }
 function renderAdminOrders() {
-  var w = document.getElementById('ordersWrap');
-  if (!orders.length) { w.innerHTML = '<p style="color:#6b7280;padding:12px 0">' + (isKu ? 'هیچ داواکاریەک نییە.' : 'No orders yet.') + '</p>'; return; }
-  w.innerHTML = '<table class="ord-table"><tr><th>#</th><th>Customer</th><th>Phone</th><th>City</th><th>Total</th><th>Date</th><th>Status</th></tr>'
-    + orders.map(function(o){
-        return '<tr><td>' + o.id.toString().slice(-4) + '</td><td>' + o.customer + '</td><td>' + o.phone + '</td><td>' + o.city + '</td><td>$' + o.total.toFixed(2) + '</td><td>' + o.date + '</td><td><span class="status-badge s-pend">' + o.status + '</span></td></tr>';
-      }).join('') + '</table>';
+var w = document.getElementById(‘ordersWrap’);
+if (!orders.length) { w.innerHTML = ‘<p style="color:#6b7280;padding:12px 0">’ + (isKu ? ‘هیچ داواکاریەک نییە.’ : ‘No orders yet.’) + ‘</p>’; return; }
+w.innerHTML = ‘<table class="ord-table"><tr><th>#</th><th>Customer</th><th>Phone</th><th>City</th><th>Total</th><th>Date</th><th>Status</th></tr>’
++ orders.map(function(o){
+return ‘<tr><td>’ + o.id.toString().slice(-4) + ‘</td><td>’ + o.customer + ‘</td><td>’ + o.phone + ‘</td><td>’ + o.city + ‘</td><td>$’ + o.total.toFixed(2) + ‘</td><td>’ + o.date + ‘</td><td><span class="status-badge s-pend">’ + o.status + ‘</span></td></tr>’;
+}).join(’’) + ‘</table>’;
 }
 function adminAddProduct() {
-  var name = document.getElementById('apName').value.trim();
-  var price = parseFloat(document.getElementById('apPrice').value);
-  var img = document.getElementById('apImg').value.trim();
-  if (!name || !price || !img) { showToast('Fill required fields!', 'err'); return; }
-  products.unshift({
-    id: Date.now(), name: name, cat: document.getElementById('apCat').value,
-    price: price, old: parseFloat(document.getElementById('apOldPrice').value) || null,
-    img: img, desc: document.getElementById('apDesc').value.trim(),
-    badge: document.getElementById('apBadge').value,
-    rating: parseFloat(document.getElementById('apRating').value) || 4.5, rev: 0
-  });
-  renderProducts(products); renderCats(); renderAdminProducts();
-  ['apName','apPrice','apOldPrice','apImg','apDesc'].forEach(function(id){ document.getElementById(id).value = ''; });
-  showToast('Product added! ✓', 'ok');
-  admTab('products', document.querySelectorAll('.adm-tab')[2]);
+var name = document.getElementById(‘apName’).value.trim();
+var price = parseFloat(document.getElementById(‘apPrice’).value);
+var img = document.getElementById(‘apImg’).value.trim();
+if (!name || !price || !img) { showToast(‘Fill required fields!’, ‘err’); return; }
+products.unshift({
+id: Date.now(), name: name, cat: document.getElementById(‘apCat’).value,
+price: price, old: parseFloat(document.getElementById(‘apOldPrice’).value) || null,
+img: img, desc: document.getElementById(‘apDesc’).value.trim(),
+badge: document.getElementById(‘apBadge’).value,
+rating: parseFloat(document.getElementById(‘apRating’).value) || 4.5, rev: 0
+});
+renderProducts(products); renderCats(); renderAdminProducts();
+[‘apName’,‘apPrice’,‘apOldPrice’,‘apImg’,‘apDesc’].forEach(function(id){ document.getElementById(id).value = ‘’; });
+showToast(‘Product added! ✓’, ‘ok’);
+admTab(‘products’, document.querySelectorAll(’.adm-tab’)[2]);
 }
 function renderAdminProducts() {
-  document.getElementById('prodListWrap').innerHTML =
-    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">'
-    + products.map(function(p){
-        return '<div style="background:#f8f6f1;border-radius:12px;overflow:hidden">'
-          + '<img src="' + p.img + '" style="width:100%;height:100px;object-fit:cover">'
-          + '<div style="padding:10px">'
-          + '<div style="font-size:.78rem;font-weight:600;margin-bottom:3px;color:#1a1a2e">' + p.name + '</div>'
-          + '<div style="font-size:.76rem;color:#e94560;font-weight:700">$' + p.price + '</div>'
-          + '<button onclick="deleteProduct(' + p.id + ')" style="margin-top:6px;background:#ef4444;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.7rem;cursor:pointer">Delete</button>'
-          + '</div></div>';
-      }).join('') + '</div>';
+document.getElementById(‘prodListWrap’).innerHTML =
+‘<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px">’
++ products.map(function(p){
+return ‘<div style="background:#f8f6f1;border-radius:12px;overflow:hidden">’
++ ‘<img src="' + p.img + '" style="width:100%;height:100px;object-fit:cover">’
++ ‘<div style="padding:10px">’
++ ‘<div style="font-size:.78rem;font-weight:600;margin-bottom:3px;color:#1a1a2e">’ + p.name + ‘</div>’
++ ‘<div style="font-size:.76rem;color:#e94560;font-weight:700">$’ + p.price + ‘</div>’
++ ‘<button onclick="deleteProduct(' + p.id + ')" style="margin-top:6px;background:#ef4444;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.7rem;cursor:pointer">Delete</button>’
++ ‘</div></div>’;
+}).join(’’) + ‘</div>’;
 }
 function deleteProduct(id) {
-  products = products.filter(function(p){ return p.id !== id; });
-  renderProducts(activeCat === 'All' ? products : products.filter(function(p){ return p.cat === activeCat; }));
-  renderCats(); renderAdminProducts();
-  showToast('Deleted.', 'err');
+products = products.filter(function(p){ return p.id !== id; });
+renderProducts(activeCat === ‘All’ ? products : products.filter(function(p){ return p.cat === activeCat; }));
+renderCats(); renderAdminProducts();
+showToast(‘Deleted.’, ‘err’);
 }
 
 // ══════════ OVERLAYS ══════════
-function openOverlay(id) { document.getElementById(id).classList.add('open'); }
+function openOverlay(id) { document.getElementById(id).classList.add(‘open’); }
 function closeOverlay(id) {
-  document.getElementById(id).classList.remove('open');
-  if (id === 'adminOverlay' && !admLoggedIn) {
-    document.getElementById('admLoginWrap').style.display = 'block';
-    document.getElementById('admPanelWrap').style.display = 'none';
-  }
-  if (id === 'checkoutOverlay') {
-    // reset checkout body
-    setTimeout(function(){
-      var b = document.getElementById('coBody');
-      if (b && b.querySelector('.success-screen')) {
-        b.innerHTML = document.getElementById('coBody').innerHTML; // keep
-      }
-    }, 300);
-  }
+document.getElementById(id).classList.remove(‘open’);
+if (id === ‘adminOverlay’ && !admLoggedIn) {
+document.getElementById(‘admLoginWrap’).style.display = ‘block’;
+document.getElementById(‘admPanelWrap’).style.display = ‘none’;
 }
-function openAbout() { openOverlay('aboutOverlay'); }
-function openContact() { openOverlay('contactOverlay'); }
+if (id === ‘checkoutOverlay’) {
+// reset checkout body
+setTimeout(function(){
+var b = document.getElementById(‘coBody’);
+if (b && b.querySelector(’.success-screen’)) {
+b.innerHTML = document.getElementById(‘coBody’).innerHTML; // keep
+}
+}, 300);
+}
+}
+function openAbout() { openOverlay(‘aboutOverlay’); }
+function openContact() { openOverlay(‘contactOverlay’); }
 
 // ══════════ MORE MENU ══════════
-function openMoreMenu() { document.getElementById('moreOverlay').classList.add('open'); }
-function closeMoreMenu() { document.getElementById('moreOverlay').classList.remove('open'); }
+function openMoreMenu() { document.getElementById(‘moreOverlay’).classList.add(‘open’); }
+function closeMoreMenu() { document.getElementById(‘moreOverlay’).classList.remove(‘open’); }
 
 // ══════════ WISHLIST ══════════
 function toggleWish(btn) {
-  btn.classList.toggle('active');
-  btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
-  showToast(btn.classList.contains('active') ? (isKu ? 'زیادکرا بۆ دڵخوازەکان ♥' : 'Added to wishlist ♥') : (isKu ? 'لە دڵخوازەکان سڕایەوە' : 'Removed from wishlist'), 'ok');
+btn.classList.toggle(‘active’);
+btn.textContent = btn.classList.contains(‘active’) ? ‘♥’ : ‘♡’;
+showToast(btn.classList.contains(‘active’) ? (isKu ? ‘زیادکرا بۆ دڵخوازەکان ♥’ : ‘Added to wishlist ♥’) : (isKu ? ‘لە دڵخوازەکان سڕایەوە’ : ‘Removed from wishlist’), ‘ok’);
 }
 
 // ══════════ BOTTOM NAV ══════════
 function bnbGo(t) {
-  document.querySelectorAll('.bnb').forEach(function(b){ b.classList.remove('active'); });
-  var el = document.getElementById('bnb-' + t);
-  if (el) el.classList.add('active');
-  if (t === 'home') window.scrollTo({top:0, behavior:'smooth'});
-  if (t === 'shop') document.getElementById('products').scrollIntoView({behavior:'smooth'});
+document.querySelectorAll(’.bnb’).forEach(function(b){ b.classList.remove(‘active’); });
+var el = document.getElementById(‘bnb-’ + t);
+if (el) el.classList.add(‘active’);
+if (t === ‘home’) window.scrollTo({top:0, behavior:‘smooth’});
+if (t === ‘shop’) document.getElementById(‘products’).scrollIntoView({behavior:‘smooth’});
 }
 
 // ══════════ TOAST ══════════
 var toastTimer;
 function showToast(msg, type) {
-  var el = document.getElementById('toastEl');
-  el.textContent = msg;
-  el.className = 'toast ' + type + ' show';
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2800);
+var el = document.getElementById(‘toastEl’);
+el.textContent = msg;
+el.className = ‘toast ’ + type + ’ show’;
+clearTimeout(toastTimer);
+toastTimer = setTimeout(function(){ el.classList.remove(‘show’); }, 2800);
 }
 
 // ══════════ INIT ══════════
 window.onload = function() {
-  initSlider();
-  renderCats();
-  renderProducts(products);
+initSlider();
+renderCats();
+renderProducts(products);
+
+// Restore session from localStorage
+var saved = getSession();
+if (saved && saved.email) {
+curUser = saved;
+afterLogin();
+}
 };
 </script>
 
