@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LUXE SHOP | شۆپی لوکس</title>
+  <title>LUXE SHOP</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<!-- ======== AUTH MODAL ======== -->
+<div id="toast" class="toast"></div>
 
-<div id="authModal" class="modal-overlay active">
+<!-- AUTH MODAL -->
+
+<div id="authModal" class="modal-overlay">
   <div class="modal-box">
     <div class="modal-brand">
       <span class="brand-dot"></span>
       <h1>LUXE</h1>
     </div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchTab('login')" id="tab-login">Sign In / چوونەژوورەوە</button>
-      <button class="auth-tab" onclick="switchTab('register')" id="tab-register">Register / تۆمارکردن</button>
+    <div class="auth-tabs" id="authTabs">
+      <button type="button" class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In / چوونەژوورەوە</button>
+      <button type="button" class="auth-tab" id="tab-register" onclick="switchTab('register')">Register / تۆمارکردن</button>
     </div>
 
 ```
-<!-- Login Form -->
+<!-- LOGIN -->
 <div id="form-login" class="auth-form active">
   <h2>Welcome Back <span>/ بەخێربێیتەوە</span></h2>
   <div class="input-group">
@@ -36,16 +38,16 @@
     <label>Password / پاسووەرد</label>
     <input type="password" id="loginPassword" placeholder="••••••••" />
   </div>
-  <button class="btn-primary" onclick="handleLogin()">Sign In / چوونەژوورەوە</button>
-  <p class="auth-switch">New here? <a href="#" onclick="switchTab('register')">Create account / ئەکاونت دروست بکە</a></p>
+  <button type="button" class="btn-primary" onclick="handleLogin()">Sign In / چوونەژوورەوە</button>
+  <p class="auth-switch">New here? <a href="#" onclick="switchTab('register'); return false;">Create account / ئەکاونت دروست بکە</a></p>
 </div>
 
-<!-- Register Form -->
+<!-- REGISTER -->
 <div id="form-register" class="auth-form">
   <h2>Create Account <span>/ ئەکاونت دروست بکە</span></h2>
   <div class="input-group">
     <label>Full Name / ناوی تەواو</label>
-    <input type="text" id="regName" placeholder="Your name" />
+    <input type="text" id="regName" placeholder="Your full name" />
   </div>
   <div class="input-group">
     <label>Email / ئیمەیل</label>
@@ -56,91 +58,79 @@
     <input type="tel" id="regPhone" placeholder="07501234567" />
   </div>
   <div class="input-group">
-    <label>Password / پاسووەرد</label>
-    <input type="password" id="regPassword" placeholder="Min 6 chars" />
+    <label>Password / پاسووەرد (min 6)</label>
+    <input type="password" id="regPassword" placeholder="At least 6 characters" />
   </div>
   <div class="input-group">
-    <label>Verification Method / شێوازی پشتراستکردنەوە</label>
+    <label>Send Code Via / کۆد بنێرە بە</label>
     <select id="verifyMethod">
       <option value="email">Email / ئیمەیل</option>
       <option value="phone">SMS / مەسەج</option>
     </select>
   </div>
-  <button class="btn-primary" onclick="sendVerificationCode()">Send Code / کۆد بنێرە</button>
+  <button type="button" class="btn-primary" onclick="sendVerificationCode()">Send Code / کۆد بنێرە</button>
 </div>
 
-<!-- Verification Form -->
+<!-- VERIFY -->
 <div id="form-verify" class="auth-form">
   <h2>Enter Code <span>/ کۆد بنووسە</span></h2>
   <p class="verify-info" id="verifyInfo"></p>
   <div class="code-inputs">
-    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,0)" />
-    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,1)" />
-    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,2)" />
-    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,3)" />
-    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,4)" />
-    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,5)" />
+    <input type="text" maxlength="1" class="code-box" id="cb0" oninput="moveNext(this,0)" onkeydown="movePrev(event,0)" />
+    <input type="text" maxlength="1" class="code-box" id="cb1" oninput="moveNext(this,1)" onkeydown="movePrev(event,1)" />
+    <input type="text" maxlength="1" class="code-box" id="cb2" oninput="moveNext(this,2)" onkeydown="movePrev(event,2)" />
+    <input type="text" maxlength="1" class="code-box" id="cb3" oninput="moveNext(this,3)" onkeydown="movePrev(event,3)" />
+    <input type="text" maxlength="1" class="code-box" id="cb4" oninput="moveNext(this,4)" onkeydown="movePrev(event,4)" />
+    <input type="text" maxlength="1" class="code-box" id="cb5" oninput="moveNext(this,5)" onkeydown="movePrev(event,5)" />
   </div>
-  <div class="code-hint">Demo code: <strong>123456</strong></div>
-  <button class="btn-primary" onclick="verifyCode()">Verify / پشتراستکردنەوە</button>
-  <button class="btn-ghost" onclick="resendCode()">Resend / دووبارە بنێرە</button>
+  <p class="code-hint">Demo code: <strong>123456</strong></p>
+  <button type="button" class="btn-primary" onclick="verifyCode()">Verify / پشتراستکردنەوە</button>
+  <button type="button" class="btn-ghost" onclick="resendCode()">Resend / دووبارە بنێرە</button>
 </div>
 ```
 
   </div>
 </div>
 
-<!-- ======== TOAST NOTIFICATION ======== -->
+<!-- MAIN SITE -->
 
-<div id="toast" class="toast"></div>
-
-<!-- ======== MAIN SITE ======== -->
-
-<div id="mainSite" class="hidden">
+<div id="mainSite" style="display:none;">
 
   <!-- NAVBAR -->
 
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
-      <div class="nav-brand">
-        <span class="brand-dot"></span>
-        <span>LUXE</span>
+      <div class="nav-brand"><span class="brand-dot"></span><span>LUXE</span></div>
+      <div class="nav-links" id="navLinks">
+        <a href="#home" onclick="closeNav()">Home / ماڵەوە</a>
+        <a href="#products" onclick="closeNav()">Shop / فرۆشگا</a>
+        <a href="#about" onclick="closeNav()">About / دەربارە</a>
+        <a href="#contact" onclick="closeNav()">Contact / پەیوەندی</a>
+        <button type="button" class="lang-btn" id="langBtn" onclick="toggleLang()">🌐 کوردی</button>
       </div>
-
-```
-  <div class="nav-links" id="navLinks">
-    <a href="#home" onclick="closeNav()">Home / ماڵەوە</a>
-    <a href="#products" onclick="closeNav()">Shop / فرۆشگا</a>
-    <a href="#about" onclick="closeNav()">About / دەربارە</a>
-    <a href="#contact" onclick="closeNav()">Contact / پەیوەندی</a>
-    <div class="lang-toggle">
-      <button onclick="toggleLang()" id="langBtn">🌐 کوردی</button>
+      <div class="nav-actions">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search / گەڕان..." oninput="filterSearch()" />
+        </div>
+        <button type="button" class="cart-btn" onclick="toggleCart()">
+          🛒 <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <div class="user-wrap">
+          <button type="button" class="user-btn" onclick="toggleUserMenu()">
+            👤 <span id="navUsername"></span>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <p id="dropUsername"></p>
+            <a href="#" onclick="logout(); return false;">Logout / چوونەدەرەوە</a>
+          </div>
+        </div>
+        <button type="button" class="hamburger" onclick="toggleNav()">&#9776;</button>
+      </div>
     </div>
-  </div>
-
-  <div class="nav-actions">
-    <div class="search-wrap">
-      <input type="text" id="searchInput" placeholder="Search... / گەڕان..." oninput="filterSearch()" />
-      <span class="search-icon">🔍</span>
-    </div>
-    <button class="cart-btn" onclick="toggleCart()">
-      🛒 <span class="cart-badge" id="cartBadge">0</span>
-    </button>
-    <button class="user-btn" onclick="toggleUserMenu()">
-      👤 <span id="navUsername"></span>
-    </button>
-    <div class="user-dropdown" id="userDropdown">
-      <p id="dropUsername"></p>
-      <a href="#" onclick="logout()">Logout / چوونەدەرەوە</a>
-    </div>
-    <button class="hamburger" onclick="toggleNav()" id="hamburger">☰</button>
-  </div>
-</div>
-```
-
   </nav>
 
-  <!-- HERO / SLIDER -->
+  <!-- HERO SLIDER -->
 
   <section id="home" class="hero">
     <div class="slider-track" id="sliderTrack">
@@ -148,30 +138,30 @@
         <div class="slide-content">
           <span class="slide-tag">New Collection / کەلێکشنی نوێ</span>
           <h1>Elevate Your <em>Style</em></h1>
-          <p>Discover luxury fashion curated for the modern soul / بدۆزەرەوە مۆدی لوکس بۆ کەسایەتیەکانی ئەمڕۆ</p>
-          <button class="btn-hero" onclick="scrollToProducts()">Shop Now / ئێستا بکڕە</button>
+          <p>Discover luxury fashion curated for the modern soul</p>
+          <button type="button" class="btn-hero" onclick="scrollToProducts()">Shop Now / ئێستا بکڕە</button>
         </div>
       </div>
       <div class="slide slide-2">
         <div class="slide-content">
           <span class="slide-tag">Best Sellers / باشترین فرۆشراوەکان</span>
           <h1>Timeless <em>Elegance</em></h1>
-          <p>Premium quality, unforgettable design / کواڵیتی بەرز، دیزاینی نەفراموش</p>
-          <button class="btn-hero" onclick="scrollToProducts()">Explore / دەرکۆڵێنە</button>
+          <p>Premium quality, unforgettable design</p>
+          <button type="button" class="btn-hero" onclick="scrollToProducts()">Explore / دەرکۆڵێنە</button>
         </div>
       </div>
       <div class="slide slide-3">
         <div class="slide-content">
           <span class="slide-tag">Sale Up To 50% / داشکاندنی تا ٥٠٪</span>
           <h1>Limited <em>Offers</em></h1>
-          <p>Don't miss exclusive deals this season / دەرفەتە تایبەتەکان لەدەست مەدە</p>
-          <button class="btn-hero" onclick="scrollToProducts()">Grab Deal / پێشکەش وەربگرە</button>
+          <p>Don't miss exclusive deals this season</p>
+          <button type="button" class="btn-hero" onclick="scrollToProducts()">Grab Deal / پێشکەش وەربگرە</button>
         </div>
       </div>
     </div>
     <div class="slider-dots" id="sliderDots"></div>
-    <button class="slider-arrow left" onclick="changeSlide(-1)">‹</button>
-    <button class="slider-arrow right" onclick="changeSlide(1)">›</button>
+    <button type="button" class="slider-arrow left" onclick="changeSlide(-1)">&#8249;</button>
+    <button type="button" class="slider-arrow right" onclick="changeSlide(1)">&#8250;</button>
   </section>
 
   <!-- PRODUCTS -->
@@ -179,62 +169,51 @@
   <section id="products" class="products-section">
     <div class="section-header">
       <h2>Our Collection <span>/ کەلێکشنەکەمان</span></h2>
-      <p>Hand-picked pieces for the discerning customer / تەکتەکە دەستچینراو بۆ کڕیارانی ناوازە</p>
+      <p>Hand-picked pieces for the discerning customer</p>
     </div>
-
-```
-<!-- FILTER BAR -->
-<div class="filter-bar">
-  <button class="filter-btn active" onclick="filterProducts('all', this)">All / هەموو</button>
-  <button class="filter-btn" onclick="filterProducts('clothing', this)">Clothing / جل</button>
-  <button class="filter-btn" onclick="filterProducts('shoes', this)">Shoes / پێڵاو</button>
-  <button class="filter-btn" onclick="filterProducts('accessories', this)">Accessories / ئەکسسوار</button>
-  <button class="filter-btn" onclick="filterProducts('bags', this)">Bags / جانتا</button>
-</div>
-
-<div class="products-grid" id="productsGrid">
-  <!-- Injected by JS -->
-</div>
-```
-
+    <div class="filter-bar">
+      <button type="button" class="filter-btn active" onclick="filterProducts('all',this)">All / هەموو</button>
+      <button type="button" class="filter-btn" onclick="filterProducts('clothing',this)">Clothing / جل</button>
+      <button type="button" class="filter-btn" onclick="filterProducts('shoes',this)">Shoes / پێڵاو</button>
+      <button type="button" class="filter-btn" onclick="filterProducts('accessories',this)">Accessories / ئەکسسوار</button>
+      <button type="button" class="filter-btn" onclick="filterProducts('bags',this)">Bags / جانتا</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
   </section>
 
-  <!-- CART DRAWER -->
+  <!-- CART -->
 
   <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
   <div class="cart-drawer" id="cartDrawer">
     <div class="cart-header">
-      <h3>🛒 Your Cart / سەبەتەکەت</h3>
-      <button onclick="toggleCart()">✕</button>
+      <h3>🛒 Cart / سەبەتە</h3>
+      <button type="button" class="close-btn" onclick="toggleCart()">&#10005;</button>
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
-      <div class="cart-total">
-        <span>Total / کۆی گشتی:</span>
-        <strong id="cartTotal">$0.00</strong>
-      </div>
-      <button class="btn-primary" onclick="goToCheckout()">Checkout / پارەدان</button>
-      <button class="btn-ghost" onclick="clearCart()">Clear Cart / سەبەتە پاک بکەوە</button>
+      <div class="cart-total"><span>Total / کۆی گشتی:</span><strong id="cartTotal">$0.00</strong></div>
+      <button type="button" class="btn-primary" onclick="goToCheckout()">Checkout / پارەدان</button>
+      <button type="button" class="btn-ghost" onclick="clearCart()">Clear / پاک بکەوە</button>
     </div>
   </div>
 
-  <!-- CHECKOUT PAGE -->
+  <!-- CHECKOUT -->
 
-  <div id="checkoutPage" class="checkout-page hidden">
+  <div id="checkoutPage" class="page-overlay" style="display:none;">
     <div class="checkout-inner">
-      <button class="back-btn" onclick="closeCheckout()">← Back / گەڕانەوە</button>
+      <button type="button" class="back-btn" onclick="closeCheckout()">&#8592; Back / گەڕانەوە</button>
       <h2>Checkout <span>/ پارەدان</span></h2>
       <div class="checkout-grid">
         <div class="checkout-form-wrap">
-          <h3>Shipping Info / زانیاری ناردن</h3>
-          <div class="input-group"><label>Full Name / ناوی تەواو</label><input type="text" id="ckName" placeholder="John Doe" /></div>
+          <h3>Shipping / ناردن</h3>
+          <div class="input-group"><label>Full Name / ناو</label><input type="text" id="ckName" placeholder="John Doe" /></div>
           <div class="input-group"><label>Address / ناونیشان</label><input type="text" id="ckAddress" placeholder="Street, City" /></div>
           <div class="input-group"><label>Phone / مۆبایل</label><input type="tel" id="ckPhone" placeholder="07501234567" /></div>
           <div class="input-group"><label>Email / ئیمەیل</label><input type="email" id="ckEmail" placeholder="email@example.com" /></div>
           <h3>Payment / پارەدان</h3>
           <div class="payment-methods">
-            <label class="pay-option"><input type="radio" name="pay" value="card" checked /> 💳 Credit Card</label>
-            <label class="pay-option"><input type="radio" name="pay" value="cash" /> 💵 Cash on Delivery</label>
+            <label class="pay-option"><input type="radio" name="pay" value="card" checked onchange="toggleCardFields(this)" /> 💳 Credit Card</label>
+            <label class="pay-option"><input type="radio" name="pay" value="cash" onchange="toggleCardFields(this)" /> 💵 Cash on Delivery</label>
           </div>
           <div id="cardFields">
             <div class="input-group"><label>Card Number</label><input type="text" id="ckCard" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)" /></div>
@@ -243,67 +222,64 @@
               <div class="input-group"><label>CVV</label><input type="text" id="ckCvv" placeholder="123" maxlength="3" /></div>
             </div>
           </div>
-          <button class="btn-primary" onclick="placeOrder()">Place Order / داواکاری بنێرە</button>
+          <button type="button" class="btn-primary" onclick="placeOrder()">Place Order / داواکاری بنێرە</button>
         </div>
         <div class="checkout-summary">
-          <h3>Order Summary / کورتەی داواکاری</h3>
+          <h3>Order Summary / کورتە</h3>
           <div id="checkoutItems"></div>
-          <div class="summary-total">
-            <span>Total / کۆی گشتی</span>
-            <strong id="checkoutTotal">$0.00</strong>
-          </div>
+          <div class="summary-total"><span>Total</span><strong id="checkoutTotal">$0.00</strong></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ORDER SUCCESS -->
+  <!-- SUCCESS -->
 
-  <div id="orderSuccess" class="order-success hidden">
+  <div id="orderSuccess" class="page-overlay success-bg" style="display:none;">
     <div class="success-inner">
-      <div class="success-icon">✅</div>
+      <div class="success-icon">&#10003;</div>
       <h2>Order Placed! / داواکاری نێردرا!</h2>
-      <p>Thank you for your purchase. / سوپاس بۆ کڕینەکەت.</p>
+      <p>Thank you! / سوپاس!</p>
       <p id="successOrderId"></p>
-      <button class="btn-primary" onclick="closeSuccess()">Continue Shopping / بەردەوام بە</button>
+      <button type="button" class="btn-primary" onclick="closeSuccess()">Continue Shopping / بەردەوام بە</button>
     </div>
   </div>
 
-  <!-- ABOUT SECTION -->
+  <!-- ABOUT -->
 
   <section id="about" class="about-section">
     <div class="about-inner">
       <div class="about-text">
         <span class="section-tag">About Us / دەربارەمان</span>
         <h2>We Are <em>LUXE</em></h2>
-        <p>LUXE is a premium fashion destination bringing together the finest clothing, shoes, and accessories from around the world. Our curated collection reflects elegance, quality, and modern style.</p>
-        <p dir="rtl" class="kurdish-text">LUXE شوێنێکی مۆدی بەرزە کە باشترین جل و بەرگ، پێڵاو و ئەکسسوار لە چوارگۆشەی جیهانەوە کۆ دەکاتەوە. کەلێکشنی دەستچینراوی ئێمە ئەلیگانس، کواڵیتی و ستایلی ئەمڕۆ نیشان دەدات.</p>
+        <p>LUXE is a premium fashion destination bringing together the finest clothing, shoes, and accessories from around the world.</p>
+        <p class="kurdish-text">LUXE شوێنێکی مۆدی بەرزە کە باشترین جل و بەرگ، پێڵاو و ئەکسسوار لە چوارگۆشەی جیهانەوە کۆ دەکاتەوە.</p>
         <div class="about-stats">
           <div class="stat"><strong>500+</strong><span>Products</span></div>
           <div class="stat"><strong>10K+</strong><span>Customers</span></div>
-          <div class="stat"><strong>5★</strong><span>Rating</span></div>
+          <div class="stat"><strong>5&#9733;</strong><span>Rating</span></div>
         </div>
       </div>
       <div class="about-visual">
         <div class="about-card">
-          <div class="about-img">🏆</div>
+          <div class="about-emoji">&#127942;</div>
           <p>Premium Brand Since 2020</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT SECTION -->
+  <!-- CONTACT -->
 
   <section id="contact" class="contact-section">
     <div class="contact-inner">
       <div class="contact-info">
         <span class="section-tag">Contact / پەیوەندی</span>
         <h2>Get In <em>Touch</em></h2>
-        <div class="contact-item">📧 <span>luxe@shop.com</span></div>
-        <div class="contact-item">📞 <span>+964 750 123 4567</span></div>
-        <div class="contact-item">📍 <span>Erbil, Kurdistan Region, Iraq</span></div>
-        <div class="contact-item">🕐 <span>Mon–Sat 9am–8pm</span></div>
+        <div class="contact-item">&#128231; <span>luxe@shop.com</span></div>
+        <div class="contact-item">&#128222; <span>+964 750 123 4567</span></div>
+        <div class="contact-item">&#128205; <span>Erbil, Kurdistan Region</span></div>
+        <div class="contact-item">&#128336; <span>Mon–Sat 9am–8pm</span></div>
         <div class="social-links">
           <a href="#" class="social-link">Instagram</a>
           <a href="#" class="social-link">Facebook</a>
@@ -315,7 +291,7 @@
         <div class="input-group"><label>Name / ناو</label><input type="text" id="ctName" placeholder="Your name" /></div>
         <div class="input-group"><label>Email / ئیمەیل</label><input type="email" id="ctEmail" placeholder="email@example.com" /></div>
         <div class="input-group"><label>Message / پەیام</label><textarea id="ctMessage" rows="4" placeholder="How can we help?"></textarea></div>
-        <button class="btn-primary" onclick="sendMessage()">Send / بنێرە</button>
+        <button type="button" class="btn-primary" onclick="sendMessage()">Send / بنێرە</button>
       </div>
     </div>
   </section>
@@ -324,22 +300,15 @@
 
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="brand-dot"></span>
-        <strong>LUXE</strong>
-        <p>Premium Fashion Store</p>
-      </div>
+      <div class="footer-brand"><span class="brand-dot"></span><strong>LUXE</strong><small>Premium Fashion</small></div>
       <div class="footer-links">
-        <a href="#home">Home</a>
-        <a href="#products">Shop</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="#home">Home</a><a href="#products">Shop</a><a href="#about">About</a><a href="#contact">Contact</a>
       </div>
-      <div class="footer-copy">© 2025 LUXE Shop. All rights reserved.</div>
+      <div class="footer-copy">&#169; 2025 LUXE Shop. All rights reserved.</div>
     </div>
   </footer>
 
-</div><!-- end mainSite -->
+</div>
 
 <script src="script.js"></script>
 
