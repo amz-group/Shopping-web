@@ -3,283 +3,504 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
 <title>LuxeStore | مۆڵێن</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
   --gold:#c9a84c;--gold2:#e8c97a;--dark:#0a0a0f;--dark2:#111118;--dark3:#1a1a25;
-  --glass:rgba(255,255,255,0.04);--glass2:rgba(255,255,255,0.08);
-  --text:#e8e8f0;--text2:#9999b0;--red:#e05050;--green:#50c878;
-  --rad:12px;--transition:0.35s cubic-bezier(.4,0,.2,1);
+  --glass:rgba(255,255,255,0.04);--text:#e8e8f0;--text2:#8888a8;
+  --red:#e05050;--green:#50c878;--rad:12px;
+  --transition:0.32s cubic-bezier(.4,0,.2,1);
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{background:var(--dark);color:var(--text);font-family:'Sora',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden}
-body.rtl{direction:rtl;font-family:'Sora',sans-serif}
-
-/* ── NOISE OVERLAY ── */
-body::before{content:’’;position:fixed;inset:0;background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 200 200’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.03’/%3E%3C/svg%3E”);pointer-events:none;z-index:9999;opacity:.4}
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(–dark2)}::-webkit-scrollbar-thumb{background:var(–gold);border-radius:2px}
+body.rtl{direction:rtl}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--dark2)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
 
 /* ── TOAST ── */
-#toast{position:fixed;bottom:30px;right:30px;z-index:99999;display:flex;flex-direction:column;gap:10px}
-.toast-msg{background:var(–dark3);border:1px solid var(–gold);color:var(–text);padding:14px 20px;border-radius:var(–rad);font-size:13px;animation:slideIn .4s ease;box-shadow:0 8px 32px rgba(0,0,0,.5)}
-@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+#toast{position:fixed;bottom:24px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast-msg{background:var(–dark2);border:1px solid rgba(201,168,76,.5);color:var(–text);padding:12px 18px;border-radius:10px;font-size:13px;animation:slideIn .35s ease forwards;box-shadow:0 8px 24px rgba(0,0,0,.6);max-width:280px}
+@keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
 
-/* ── MODAL OVERLAY ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+/* ── OVERLAYS ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .28s}
 .overlay.active{opacity:1;pointer-events:all}
-.modal{background:var(–dark2);border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:40px;width:min(480px,95vw);position:relative;transform:translateY(30px);transition:transform .3s;max-height:90vh;overflow-y:auto}
+.modal{background:var(–dark2);border:1px solid rgba(201,168,76,.18);border-radius:20px;padding:36px 32px;width:min(460px,95vw);position:relative;transform:translateY(28px);transition:transform .28s;max-height:92vh;overflow-y:auto}
 .overlay.active .modal{transform:translateY(0)}
-.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(–text2);font-size:22px;cursor:pointer;transition:color .2s}
-.modal-close:hover{color:var(–gold)}
-.modal h2{font-family:‘Cormorant Garamond’,serif;font-size:28px;font-weight:700;color:var(–gold);margin-bottom:6px}
-.modal p.sub{color:var(–text2);font-size:13px;margin-bottom:28px}
+.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.06);border:none;color:var(–text2);font-size:16px;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;line-height:1}
+.modal-close:hover{background:rgba(201,168,76,.2);color:var(–gold)}
+.modal h2{font-family:‘Cormorant Garamond’,serif;font-size:26px;font-weight:700;color:var(–gold);margin-bottom:4px}
+.modal p.sub{color:var(–text2);font-size:13px;margin-bottom:24px}
 
-/* ── FORM ELEMENTS ── */
-.form-group{margin-bottom:18px}
-.form-group label{display:block;font-size:12px;color:var(–text2);margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase}
-.form-group input,.form-group select{width:100%;background:var(–dark3);border:1px solid rgba(255,255,255,.08);border-radius:var(–rad);padding:12px 16px;color:var(–text);font-size:14px;font-family:‘Sora’,sans-serif;transition:border-color .2s,box-shadow .2s;outline:none}
-.form-group input:focus,.form-group select:focus{border-color:var(–gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
-.form-group select{cursor:pointer}
+/* ── FORMS ── */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:11px;color:var(–text2);margin-bottom:5px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(–dark3);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:11px 14px;color:var(–text);font-size:14px;font-family:‘Sora’,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(201,168,76,.6);box-shadow:0 0 0 3px rgba(201,168,76,.08)}
 .form-group select option{background:var(–dark2)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;border-radius:var(–rad);font-size:14px;font-weight:600;cursor:pointer;transition:all var(–transition);border:none;font-family:‘Sora’,sans-serif;letter-spacing:.02em}
+.form-group textarea{resize:vertical;min-height:110px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 26px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all var(–transition);border:none;font-family:‘Sora’,sans-serif;letter-spacing:.01em;white-space:nowrap}
 .btn-gold{background:linear-gradient(135deg,var(–gold),var(–gold2));color:#0a0a0f}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.4)}
-.btn-outline{background:transparent;border:1px solid rgba(201,168,76,.4);color:var(–gold)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(201,168,76,.38)}
+.btn-gold:active{transform:translateY(0)}
+.btn-outline{background:transparent;border:1px solid rgba(201,168,76,.38);color:var(–gold)}
 .btn-outline:hover{background:rgba(201,168,76,.1);border-color:var(–gold)}
 .btn-danger{background:var(–red);color:#fff}
 .btn-danger:hover{background:#c03030}
 .btn-full{width:100%}
 
 /* ── TABS ── */
-.tabs{display:flex;gap:4px;background:var(–dark3);border-radius:10px;padding:4px;margin-bottom:28px}
-.tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;font-size:13px;color:var(–text2);transition:all .2s;border:none;background:none;font-family:‘Sora’,sans-serif}
-.tab.active{background:var(–gold);color:#0a0a0f;font-weight:600}
+.tabs{display:flex;gap:3px;background:var(–dark3);border-radius:10px;padding:3px;margin-bottom:24px}
+.tab{flex:1;padding:9px;text-align:center;border-radius:8px;cursor:pointer;font-size:13px;color:var(–text2);transition:all .2s;border:none;background:none;font-family:‘Sora’,sans-serif;font-weight:500}
+.tab.active{background:var(–gold);color:#0a0a0f;font-weight:700}
 
-/* ── OTP BOX ── */
-.otp-wrap{display:flex;gap:10px;justify-content:center;margin:20px 0}
-.otp-wrap input{width:48px;height:56px;text-align:center;font-size:22px;font-weight:700;background:var(–dark3);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(–gold);outline:none;font-family:‘Sora’,sans-serif;transition:border-color .2s}
-.otp-wrap input:focus{border-color:var(–gold);box-shadow:0 0 0 3px rgba(201,168,76,.15)}
+/* ── OTP ── */
+.otp-wrap{display:flex;gap:8px;justify-content:center;margin:18px 0}
+.otp-wrap input{width:44px;height:52px;text-align:center;font-size:20px;font-weight:700;background:var(–dark3);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(–gold);outline:none;font-family:‘Sora’,sans-serif;transition:border-color .2s;-webkit-appearance:none}
+.otp-wrap input:focus{border-color:var(–gold);box-shadow:0 0 0 3px rgba(201,168,76,.12)}
 
-/* ── NAVBAR ── */
-#navbar{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);transition:all .3s}
-#navbar.scrolled{height:58px;background:rgba(10,10,15,.97)}
-.nav-logo{font-family:‘Cormorant Garamond’,serif;font-size:26px;font-weight:700;color:var(–gold);text-decoration:none;letter-spacing:.08em;cursor:pointer}
-.nav-logo span{color:var(–text2);font-size:11px;display:block;letter-spacing:.2em;font-weight:400;font-family:‘Sora’,sans-serif;text-align:center}
-.nav-links{display:flex;gap:32px;list-style:none}
-.nav-links a{color:var(–text2);text-decoration:none;font-size:13px;letter-spacing:.04em;transition:color .2s;cursor:pointer}
+/* ══════════════════════════════════
+NAVBAR
+══════════════════════════════════ */
+#navbar{
+position:fixed;top:0;left:0;right:0;z-index:500;
+height:62px;padding:0 20px;
+display:flex;align-items:center;justify-content:space-between;
+background:rgba(10,10,15,.9);
+backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+border-bottom:1px solid rgba(255,255,255,.05);
+transition:all .3s
+}
+#navbar.scrolled{height:54px;background:rgba(10,10,15,.98)}
+.nav-logo{
+font-family:‘Cormorant Garamond’,serif;font-size:22px;font-weight:700;
+color:var(–gold);cursor:pointer;letter-spacing:.06em;line-height:1;
+display:flex;flex-direction:column;align-items:flex-start
+}
+.nav-logo small{font-family:‘Sora’,sans-serif;font-size:9px;font-weight:400;letter-spacing:.22em;color:var(–text2);margin-top:1px;text-transform:uppercase}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:var(–text2);text-decoration:none;font-size:13px;letter-spacing:.03em;transition:color .2s;cursor:pointer;font-weight:400}
 .nav-links a:hover{color:var(–gold)}
-.nav-actions{display:flex;align-items:center;gap:16px}
-.nav-icon{background:none;border:none;color:var(–text2);cursor:pointer;font-size:18px;transition:color .2s;position:relative;padding:6px}
-.nav-icon:hover{color:var(–gold)}
-.badge{position:absolute;top:0;right:0;background:var(–gold);color:#0a0a0f;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;transform:translate(4px,-4px)}
-.lang-toggle{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);color:var(–gold);padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:‘Sora’,sans-serif;font-weight:600;transition:all .2s;letter-spacing:.04em}
-.lang-toggle:hover{background:rgba(201,168,76,.25)}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
-.hamburger span{display:block;width:22px;height:2px;background:var(–text);border-radius:2px;transition:all .3s}
-.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.open span:nth-child(2){opacity:0}
-.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.nav-right{display:flex;align-items:center;gap:4px}
+/* SVG icon buttons */
+.nav-icon{background:none;border:none;color:var(–text2);cursor:pointer;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative;flex-shrink:0}
+.nav-icon:hover{background:rgba(255,255,255,.06);color:var(–gold)}
+.nav-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cart-icon-btn{position:relative}
+.cart-badge{position:absolute;top:4px;right:4px;background:var(–gold);color:#0a0a0f;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1}
+.lang-btn{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.22);color:var(–gold);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:‘Sora’,sans-serif;font-weight:700;transition:all .2s;letter-spacing:.04em;white-space:nowrap}
+.lang-btn:hover{background:rgba(201,168,76,.22);border-color:var(–gold)}
+/* hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:5px;width:36px;height:36px;align-items:center;justify-content:center;border-radius:8px;transition:background .2s}
+.hamburger:hover{background:rgba(255,255,255,.06)}
+.hamburger span{display:block;width:18px;height:1.5px;background:var(–text2);border-radius:2px;transition:all .3s;transform-origin:center}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
 
 /* ── MOBILE MENU ── */
-#mobile-menu{position:fixed;top:68px;left:0;right:0;background:var(–dark2);border-bottom:1px solid rgba(255,255,255,.06);padding:20px 5%;display:none;flex-direction:column;gap:16px;z-index:499}
+#mobile-menu{
+position:fixed;top:62px;left:0;right:0;
+background:rgba(10,10,15,.97);border-bottom:1px solid rgba(255,255,255,.05);
+padding:12px 20px 20px;display:none;flex-direction:column;gap:2px;z-index:499;
+backdrop-filter:blur(20px)
+}
 #mobile-menu.open{display:flex}
-#mobile-menu a{color:var(–text2);text-decoration:none;font-size:15px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer}
+#mobile-menu a{
+color:var(–text2);text-decoration:none;font-size:15px;
+padding:12px 14px;border-radius:10px;cursor:pointer;
+transition:all .18s;font-weight:400
+}
+#mobile-menu a:hover{background:rgba(201,168,76,.08);color:var(–gold)}
 
-/* ── HERO SLIDER ── */
-#hero{margin-top:68px;position:relative;height:580px;overflow:hidden}
-.slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease}
-.slide.active{opacity:1}
-.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.05);transition:transform 6s ease}
+/* ══════════════════════════════════
+HERO SLIDER — fully fixed
+══════════════════════════════════ */
+#hero{
+margin-top:62px;
+position:relative;
+height:calc(100svh - 62px);
+max-height:600px;
+min-height:340px;
+overflow:hidden;
+background:var(–dark2)
+}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;will-change:opacity}
+.slide.active{opacity:1;z-index:1}
+.slide-bg{
+position:absolute;inset:0;
+background-size:cover;background-position:center center;
+transform:scale(1.04);transition:transform 7s ease;
+will-change:transform
+}
 .slide.active .slide-bg{transform:scale(1)}
-.slide-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,15,.85) 0%,rgba(10,10,15,.3) 100%)}
-.slide-content{position:absolute;bottom:80px;left:8%;max-width:540px}
-.slide-tag{display:inline-block;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(–gold);padding:5px 14px;border-radius:20px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px}
-.slide-content h1{font-family:‘Cormorant Garamond’,serif;font-size:clamp(36px,5vw,62px);font-weight:700;line-height:1.1;margin-bottom:16px}
-.slide-content p{color:var(–text2);font-size:15px;margin-bottom:28px;line-height:1.6}
-.slider-dots{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
-.dot{width:24px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;cursor:pointer;transition:all .3s}
-.dot.active{background:var(–gold);width:40px}
-.slider-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(10,10,15,.6);border:1px solid rgba(255,255,255,.1);color:var(–text);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:all .3s;backdrop-filter:blur(8px)}
-.slider-arrow:hover{background:var(–gold);color:#0a0a0f;border-color:var(–gold)}
-.slider-prev{left:24px}.slider-next{right:24px}
+.slide-overlay{
+position:absolute;inset:0;
+background:linear-gradient(160deg,rgba(10,10,15,.82) 0%,rgba(10,10,15,.25) 60%,rgba(10,10,15,.55) 100%)
+}
+.slide-content{
+position:absolute;
+bottom:0;left:0;right:0;
+padding:0 24px 52px;
+max-width:560px
+}
+.slide-tag{
+display:inline-block;
+background:rgba(10,10,15,.65);
+border:1px solid rgba(201,168,76,.35);
+color:var(–gold);
+padding:4px 12px;border-radius:20px;
+font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+margin-bottom:12px;backdrop-filter:blur(6px);font-weight:600
+}
+.slide-content h1{
+font-family:‘Cormorant Garamond’,serif;
+font-size:clamp(30px,6vw,58px);
+font-weight:700;line-height:1.1;
+margin-bottom:10px;
+text-shadow:0 2px 20px rgba(0,0,0,.5)
+}
+.slide-content p{
+color:rgba(232,232,240,.8);font-size:clamp(12px,2.2vw,15px);
+margin-bottom:22px;line-height:1.55;
+text-shadow:0 1px 8px rgba(0,0,0,.6)
+}
+/* slider arrows — proper SVG */
+.slider-arrow{
+position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+background:rgba(10,10,15,.55);
+border:1px solid rgba(255,255,255,.12);
+color:var(–text);width:42px;height:42px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;transition:all .25s;
+backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)
+}
+.slider-arrow:hover{background:var(–gold);border-color:var(–gold);color:#0a0a0f}
+.slider-arrow svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.slider-prev{left:14px}.slider-next{right:14px}
+.slider-dots{
+position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+display:flex;gap:6px;z-index:2
+}
+.dot{width:20px;height:3px;background:rgba(255,255,255,.28);border-radius:2px;cursor:pointer;transition:all .3s}
+.dot.active{background:var(–gold);width:34px}
 
-/* ── SECTION ── */
-.section{padding:80px 5%}
-.section-header{text-align:center;margin-bottom:56px}
-.section-header h2{font-family:‘Cormorant Garamond’,serif;font-size:clamp(32px,4vw,52px);font-weight:700;margin-bottom:12px}
-.section-header p{color:var(–text2);font-size:15px;max-width:480px;margin:0 auto;line-height:1.7}
-.section-line{width:60px;height:2px;background:linear-gradient(90deg,var(–gold),transparent);margin:16px auto 0}
+/* ══════════════════════════════════
+SECTIONS
+══════════════════════════════════ */
+.section{padding:60px 20px}
+.section-header{text-align:center;margin-bottom:40px}
+.section-header h2{font-family:‘Cormorant Garamond’,serif;font-size:clamp(28px,5vw,48px);font-weight:700;margin-bottom:10px;letter-spacing:.01em}
+.section-header p{color:var(–text2);font-size:14px;max-width:440px;margin:0 auto;line-height:1.65}
+.section-line{width:48px;height:2px;background:linear-gradient(90deg,var(–gold),transparent);margin:12px auto 0;border-radius:2px}
 
-/* ── CATEGORIES ── */
-.categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px}
-.cat-card{background:var(–glass);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all var(–transition);position:relative;overflow:hidden}
-.cat-card::before{content:’’;position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.08),transparent);opacity:0;transition:opacity .3s}
-.cat-card:hover{transform:translateY(-6px);border-color:rgba(201,168,76,.3);box-shadow:0 20px 40px rgba(0,0,0,.4)}
-.cat-card:hover::before{opacity:1}
-.cat-icon{font-size:36px;margin-bottom:12px;display:block}
-.cat-card h3{font-size:14px;font-weight:600;color:var(–text);margin-bottom:4px}
-.cat-card p{font-size:12px;color:var(–text2)}
-.cat-card.active-cat{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.08)}
+/* ══════════════════════════════════
+CATEGORIES — horizontal scroll on mobile
+══════════════════════════════════ */
+.cats-scroll{
+display:flex;gap:12px;
+overflow-x:auto;padding-bottom:4px;
+scrollbar-width:none;
+-webkit-overflow-scrolling:touch
+}
+.cats-scroll::-webkit-scrollbar{display:none}
+.cat-card{
+flex:0 0 auto;
+width:110px;
+background:var(–dark2);
+border:1px solid rgba(255,255,255,.06);
+border-radius:16px;padding:20px 12px 16px;
+text-align:center;cursor:pointer;
+transition:all var(–transition);
+position:relative;overflow:hidden
+}
+.cat-card::after{
+content:’’;position:absolute;inset:0;
+background:linear-gradient(135deg,rgba(201,168,76,.1),transparent);
+opacity:0;transition:opacity .25s
+}
+.cat-card:hover{transform:translateY(-4px);border-color:rgba(201,168,76,.28);box-shadow:0 12px 28px rgba(0,0,0,.35)}
+.cat-card:hover::after,.cat-card.active-cat::after{opacity:1}
+.cat-card.active-cat{border-color:rgba(201,168,76,.45);background:rgba(201,168,76,.07)}
+.cat-icon{font-size:30px;margin-bottom:8px;display:block;line-height:1}
+.cat-card h3{font-size:12px;font-weight:600;color:var(–text);margin-bottom:2px;line-height:1.2}
+.cat-card p{font-size:10px;color:var(–text2)}
 
-/* ── FILTER BAR ── */
-.filter-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:32px;padding:20px;background:var(–dark2);border-radius:16px;border:1px solid rgba(255,255,255,.05)}
-.filter-bar input[type=range]{flex:1;min-width:150px;accent-color:var(–gold)}
-.filter-chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:7px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(–text2);font-size:12px;cursor:pointer;transition:all .2s;font-family:‘Sora’,sans-serif}
-.chip.active,.chip:hover{background:var(–gold);border-color:var(–gold);color:#0a0a0f}
-.sort-sel{background:var(–dark3);border:1px solid rgba(255,255,255,.08);color:var(–text);padding:8px 14px;border-radius:var(–rad);font-size:13px;cursor:pointer;font-family:‘Sora’,sans-serif;outline:none}
+/* ══════════════════════════════════
+FILTER BAR
+══════════════════════════════════ */
+.filter-bar{
+display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+margin-bottom:24px;padding:16px;
+background:var(–dark2);border-radius:14px;
+border:1px solid rgba(255,255,255,.05)
+}
+.filter-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+padding:6px 14px;border-radius:20px;
+border:1px solid rgba(255,255,255,.08);
+background:transparent;color:var(–text2);
+font-size:11px;cursor:pointer;transition:all .18s;
+font-family:‘Sora’,sans-serif;font-weight:500;white-space:nowrap
+}
+.chip.active,.chip:hover{background:var(–gold);border-color:var(–gold);color:#0a0a0f;font-weight:700}
+.sort-sel{
+background:var(–dark3);border:1px solid rgba(255,255,255,.07);
+color:var(–text);padding:7px 12px;border-radius:10px;
+font-size:12px;cursor:pointer;font-family:‘Sora’,sans-serif;
+outline:none;-webkit-appearance:none
+}
 .sort-sel option{background:var(–dark2)}
-#search-bar-wrap{position:relative;flex:1;min-width:200px}
-#search-bar-wrap input{width:100%;background:var(–dark3);border:1px solid rgba(255,255,255,.08);border-radius:var(–rad);padding:10px 16px 10px 40px;color:var(–text);font-size:14px;font-family:‘Sora’,sans-serif;outline:none;transition:border-color .2s}
-#search-bar-wrap input:focus{border-color:var(–gold)}
-#search-bar-wrap .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(–text2);font-size:16px}
+#search-bar-wrap{position:relative;flex:1;min-width:160px}
+#search-bar-wrap input{
+width:100%;background:var(–dark3);
+border:1px solid rgba(255,255,255,.07);border-radius:10px;
+padding:9px 14px 9px 36px;color:var(–text);font-size:13px;
+font-family:‘Sora’,sans-serif;outline:none;transition:border-color .2s;
+-webkit-appearance:none
+}
+#search-bar-wrap input:focus{border-color:rgba(201,168,76,.5)}
+#search-bar-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(–text2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.price-filter{display:flex;align-items:center;gap:7px;font-size:11px;color:var(–text2);white-space:nowrap}
+.price-filter input[type=range]{width:90px;accent-color:var(–gold)}
 
-/* ── PRODUCTS ── */
-.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
-.product-card{background:var(–dark2);border:1px solid rgba(255,255,255,.06);border-radius:18px;overflow:hidden;transition:all var(–transition);position:relative;cursor:pointer}
-.product-card:hover{transform:translateY(-8px);box-shadow:0 24px 48px rgba(0,0,0,.5);border-color:rgba(201,168,76,.2)}
-.product-img{position:relative;height:220px;overflow:hidden;background:var(–dark3)}
-.product-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.product-card:hover .product-img img{transform:scale(1.08)}
-.product-badge{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.05em}
+/* ══════════════════════════════════
+PRODUCTS
+══════════════════════════════════ */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.product-card{
+background:var(–dark2);border:1px solid rgba(255,255,255,.06);
+border-radius:16px;overflow:hidden;
+transition:all var(–transition);cursor:pointer;
+position:relative
+}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.45);border-color:rgba(201,168,76,.18)}
+.product-img{position:relative;height:200px;overflow:hidden;background:var(–dark3)}
+.product-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;display:block}
+.product-card:hover .product-img img{transform:scale(1.06)}
+.product-badge{
+position:absolute;top:10px;left:10px;
+padding:3px 9px;border-radius:6px;
+font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase
+}
 .badge-new{background:var(–gold);color:#0a0a0f}
 .badge-sale{background:var(–red);color:#fff}
 .badge-hot{background:#ff6b35;color:#fff}
-.product-wish{position:absolute;top:12px;right:12px;background:rgba(10,10,15,.8);border:none;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;backdrop-filter:blur(8px)}
-.product-wish:hover{background:var(–red);transform:scale(1.1)}
-.product-wish.wished{color:var(–red)}
-.product-info{padding:18px}
-.product-cat{font-size:11px;color:var(–gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.product-name{font-size:16px;font-weight:600;margin-bottom:8px;line-height:1.3}
-.product-price-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.price{font-family:‘Cormorant Garamond’,serif;font-size:22px;font-weight:700;color:var(–gold)}
-.price-old{font-size:13px;color:var(–text2);text-decoration:line-through;margin-left:6px}
-.stars{font-size:12px;color:var(–gold)}
-.btn-cart{background:linear-gradient(135deg,var(–gold),var(–gold2));color:#0a0a0f;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;width:100%;transition:all .2s;font-family:‘Sora’,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-cart:hover{transform:scale(1.02);box-shadow:0 6px 20px rgba(201,168,76,.4)}
-.no-results{grid-column:1/-1;text-align:center;padding:60px;color:var(–text2)}
-.no-results span{font-size:48px;display:block;margin-bottom:16px}
+.product-wish{
+position:absolute;top:10px;right:10px;
+background:rgba(10,10,15,.75);border:none;
+width:34px;height:34px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;transition:all .2s;
+backdrop-filter:blur(6px)
+}
+.product-wish svg{width:16px;height:16px;stroke:var(–text2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:all .2s}
+.product-wish:hover svg,.product-wish.wished svg{stroke:var(–red);fill:rgba(224,80,80,.2)}
+.product-wish.wished svg{fill:var(–red)}
+.product-info{padding:14px}
+.product-cat{font-size:10px;color:var(–gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}
+.product-name{font-size:14px;font-weight:600;margin-bottom:8px;line-height:1.3;color:var(–text)}
+.product-price-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.price{font-family:‘Cormorant Garamond’,serif;font-size:20px;font-weight:700;color:var(–gold)}
+.price-old{font-size:11px;color:var(–text2);text-decoration:line-through;margin-left:5px}
+.stars{font-size:11px;color:var(–gold);letter-spacing:1px}
+.btn-cart{
+background:linear-gradient(135deg,var(–gold),var(–gold2));
+color:#0a0a0f;border:none;border-radius:9px;
+padding:9px;font-size:12px;font-weight:700;
+cursor:pointer;width:100%;transition:all .2s;
+font-family:‘Sora’,sans-serif;
+display:flex;align-items:center;justify-content:center;gap:6px
+}
+.btn-cart:hover{box-shadow:0 5px 16px rgba(201,168,76,.38);transform:scale(1.01)}
+.btn-cart:active{transform:scale(.98)}
+.btn-cart svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.no-results{grid-column:1/-1;text-align:center;padding:50px;color:var(–text2)}
+.no-results .big{font-size:40px;display:block;margin-bottom:12px}
 
-/* ── CART DRAWER ── */
-#cart-drawer{position:fixed;right:-420px;top:0;bottom:0;width:420px;background:var(–dark2);border-left:1px solid rgba(255,255,255,.08);z-index:600;transition:right .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.5)}
+/* ══════════════════════════════════
+CART DRAWER
+══════════════════════════════════ */
+#cart-drawer{
+position:fixed;right:-100%;top:0;bottom:0;
+width:min(400px,100vw);
+background:var(–dark2);
+border-left:1px solid rgba(255,255,255,.07);
+z-index:600;transition:right .38s cubic-bezier(.4,0,.2,1);
+display:flex;flex-direction:column;
+box-shadow:-16px 0 48px rgba(0,0,0,.55)
+}
 #cart-drawer.open{right:0}
-.cart-header{padding:24px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center}
-.cart-header h3{font-family:‘Cormorant Garamond’,serif;font-size:22px;font-weight:700}
-.cart-close{background:none;border:none;color:var(–text2);font-size:22px;cursor:pointer;transition:color .2s}
-.cart-close:hover{color:var(–gold)}
-.cart-items{flex:1;overflow-y:auto;padding:20px}
-.cart-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.cart-item-img{width:72px;height:72px;border-radius:12px;overflow:hidden;flex-shrink:0;background:var(–dark3)}
-.cart-item-img img{width:100%;height:100%;object-fit:cover}
-.cart-item-info{flex:1}
-.cart-item-name{font-size:14px;font-weight:600;margin-bottom:4px}
-.cart-item-price{font-size:13px;color:var(–gold);font-family:‘Cormorant Garamond’,serif;font-weight:700}
-.cart-qty{display:flex;align-items:center;gap:10px;margin-top:8px}
-.qty-btn{background:var(–dark3);border:1px solid rgba(255,255,255,.08);color:var(–text);width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .2s}
+.cart-header{
+padding:20px;border-bottom:1px solid rgba(255,255,255,.06);
+display:flex;justify-content:space-between;align-items:center;flex-shrink:0
+}
+.cart-header h3{font-family:‘Cormorant Garamond’,serif;font-size:20px;font-weight:700}
+.cart-close{
+background:rgba(255,255,255,.06);border:none;
+color:var(–text2);width:30px;height:30px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;font-size:14px;transition:all .2s
+}
+.cart-close:hover{background:rgba(201,168,76,.15);color:var(–gold)}
+.cart-items{flex:1;overflow-y:auto;padding:16px}
+.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.cart-item-img{width:66px;height:66px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(–dark3)}
+.cart-item-img img{width:100%;height:100%;object-fit:cover;display:block}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:13px;font-weight:600;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cart-item-price{font-size:14px;color:var(–gold);font-family:‘Cormorant Garamond’,serif;font-weight:700}
+.cart-qty{display:flex;align-items:center;gap:8px;margin-top:7px}
+.qty-btn{
+background:var(–dark3);border:1px solid rgba(255,255,255,.08);
+color:var(–text);width:26px;height:26px;border-radius:7px;
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;font-size:14px;transition:all .18s;line-height:1
+}
 .qty-btn:hover{border-color:var(–gold);color:var(–gold)}
-.qty-num{font-size:14px;font-weight:600;min-width:24px;text-align:center}
-.cart-item-del{background:none;border:none;color:var(–text2);cursor:pointer;font-size:16px;transition:color .2s;padding:4px}
-.cart-item-del:hover{color:var(–red)}
-.cart-empty{text-align:center;padding:60px 20px;color:var(–text2)}
-.cart-empty span{font-size:52px;display:block;margin-bottom:16px}
-.cart-footer{padding:24px;border-top:1px solid rgba(255,255,255,.06)}
-.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.cart-total-label{font-size:13px;color:var(–text2)}
-.cart-total-price{font-family:‘Cormorant Garamond’,serif;font-size:28px;font-weight:700;color:var(–gold)}
-#cart-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:599;opacity:0;pointer-events:none;transition:opacity .4s;backdrop-filter:blur(4px)}
+.qty-num{font-size:13px;font-weight:700;min-width:20px;text-align:center}
+.cart-del{
+background:none;border:none;color:var(–text2);
+cursor:pointer;font-size:13px;padding:4px;
+transition:color .2s;margin-left:auto
+}
+.cart-del:hover{color:var(–red)}
+.cart-del svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cart-empty{text-align:center;padding:50px 16px;color:var(–text2)}
+.cart-empty .big{font-size:44px;display:block;margin-bottom:12px}
+.cart-footer{padding:18px 20px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0}
+.cart-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.cart-total-label{font-size:12px;color:var(–text2);font-weight:500}
+.cart-total-price{font-family:‘Cormorant Garamond’,serif;font-size:26px;font-weight:700;color:var(–gold)}
+#cart-bg{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:599;opacity:0;pointer-events:none;transition:opacity .35s}
 #cart-bg.show{opacity:1;pointer-events:all}
 
-/* ── CHECKOUT ── */
-#checkout-page{display:none;padding:80px 5%}
+/* ══════════════════════════════════
+CHECKOUT
+══════════════════════════════════ */
+#checkout-page{display:none;padding:80px 20px 60px}
 #checkout-page.show{display:block}
-.checkout-grid{display:grid;grid-template-columns:1fr 380px;gap:40px;max-width:1100px;margin:0 auto}
-.checkout-card{background:var(–dark2);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:32px}
-.checkout-card h3{font-family:‘Cormorant Garamond’,serif;font-size:22px;font-weight:700;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
-.order-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:14px}
-.order-item:last-of-type{border:none}
-.order-total-line{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:var(–text2)}
-.order-total-line.grand{font-size:18px;color:var(–text);font-weight:700;border-top:1px solid rgba(255,255,255,.1);padding-top:16px;margin-top:8px}
-.order-total-line.grand .price{font-size:24px}
-.payment-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.pay-opt{padding:16px;border:1px solid rgba(255,255,255,.08);border-radius:12px;text-align:center;cursor:pointer;transition:all .2s;font-size:13px}
-.pay-opt:hover,.pay-opt.selected{border-color:var(–gold);background:rgba(201,168,76,.08);color:var(–gold)}
-.pay-opt span{display:block;font-size:24px;margin-bottom:6px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.checkout-grid{display:grid;grid-template-columns:1fr 340px;gap:28px;max-width:980px;margin:0 auto}
+.checkout-card{background:var(–dark2);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:26px}
+.checkout-card h3{font-family:‘Cormorant Garamond’,serif;font-size:20px;font-weight:700;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.06)}
+.order-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;gap:10px}
+.order-item span:first-child{color:var(–text2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.order-total-line{display:flex;justify-content:space-between;padding:7px 0;font-size:13px;color:var(–text2)}
+.order-total-line.grand{font-size:16px;color:var(–text);font-weight:700;border-top:1px solid rgba(255,255,255,.08);padding-top:14px;margin-top:6px}
+.order-total-line.grand .price{font-size:22px}
+.payment-methods{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.pay-opt{padding:13px 10px;border:1px solid rgba(255,255,255,.08);border-radius:11px;text-align:center;cursor:pointer;transition:all .18s;font-size:12px;font-weight:500}
+.pay-opt:hover,.pay-opt.selected{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.07);color:var(–gold)}
+.pay-opt span:first-child{display:block;font-size:22px;margin-bottom:4px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-/* ── ABOUT / CONTACT ── */
-#about-page,#contact-page{display:none;padding:80px 5%}
+/* ══════════════════════════════════
+ABOUT / CONTACT
+══════════════════════════════════ */
+#about-page,#contact-page{display:none;padding:80px 20px 60px}
 #about-page.show,#contact-page.show{display:block}
-.about-hero{max-width:800px;margin:0 auto;text-align:center}
-.about-hero h1{font-family:‘Cormorant Garamond’,serif;font-size:clamp(36px,5vw,64px);font-weight:700;margin-bottom:20px}
-.about-hero p{color:var(–text2);font-size:16px;line-height:1.8;margin-bottom:40px}
-.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:700px;margin:0 auto 60px}
-.stat-box{text-align:center;padding:32px;background:var(–dark2);border:1px solid rgba(255,255,255,.06);border-radius:16px}
-.stat-box .num{font-family:‘Cormorant Garamond’,serif;font-size:48px;font-weight:700;color:var(–gold);display:block}
-.stat-box p{color:var(–text2);font-size:13px;margin-top:6px}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:900px;margin:0 auto}
-.contact-info h3{font-family:‘Cormorant Garamond’,serif;font-size:28px;margin-bottom:20px}
-.contact-detail{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px;color:var(–text2);font-size:14px;line-height:1.6}
-.contact-detail .icon{font-size:22px;color:var(–gold);flex-shrink:0;margin-top:2px}
+.about-hero{max-width:740px;margin:0 auto;text-align:center}
+.about-hero h1{font-family:‘Cormorant Garamond’,serif;font-size:clamp(32px,6vw,58px);font-weight:700;margin-bottom:18px;line-height:1.1}
+.about-hero p{color:var(–text2);font-size:15px;line-height:1.75;margin-bottom:36px}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:580px;margin:0 auto 44px}
+.stat-box{text-align:center;padding:26px 16px;background:var(–dark2);border:1px solid rgba(255,255,255,.06);border-radius:14px}
+.stat-box .num{font-family:‘Cormorant Garamond’,serif;font-size:42px;font-weight:700;color:var(–gold);display:block;line-height:1}
+.stat-box p{color:var(–text2);font-size:12px;margin-top:6px}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:820px;margin:0 auto}
+.contact-info h3{font-family:‘Cormorant Garamond’,serif;font-size:24px;margin-bottom:20px;font-weight:700}
+.contact-detail{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px;font-size:13px;line-height:1.6}
+.contact-detail .ci{width:36px;height:36px;background:rgba(201,168,76,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-detail .ci svg{width:16px;height:16px;stroke:var(–gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.contact-detail strong{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(–text2);margin-bottom:2px}
+.contact-detail p{color:var(–text)}
+
+/* ── PROMO ── */
+.promo-banner{
+margin:0 20px 50px;
+background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));
+border:1px solid rgba(201,168,76,.18);border-radius:16px;
+padding:32px 20px;text-align:center
+}
+.promo-banner h3{font-family:‘Cormorant Garamond’,serif;font-size:clamp(20px,4vw,28px);margin-bottom:8px;font-weight:700}
+.promo-banner p{color:var(–text2);margin-bottom:18px;font-size:13px}
 
 /* ── FOOTER ── */
-footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);padding:60px 5% 30px;margin-top:40px}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
-.footer-brand .logo{font-family:‘Cormorant Garamond’,serif;font-size:28px;font-weight:700;color:var(–gold);margin-bottom:14px}
-.footer-brand p{color:var(–text2);font-size:13px;line-height:1.8;max-width:280px}
-.footer-col h4{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(–text);margin-bottom:20px}
-.footer-col a,.footer-col li{display:block;color:var(–text2);font-size:13px;margin-bottom:10px;text-decoration:none;cursor:pointer;transition:color .2s;list-style:none}
+footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.04);padding:50px 20px 24px;margin-top:20px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px}
+.footer-brand .logo{font-family:‘Cormorant Garamond’,serif;font-size:24px;font-weight:700;color:var(–gold);margin-bottom:12px}
+.footer-brand p{color:var(–text2);font-size:12px;line-height:1.75;max-width:240px}
+.footer-col h4{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(–text);margin-bottom:16px}
+.footer-col a,.footer-col li{display:block;color:var(–text2);font-size:12px;margin-bottom:9px;text-decoration:none;cursor:pointer;transition:color .18s;list-style:none}
 .footer-col a:hover,.footer-col li:hover{color:var(–gold)}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.05);padding-top:28px;flex-wrap:wrap;gap:12px}
-.footer-bottom p{color:var(–text2);font-size:12px}
-.social-links{display:flex;gap:12px}
-.social-link{width:36px;height:36px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(–text2);font-size:15px;text-decoration:none;transition:all .2s;cursor:pointer}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04);padding-top:22px;flex-wrap:wrap;gap:12px}
+.footer-bottom p{color:var(–text2);font-size:11px}
+.social-links{display:flex;gap:8px}
+.social-link{
+width:34px;height:34px;border:1px solid rgba(255,255,255,.08);
+border-radius:50%;display:flex;align-items:center;justify-content:center;
+cursor:pointer;transition:all .2s;color:var(–text2)
+}
 .social-link:hover{border-color:var(–gold);color:var(–gold);background:rgba(201,168,76,.1)}
+.social-link svg{width:14px;height:14px;fill:currentColor}
 
-/* ── SUCCESS PAGE ── */
-#success-page{display:none;padding:80px 5%;text-align:center}
+/* ── SUCCESS ── */
+#success-page{display:none;padding:80px 20px;text-align:center}
 #success-page.show{display:block}
-.success-box{max-width:480px;margin:0 auto}
-.success-icon{font-size:80px;margin-bottom:24px;animation:pop .5s ease}
-@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.1)}100%{transform:scale(1)}}
-.success-box h2{font-family:‘Cormorant Garamond’,serif;font-size:42px;margin-bottom:14px;color:var(–gold)}
-.success-box p{color:var(–text2);font-size:16px;margin-bottom:32px;line-height:1.7}
+.success-box{max-width:420px;margin:0 auto}
+.success-icon{font-size:72px;margin-bottom:20px;display:block;animation:pop .45s ease}
+@keyframes pop{0%{transform:scale(0) rotate(-15deg)}80%{transform:scale(1.08)}100%{transform:scale(1) rotate(0)}}
+.success-box h2{font-family:‘Cormorant Garamond’,serif;font-size:38px;margin-bottom:12px;color:var(–gold);font-weight:700}
+.success-box p{color:var(–text2);font-size:15px;margin-bottom:28px;line-height:1.65}
 
-/* ── PROMO BANNER ── */
-.promo-banner{background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:40px;text-align:center;margin:0 5% 60px}
-.promo-banner h3{font-family:‘Cormorant Garamond’,serif;font-size:32px;margin-bottom:10px}
-.promo-banner p{color:var(–text2);margin-bottom:20px}
+/* ── PAGE ANIM ── */
+.page-anim{animation:fadeUp .38s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── RESPONSIVE ── */
-@media(max-width:1024px){.checkout-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.contact-grid{grid-template-columns:1fr}.about-stats{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}#hero{height:420px}.slide-content{bottom:50px;left:5%}.products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}.product-img{height:170px}#cart-drawer{width:100%;right:-100%}.footer-grid{grid-template-columns:1fr}.about-stats{grid-template-columns:1fr;max-width:280px}.form-row{grid-template-columns:1fr}.payment-methods{grid-template-columns:1fr}}
-@media(max-width:480px){.filter-bar{flex-direction:column}.otp-wrap input{width:40px;height:48px;font-size:18px}}
-
-/* ── PAGE TRANSITIONS ── */
-.page{animation:fadeUp .4s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* ════════════════════════════
+RESPONSIVE
+════════════════════════════ */
+@media(max-width:900px){
+.checkout-grid{grid-template-columns:1fr}
+.footer-grid{grid-template-columns:1fr 1fr}
+.contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+.nav-links{display:none}
+.hamburger{display:flex}
+#hero{max-height:460px;min-height:300px}
+.slide-content{padding:0 16px 44px}
+.slider-arrow{width:36px;height:36px}
+.slider-prev{left:10px}.slider-next{right:10px}
+.products-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+.product-img{height:160px}
+.about-stats{grid-template-columns:repeat(3,1fr)}
+.footer-grid{grid-template-columns:1fr 1fr}
+.form-row{grid-template-columns:1fr}
+.payment-methods{grid-template-columns:1fr 1fr}
+.about-stats{grid-template-columns:1fr;max-width:200px}
+}
+@media(max-width:380px){
+.products-grid{grid-template-columns:1fr}
+.otp-wrap input{width:38px;height:46px;font-size:18px}
+.otp-wrap{gap:5px}
+}
 </style>
 
 </head>
 <body>
 
-<!-- TOAST -->
-
 <div id="toast"></div>
-
-<!-- CART BACKDROP -->
-
 <div id="cart-bg" onclick="closeCart()"></div>
 
-<!-- ═══════════ NAVBAR ═══════════ -->
+<!-- ═══════════════ NAVBAR ═══════════════ -->
 
 <nav id="navbar">
   <div class="nav-logo" onclick="showPage('home')">
-    LUXE<span data-en="STORE" data-ku="مۆڵێن">STORE</span>
+    LUXE<small data-en="STORE" data-ku="مۆڵێن">STORE</small>
   </div>
   <ul class="nav-links">
     <li><a onclick="showPage('home')" data-en="Home" data-ku="ماڵەوە">Home</a></li>
@@ -287,13 +508,22 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
     <li><a onclick="showPage('about')" data-en="About" data-ku="دەربارە">About</a></li>
     <li><a onclick="showPage('contact')" data-en="Contact" data-ku="پەیوەندی">Contact</a></li>
   </ul>
-  <div class="nav-actions">
-    <button class="lang-toggle" onclick="toggleLang()" id="lang-btn">کوردی</button>
-    <button class="nav-icon" onclick="openSearch()" title="Search">🔍</button>
-    <button class="nav-icon" onclick="openAuthModal()" id="auth-btn" title="Account">👤</button>
-    <button class="nav-icon" onclick="openCart()">🛒<span class="badge" id="cart-count">0</span></button>
+  <div class="nav-right">
+    <button class="lang-btn" onclick="toggleLang()" id="lang-btn">کوردی</button>
+    <button class="nav-icon" onclick="openSearch()" title="Search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="nav-icon" onclick="openAuthModal()" id="auth-btn" title="Account">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+    <button class="nav-icon cart-icon-btn" onclick="openCart()">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="cart-badge" id="cart-count">0</span>
+    </button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-  <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -305,7 +535,7 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
   <a onclick="showPage('contact');closeMenu()" data-en="Contact" data-ku="پەیوەندی">Contact</a>
 </div>
 
-<!-- ═══════════ CART DRAWER ═══════════ -->
+<!-- CART DRAWER -->
 
 <div id="cart-drawer">
   <div class="cart-header">
@@ -322,7 +552,7 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
   </div>
 </div>
 
-<!-- ═══════════ AUTH MODAL ═══════════ -->
+<!-- AUTH MODAL -->
 
 <div class="overlay" id="auth-overlay">
   <div class="modal">
@@ -331,16 +561,16 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
   </div>
 </div>
 
-<!-- ═══════════ PRODUCT DETAIL MODAL ═══════════ -->
+<!-- PRODUCT DETAIL MODAL -->
 
 <div class="overlay" id="product-overlay">
-  <div class="modal" style="max-width:580px">
+  <div class="modal" style="max-width:540px">
     <button class="modal-close" onclick="closeProductModal()">✕</button>
     <div id="product-detail-content"></div>
   </div>
 </div>
 
-<!-- ═══════════ HOME PAGE ═══════════ -->
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
 
 <div id="home-page">
 
@@ -363,7 +593,7 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
       <div class="slide-content">
         <div class="slide-tag" data-en="Luxury Watches" data-ku="سەعاتی لوکس">Luxury Watches</div>
         <h1 data-en="Time is Art" data-ku="کات هونەرە">Time<br>is Art</h1>
-        <p data-en="Premium timepieces that define elegance and precision." data-ku="سەعاتی پریمیوم کە ئەلیگانس و تەقسیم دیاری دەکات.">Premium timepieces that define elegance and precision.</p>
+        <p data-en="Premium timepieces that define elegance and precision." data-ku="سەعاتی پریمیوم کە ئەلیگانس دیاری دەکات.">Premium timepieces that define elegance and precision.</p>
         <button class="btn btn-gold" onclick="scrollToProducts()" data-en="Explore" data-ku="گەڕان">Explore</button>
       </div>
     </div>
@@ -373,12 +603,16 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
       <div class="slide-content">
         <div class="slide-tag" data-en="Sport & Active" data-ku="وەرزش و چالاکی">Sport & Active</div>
         <h1 data-en="Move With Purpose" data-ku="بە مەبەست بجووڵە">Move With<br>Purpose</h1>
-        <p data-en="High-performance gear for those who push limits." data-ku="ئامێری بەئەنجام بالا بۆ ئەوانەی سنوور دادەنێن.">High-performance gear for those who push limits.</p>
+        <p data-en="High-performance gear for those who push limits." data-ku="ئامێری بالا بۆ ئەوانەی سنوور دادەنێن.">High-performance gear for those who push limits.</p>
         <button class="btn btn-gold" onclick="scrollToProducts()" data-en="View All" data-ku="هەموو ببینە">View All</button>
       </div>
     </div>
-    <button class="slider-arrow slider-prev" onclick="prevSlide()">‹</button>
-    <button class="slider-arrow slider-next" onclick="nextSlide()">›</button>
+    <button class="slider-arrow slider-prev" onclick="prevSlide()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="slider-arrow slider-next" onclick="nextSlide()">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
     <div class="slider-dots">
       <div class="dot active" onclick="goSlide(0)"></div>
       <div class="dot" onclick="goSlide(1)"></div>
@@ -393,7 +627,7 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
       <h2 data-en="Shop by Category" data-ku="بەپێی جۆر بکڕە">Shop by Category</h2>
       <div class="section-line"></div>
     </div>
-    <div class="categories-grid" id="cats-grid"></div>
+    <div class="cats-scroll" id="cats-grid"></div>
   </section>
 
   <!-- PRODUCTS -->
@@ -406,23 +640,22 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
     </div>
 
 ```
-<!-- FILTER BAR -->
 <div class="filter-bar">
   <div id="search-bar-wrap">
-    <span class="search-icon">🔍</span>
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input type="text" id="search-input" placeholder="Search products…" oninput="filterProducts()" data-en-ph="Search products…" data-ku-ph="کەلوپەل بگەڕێ…"/>
   </div>
   <div class="filter-chips" id="filter-chips"></div>
-  <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);">
-    <span data-en="Max $" data-ku="زۆرترین $">Max $</span>
-    <input type="range" id="price-range" min="0" max="500" value="500" oninput="filterProducts();updatePriceLabel()" style="width:120px"/>
-    <span id="price-label">$500</span>
+  <div class="price-filter">
+    <span data-en="Max" data-ku="زۆرترین">Max</span>
+    <input type="range" id="price-range" min="0" max="500" value="500" oninput="filterProducts();updatePriceLabel()"/>
+    <span id="price-label" style="color:var(--gold);font-weight:600">$500</span>
   </div>
   <select class="sort-sel" onchange="filterProducts()" id="sort-sel">
-    <option value="default" data-en="Sort: Default" data-ku="ریزکردن: بنەڕەت">Sort: Default</option>
-    <option value="price-asc" data-en="Price: Low→High" data-ku="نرخ: کەم→زۆر">Price: Low→High</option>
-    <option value="price-desc" data-en="Price: High→Low" data-ku="نرخ: زۆر→کەم">Price: High→Low</option>
-    <option value="rating" data-en="Top Rated" data-ku="باشترین نرخاندن">Top Rated</option>
+    <option value="default" data-en="Default" data-ku="بنەڕەت">Default</option>
+    <option value="price-asc" data-en="Price ↑" data-ku="نرخ ↑">Price ↑</option>
+    <option value="price-desc" data-en="Price ↓" data-ku="نرخ ↓">Price ↓</option>
+    <option value="rating" data-en="Top Rated" data-ku="باشترین">Top Rated</option>
   </select>
 </div>
 
@@ -435,11 +668,9 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
 
   <div class="promo-banner">
     <h3 data-en="Free Shipping on Orders Over $99" data-ku="گواستنەوەی بەخۆڕایی بۆ داواکارییەکانی سەروو ٩٩$">Free Shipping on Orders Over $99</h3>
-    <p data-en="Use code LUXE10 for 10% off your first order" data-ku="کۆدی LUXE10 بەکاربهێنە بۆ ١٠٪ داشکاندن لە یەکەم داواکارییەکەت">Use code <strong>LUXE10</strong> for 10% off your first order</p>
-    <button class="btn btn-outline" onclick="showToast('✅ Code copied!',2000)">Copy Code</button>
+    <p data-en="Use code LUXE10 for 10% off your first order" data-ku="کۆدی LUXE10 بەکاربهێنە بۆ ١٠٪ داشکاندن">Use code <strong>LUXE10</strong> for 10% off your first order</p>
+    <button class="btn btn-outline" onclick="copyCode()" data-en="Copy Code" data-ku="کۆد کۆپی بکە">Copy Code</button>
   </div>
-
-  <!-- FOOTER -->
 
   <footer>
     <div class="footer-grid">
@@ -463,8 +694,8 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
       </div>
       <div class="footer-col">
         <h4 data-en="Support" data-ku="پشتگیری">Support</h4>
-        <a data-en="FAQ" data-ku="پرسیاری باوەکان">FAQ</a>
-        <a data-en="Shipping Info" data-ku="زانیاری گواستنەوە">Shipping Info</a>
+        <a data-en="FAQ" data-ku="پرسیارە باوەکان">FAQ</a>
+        <a data-en="Shipping" data-ku="گواستنەوە">Shipping</a>
         <a data-en="Returns" data-ku="گەڕاندنەوە">Returns</a>
         <a data-en="Size Guide" data-ku="ڕێنمایی قەبارە">Size Guide</a>
       </div>
@@ -472,22 +703,22 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
     <div class="footer-bottom">
       <p>© 2025 LuxeStore. <span data-en="All rights reserved." data-ku="هەموو مافەکان پارێزراون.">All rights reserved.</span></p>
       <div class="social-links">
-        <div class="social-link">📘</div>
-        <div class="social-link">📸</div>
-        <div class="social-link">🐦</div>
-        <div class="social-link">▶️</div>
+        <div class="social-link"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+        <div class="social-link"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="social-link"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></div>
+        <div class="social-link"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></div>
       </div>
     </div>
   </footer>
 </div>
 
-<!-- ═══════════ ABOUT PAGE ═══════════ -->
+<!-- ═══════════════ ABOUT PAGE ═══════════════ -->
 
 <div id="about-page">
-  <div class="about-hero" style="margin-top:60px">
-    <div class="slide-tag" style="margin-bottom:20px" data-en="Our Story" data-ku="چیرۆکی ئێمە">Our Story</div>
-    <h1 data-en="Crafting Luxury<br>Since 2015" data-ku="دروستکردنی لوکس<br>لە ٢٠١٥ەوە">Crafting Luxury<br>Since 2015</h1>
-    <p data-en="LuxeStore was born from a passion for quality and a belief that everyone deserves access to beautifully designed products. We curate the world's finest brands and bring them to your doorstep with unmatched service." data-ku="مۆڵێن لە شەوقی کوالیتی و باوەڕ دایناوە کە هەموو کەس مافی بەدەستهێنانی بەرهەمی جوانکاریکراوی هەیە. ئێمە باشترین براندەکانی جیهان دیاری دەکەین و لە درگای مالتانەوە پێشکەشت دەکەین بە خزمەتگوزاریێکی بێوێنە.">LuxeStore was born from a passion for quality and a belief that everyone deserves access to beautifully designed products. We curate the world's finest brands and bring them to your doorstep with unmatched service.</p>
+  <div class="about-hero page-anim">
+    <div style="display:inline-block;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:4px 14px;border-radius:20px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;font-weight:600" data-en="Our Story" data-ku="چیرۆکی ئێمە">Our Story</div>
+    <h1 data-en="Crafting Luxury Since 2015" data-ku="دروستکردنی لوکس لە ٢٠١٥ەوە">Crafting Luxury<br>Since 2015</h1>
+    <p data-en="LuxeStore was born from a passion for quality and a belief that everyone deserves access to beautifully designed products. We curate the world's finest brands and bring them to your doorstep with unmatched service." data-ku="مۆڵێن لە شەوقی کوالیتی دایناوە و ئێمە باشترین براندەکانی جیهان دیاری دەکەین و لە درگای مالتانەوە پێشکەشت دەکەین بە خزمەتگوزاریێکی بێوێنە.">LuxeStore was born from a passion for quality and a belief that everyone deserves access to beautifully designed products. We curate the world's finest brands and bring them to your doorstep with unmatched service.</p>
     <div class="about-stats">
       <div class="stat-box"><span class="num">50K+</span><p data-en="Happy Customers" data-ku="کڕیاری خۆشحاڵ">Happy Customers</p></div>
       <div class="stat-box"><span class="num">2K+</span><p data-en="Products" data-ku="کەلوپەل">Products</p></div>
@@ -495,56 +726,67 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
     </div>
     <button class="btn btn-gold" onclick="scrollToProducts();showPage('home')" data-en="Shop Our Collection" data-ku="کۆکراوەکەمان بکڕە">Shop Our Collection</button>
   </div>
-  <footer style="margin-top:80px">
-    <div class="footer-bottom">
-      <p>© 2025 LuxeStore.</p>
+  <footer style="margin-top:60px">
+    <div class="footer-bottom"><p>© 2025 LuxeStore.</p>
       <div class="social-links">
-        <div class="social-link">📘</div><div class="social-link">📸</div><div class="social-link">🐦</div>
+        <div class="social-link"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+        <div class="social-link"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="social-link"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></div>
       </div>
     </div>
   </footer>
 </div>
 
-<!-- ═══════════ CONTACT PAGE ═══════════ -->
+<!-- ═══════════════ CONTACT PAGE ═══════════════ -->
 
 <div id="contact-page">
-  <div class="section-header" style="margin-top:60px;margin-bottom:48px">
+  <div class="section-header page-anim" style="margin-top:20px;margin-bottom:40px">
     <h2 data-en="Get In Touch" data-ku="پەیوەندیمان پێوە بکە">Get In Touch</h2>
     <div class="section-line"></div>
   </div>
-  <div class="contact-grid">
+  <div class="contact-grid page-anim">
     <div class="contact-info">
       <h3 data-en="We'd love to hear from you" data-ku="دەمانەوێت بیمانبیستێت">We'd love to hear from you</h3>
-      <div class="contact-detail"><span class="icon">📍</span><div><strong data-en="Address" data-ku="ناونیشان">Address</strong><br><span data-en="Erbil, Kurdistan Region, Iraq" data-ku="هەولێر، هەرێمی کوردستان، عێراق">Erbil, Kurdistan Region, Iraq</span></div></div>
-      <div class="contact-detail"><span class="icon">📞</span><div><strong data-en="Phone" data-ku="تەلەفۆن">Phone</strong><br>+964 750 000 0000</div></div>
-      <div class="contact-detail"><span class="icon">✉️</span><div><strong data-en="Email" data-ku="ئیمەیڵ">Email</strong><br>hello@luxestore.com</div></div>
-      <div class="contact-detail"><span class="icon">🕐</span><div><strong data-en="Hours" data-ku="کاتژمێرەکان">Hours</strong><br><span data-en="Sun–Thu 9am–6pm" data-ku="یەکشەممە–پێنجشەممە ٩ب–٦ئ">Sun–Thu 9am–6pm</span></div></div>
+      <div class="contact-detail">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><strong data-en="Address" data-ku="ناونیشان">Address</strong><p data-en="Erbil, Kurdistan Region, Iraq" data-ku="هەولێر، هەرێمی کوردستان، عێراق">Erbil, Kurdistan Region, Iraq</p></div>
+      </div>
+      <div class="contact-detail">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.84-1.84a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div><strong data-en="Phone" data-ku="تەلەفۆن">Phone</strong><p>+964 750 000 0000</p></div>
+      </div>
+      <div class="contact-detail">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div><strong>Email</strong><p>hello@luxestore.com</p></div>
+      </div>
+      <div class="contact-detail">
+        <div class="ci"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div><strong data-en="Hours" data-ku="کاتژمێرەکان">Hours</strong><p data-en="Sun–Thu 9am–6pm" data-ku="یەکشەممە–پێنجشەممە ٩ب–٦ئ">Sun–Thu 9am–6pm</p></div>
+      </div>
     </div>
     <div>
       <div class="checkout-card">
         <h3 data-en="Send a Message" data-ku="پەیامێک بنێرە">Send a Message</h3>
         <div class="form-group"><label data-en="Your Name" data-ku="ناوی تۆ">Your Name</label><input type="text" id="contact-name"/></div>
         <div class="form-group"><label data-en="Email or Phone" data-ku="ئیمەیڵ یاخوود ژمارە">Email or Phone</label><input type="text" id="contact-contact"/></div>
-        <div class="form-group"><label data-en="Message" data-ku="پەیام">Message</label><textarea style="width:100%;background:var(--dark3);border:1px solid rgba(255,255,255,.08);border-radius:var(--rad);padding:12px 16px;color:var(--text);font-size:14px;font-family:'Sora',sans-serif;resize:vertical;min-height:120px;outline:none" id="contact-msg"></textarea></div>
+        <div class="form-group"><label data-en="Message" data-ku="پەیام">Message</label><textarea id="contact-msg"></textarea></div>
         <button class="btn btn-gold btn-full" onclick="sendContact()" data-en="Send Message" data-ku="پەیامەکە بنێرە">Send Message</button>
       </div>
     </div>
   </div>
-  <footer style="margin-top:80px">
-    <div class="footer-bottom"><p>© 2025 LuxeStore.</p></div>
-  </footer>
+  <footer style="margin-top:60px"><div class="footer-bottom"><p>© 2025 LuxeStore.</p></div></footer>
 </div>
 
-<!-- ═══════════ CHECKOUT PAGE ═══════════ -->
+<!-- ═══════════════ CHECKOUT PAGE ═══════════════ -->
 
 <div id="checkout-page">
-  <div class="section-header" style="margin-bottom:40px">
+  <div class="section-header" style="margin-bottom:32px">
     <h2 data-en="Checkout" data-ku="مامەڵەکردن">Checkout</h2>
     <div class="section-line"></div>
   </div>
-  <div class="checkout-grid">
+  <div class="checkout-grid page-anim">
     <div>
-      <div class="checkout-card" style="margin-bottom:24px">
+      <div class="checkout-card" style="margin-bottom:20px">
         <h3 data-en="Shipping Information" data-ku="زانیاری گواستنەوە">Shipping Information</h3>
         <div class="form-row">
           <div class="form-group"><label data-en="First Name" data-ku="ناوی یەکەم">First Name</label><input type="text" id="sh-fname"/></div>
@@ -556,15 +798,14 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
         <div class="form-row">
           <div class="form-group"><label data-en="City" data-ku="شار">City</label><input type="text" id="sh-city"/></div>
           <div class="form-group"><label data-en="Country" data-ku="وڵات">Country</label>
-            <select id="sh-country"><option>Iraq</option><option>Kurdistan</option><option>Turkey</option><option>Iran</option><option>Other</option></select>
-          </div>
+            <select id="sh-country"><option>Iraq</option><option>Kurdistan</option><option>Turkey</option><option>Iran</option><option>Other</option></select></div>
         </div>
       </div>
       <div class="checkout-card">
         <h3 data-en="Payment" data-ku="پارەدان">Payment</h3>
         <div class="payment-methods">
           <div class="pay-opt selected" onclick="selectPay(this)"><span>💳</span><span data-en="Card" data-ku="کارت">Card</span></div>
-          <div class="pay-opt" onclick="selectPay(this)"><span>📱</span><span data-en="Mobile Pay" data-ku="پارەدانی مۆبایل">Mobile Pay</span></div>
+          <div class="pay-opt" onclick="selectPay(this)"><span>📱</span><span data-en="Mobile Pay" data-ku="مۆبایل">Mobile Pay</span></div>
           <div class="pay-opt" onclick="selectPay(this)"><span>💵</span><span data-en="Cash" data-ku="کاش">Cash</span></div>
           <div class="pay-opt" onclick="selectPay(this)"><span>🏦</span><span data-en="Bank" data-ku="بانک">Bank</span></div>
         </div>
@@ -574,19 +815,22 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
           <div class="form-group"><label>CVV</label><input type="text" placeholder="•••" maxlength="3"/></div>
         </div>
         <div class="form-group"><label data-en="Promo Code" data-ku="کۆدی تەشویق">Promo Code</label>
-          <div style="display:flex;gap:10px"><input type="text" id="promo-input" placeholder="LUXE10"/><button class="btn btn-outline" onclick="applyPromo()" data-en="Apply" data-ku="جێبەجێکردن">Apply</button></div>
+          <div style="display:flex;gap:8px">
+            <input type="text" id="promo-input" placeholder="LUXE10" style="flex:1"/>
+            <button class="btn btn-outline" onclick="applyPromo()" data-en="Apply" data-ku="جێبەجێ">Apply</button>
+          </div>
         </div>
         <button class="btn btn-gold btn-full" onclick="placeOrder()" data-en="Place Order" data-ku="داواکاری تۆمارکردن">Place Order</button>
-        <button class="btn btn-outline btn-full" style="margin-top:10px" onclick="showPage('home')" data-en="← Continue Shopping" data-ku="← بەردەوامبوو لە کڕین">← Continue Shopping</button>
+        <button class="btn btn-outline btn-full" style="margin-top:8px" onclick="showPage('home')" data-en="← Continue Shopping" data-ku="← بەردەوامبوو لە کڕین">← Continue Shopping</button>
       </div>
     </div>
     <div>
-      <div class="checkout-card" style="position:sticky;top:80px">
+      <div class="checkout-card" style="position:sticky;top:76px">
         <h3 data-en="Order Summary" data-ku="پوختەی داواکاری">Order Summary</h3>
         <div id="order-items"></div>
-        <div style="margin-top:16px">
+        <div style="margin-top:14px">
           <div class="order-total-line"><span data-en="Subtotal" data-ku="کۆی بچووک">Subtotal</span><span id="order-sub">$0</span></div>
-          <div class="order-total-line"><span data-en="Shipping" data-ku="گواستنەوە">Shipping</span><span data-en="Free" data-ku="بەخۆڕایی">Free</span></div>
+          <div class="order-total-line"><span data-en="Shipping" data-ku="گواستنەوە">Shipping</span><span data-en="Free" data-ku="بەخۆڕایی" style="color:var(--green)">Free</span></div>
           <div class="order-total-line"><span data-en="Discount" data-ku="داشکاندن">Discount</span><span id="order-discount" style="color:var(--green)">$0</span></div>
           <div class="order-total-line grand"><span data-en="Total" data-ku="کۆی گشتی">Total</span><span class="price" id="order-total">$0</span></div>
         </div>
@@ -595,11 +839,11 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
   </div>
 </div>
 
-<!-- ═══════════ SUCCESS PAGE ═══════════ -->
+<!-- SUCCESS -->
 
 <div id="success-page">
-  <div class="success-box">
-    <div class="success-icon">🎉</div>
+  <div class="success-box page-anim">
+    <span class="success-icon">🎉</span>
     <h2 data-en="Order Placed!" data-ku="داواکاری تۆمارکرا!">Order Placed!</h2>
     <p data-en="Thank you for your purchase. You'll receive a confirmation shortly." data-ku="سوپاسی کڕینت دەکەین. بە زووێک پشتراستکردنەوەیەکت دەگات.">Thank you for your purchase. You'll receive a confirmation shortly.</p>
     <button class="btn btn-gold" onclick="showPage('home')" data-en="Continue Shopping" data-ku="بەردەوامبوو لە کڕین">Continue Shopping</button>
@@ -607,10 +851,8 @@ footer{background:var(–dark2);border-top:1px solid rgba(255,255,255,.05);paddi
 </div>
 
 <script>
-// ═══════════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════════
-const CATEGORIES = [
+// ── DATA ──
+const CATS=[
   {id:'all',icon:'🛍️',en:'All',ku:'هەموو',count:24},
   {id:'fashion',icon:'👗',en:'Fashion',ku:'مۆد',count:8},
   {id:'watches',icon:'⌚',en:'Watches',ku:'سەعات',count:4},
@@ -618,8 +860,7 @@ const CATEGORIES = [
   {id:'accessories',icon:'💍',en:'Accessories',ku:'ئاکسسوار',count:3},
   {id:'sport',icon:'🏃',en:'Sport',ku:'وەرزش',count:3},
 ];
-
-const PRODUCTS = [
+const PRODUCTS=[
   {id:1,cat:'fashion',nameEn:'Linen Blazer',nameKu:'ژاکێتی لینین',price:189,oldPrice:240,img:'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&q=80',badge:'new',rating:4.8,reviews:124},
   {id:2,cat:'watches',nameEn:'Classic Gold Watch',nameKu:'سەعاتی زێڕین کلاسیک',price:349,oldPrice:420,img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80',badge:'hot',rating:4.9,reviews:89},
   {id:3,cat:'shoes',nameEn:'Premium Sneakers',nameKu:'سنیکەری پریمیوم',price:129,img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80',badge:'',rating:4.6,reviews:212},
@@ -634,69 +875,50 @@ const PRODUCTS = [
   {id:12,cat:'accessories',nameEn:'Gold Necklace',nameKu:'گەردەنبەندی زێڕ',price:249,img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&q=80',badge:'hot',rating:4.9,reviews:34},
 ];
 
-// ═══════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════
-let lang = 'en';
-let cart = JSON.parse(localStorage.getItem('lx_cart')||'[]');
-let users = JSON.parse(localStorage.getItem('lx_users')||'[]');
-let currentUser = JSON.parse(localStorage.getItem('lx_me')||'null');
-let wishlist = JSON.parse(localStorage.getItem('lx_wish')||'[]');
-let activeCat = 'all';
-let currentSlide = 0;
-let slideTimer;
-let authStep = 'login'; // login | register | otp
-let pendingAuth = {};
-let discount = 0;
+// ── STATE ──
+let lang='en',activeCat='all',activeChip='',currentSlide=0,slideTimer;
+let discount=0,pendingAuth={},authStep='login';
+let cart=JSON.parse(localStorage.getItem('lx_cart')||'[]');
+let users=JSON.parse(localStorage.getItem('lx_users')||'[]');
+let currentUser=JSON.parse(localStorage.getItem('lx_me')||'null');
+let wishlist=JSON.parse(localStorage.getItem('lx_wish')||'[]');
 
-// ═══════════════════════════════════════════════
-// LANGUAGE
-// ═══════════════════════════════════════════════
+// ── LANGUAGE ──
 function toggleLang(){
-  lang = lang==='en'?'ku':'en';
-  document.body.classList.toggle('rtl', lang==='ku');
-  document.getElementById('lang-btn').textContent = lang==='en'?'کوردی':'English';
-  applyLang();
-  renderProducts();
-  renderCats();
-  buildCartUI();
+  lang=lang==='en'?'ku':'en';
+  document.body.classList.toggle('rtl',lang==='ku');
+  document.getElementById('lang-btn').textContent=lang==='en'?'کوردی':'English';
+  applyLang();renderCats();renderChips();filterProducts();buildCartUI();
 }
 function applyLang(){
   document.querySelectorAll('[data-en]').forEach(el=>{
-    el.textContent = lang==='ku'?(el.dataset.ku||el.dataset.en):el.dataset.en;
+    el.textContent=lang==='ku'?(el.dataset.ku||el.dataset.en):el.dataset.en;
   });
   document.querySelectorAll('[data-en-ph]').forEach(el=>{
-    el.placeholder = lang==='ku'?el.dataset.kuPh:el.dataset.enPh;
-  });
-  document.querySelectorAll('[data-en] option').forEach(el=>{
-    // skip
+    el.placeholder=lang==='ku'?el.dataset.kuPh:el.dataset.enPh;
   });
 }
-function t(en,ku){return lang==='ku'?ku:en;}
+const t=(en,ku)=>lang==='ku'?ku:en;
 
-// ═══════════════════════════════════════════════
-// PAGES
-// ═══════════════════════════════════════════════
-const PAGES = ['home-page','about-page','contact-page','checkout-page','success-page'];
+// ── PAGES ──
+const PAGES=['home','about','contact','checkout','success'];
 function showPage(name){
-  PAGES.forEach(p=>document.getElementById(p).classList.remove('show'));
-  document.getElementById(name+'-page').style.display='none';
-  PAGES.forEach(p=>{const el=document.getElementById(p);el.style.display='none';el.classList.remove('show');});
+  PAGES.forEach(p=>{
+    const el=document.getElementById(p+'-page');
+    el.style.display='none';el.classList.remove('show');
+  });
   const el=document.getElementById(name+'-page');
   el.style.display='block';
   el.classList.add('show');
   window.scrollTo({top:0,behavior:'smooth'});
-  applyLang();
-  closeMenu();
+  applyLang();closeMenu();
 }
 function scrollToProducts(){
   showPage('home');
-  setTimeout(()=>document.getElementById('products-section').scrollIntoView({behavior:'smooth'}),100);
+  setTimeout(()=>document.getElementById('products-section').scrollIntoView({behavior:'smooth'}),120);
 }
 
-// ═══════════════════════════════════════════════
-// SLIDER
-// ═══════════════════════════════════════════════
+// ── SLIDER ──
 function goSlide(n){
   document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===n));
   document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===n));
@@ -706,12 +928,9 @@ function nextSlide(){goSlide((currentSlide+1)%3)}
 function prevSlide(){goSlide((currentSlide+2)%3)}
 slideTimer=setInterval(nextSlide,5000);
 
-// ═══════════════════════════════════════════════
-// CATEGORIES
-// ═══════════════════════════════════════════════
+// ── CATS ──
 function renderCats(){
-  const g=document.getElementById('cats-grid');
-  g.innerHTML=CATEGORIES.map(c=>`
+  document.getElementById('cats-grid').innerHTML=CATS.map(c=>`
     <div class="cat-card${activeCat===c.id?' active-cat':''}" onclick="setCat('${c.id}')">
       <span class="cat-icon">${c.icon}</span>
       <h3>${t(c.en,c.ku)}</h3>
@@ -719,31 +938,24 @@ function renderCats(){
     </div>`).join('');
 }
 function setCat(id){
-  activeCat=id;
-  renderCats();
-  filterProducts();
+  activeCat=id;renderCats();filterProducts();
   document.getElementById('products-section').scrollIntoView({behavior:'smooth'});
 }
 
-// ═══════════════════════════════════════════════
-// FILTER CHIPS
-// ═══════════════════════════════════════════════
-const CHIP_DATA=[
+// ── CHIPS ──
+const CHIPS=[
   {en:'All',ku:'هەموو',val:''},
   {en:'On Sale',ku:'فرۆشتن',val:'sale'},
   {en:'New',ku:'نوێ',val:'new'},
   {en:'Hot',ku:'گەرم',val:'hot'},
 ];
-let activeChip='';
 function renderChips(){
-  document.getElementById('filter-chips').innerHTML=CHIP_DATA.map(c=>`
+  document.getElementById('filter-chips').innerHTML=CHIPS.map(c=>`
     <button class="chip${activeChip===c.val?' active':''}" onclick="setChip('${c.val}')">${t(c.en,c.ku)}</button>`).join('');
 }
 function setChip(v){activeChip=v;renderChips();filterProducts();}
 
-// ═══════════════════════════════════════════════
-// PRODUCTS
-// ═══════════════════════════════════════════════
+// ── PRODUCTS ──
 function filterProducts(){
   const q=document.getElementById('search-input').value.toLowerCase();
   const maxP=+document.getElementById('price-range').value;
@@ -756,87 +968,82 @@ function filterProducts(){
   if(sort==='price-asc') list.sort((a,b)=>a.price-b.price);
   else if(sort==='price-desc') list.sort((a,b)=>b.price-a.price);
   else if(sort==='rating') list.sort((a,b)=>b.rating-a.rating);
-  renderProducts(list);
+  renderProductList(list);
 }
-function renderProducts(list){
-  if(!list) list=[...PRODUCTS];
+function renderProductList(list){
   const g=document.getElementById('products-grid');
   if(!list.length){
-    g.innerHTML=`<div class="no-results"><span>🔍</span>${t('No products found','هیچ کەلوپەلێک نەدۆزرایەوە')}</div>`;
-    return;
+    g.innerHTML=`<div class="no-results"><span class="big">🔍</span>${t('No products found','هیچ کەلوپەلێک نەدۆزرایەوە')}</div>`;return;
   }
-  g.innerHTML=list.map(p=>`
-    <div class="product-card" onclick="openProduct(${p.id})">
+  const heartSVG=`<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+  const cartSVG=`<svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>`;
+  g.innerHTML=list.map(p=>{
+    const cat=CATS.find(c=>c.id===p.cat);
+    return `<div class="product-card" onclick="openProduct(${p.id})">
       <div class="product-img">
         <img src="${p.img}" alt="${lang==='ku'?p.nameKu:p.nameEn}" loading="lazy"/>
         ${p.badge?`<span class="product-badge badge-${p.badge}">${p.badge.toUpperCase()}</span>`:''}
-        <button class="product-wish${wishlist.includes(p.id)?' wished':''}" onclick="event.stopPropagation();toggleWish(${p.id})">${wishlist.includes(p.id)?'❤️':'🤍'}</button>
+        <button class="product-wish${wishlist.includes(p.id)?' wished':''}" onclick="event.stopPropagation();toggleWish(${p.id})" aria-label="wishlist">${heartSVG}</button>
       </div>
       <div class="product-info">
-        <div class="product-cat">${CATEGORIES.find(c=>c.id===p.cat)[lang==='ku'?'ku':'en']}</div>
+        <div class="product-cat">${t(cat.en,cat.ku)}</div>
         <div class="product-name">${lang==='ku'?p.nameKu:p.nameEn}</div>
         <div class="product-price-row">
           <div><span class="price">$${p.price}</span>${p.oldPrice?`<span class="price-old">$${p.oldPrice}</span>`:''}</div>
           <div class="stars">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))}</div>
         </div>
-        <button class="btn-cart" onclick="event.stopPropagation();addToCart(${p.id})">🛒 ${t('Add to Cart','زیادکردن بۆ سەبەتە')}</button>
+        <button class="btn-cart" onclick="event.stopPropagation();addToCart(${p.id})">${cartSVG} ${t('Add to Cart','زیاد بکە')}</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function updatePriceLabel(){
   document.getElementById('price-label').textContent='$'+document.getElementById('price-range').value;
 }
 
-// ═══════════════════════════════════════════════
-// WISHLIST
-// ═══════════════════════════════════════════════
+// ── WISHLIST ──
 function toggleWish(id){
   wishlist=wishlist.includes(id)?wishlist.filter(w=>w!==id):[...wishlist,id];
   localStorage.setItem('lx_wish',JSON.stringify(wishlist));
   filterProducts();
-  showToast(wishlist.includes(id)?'❤️ '+t('Added to wishlist','زیادکرا بۆ خواستلیست'):'🤍 '+t('Removed','لابرا'),1800);
+  showToast(wishlist.includes(id)?'❤️ '+t('Saved to wishlist','زیادکرا بۆ خواستلیست'):'🤍 '+t('Removed','لابرا'));
 }
 
-// ═══════════════════════════════════════════════
-// PRODUCT MODAL
-// ═══════════════════════════════════════════════
+// ── PRODUCT MODAL ──
 function openProduct(id){
   const p=PRODUCTS.find(x=>x.id===id);
+  const cat=CATS.find(c=>c.id===p.cat);
   document.getElementById('product-detail-content').innerHTML=`
-    <img src="${p.img}" style="width:100%;height:220px;object-fit:cover;border-radius:12px;margin-bottom:20px"/>
-    <div style="font-size:11px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">${CATEGORIES.find(c=>c.id===p.cat)[lang==='ku'?'ku':'en']}</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:30px;margin-bottom:10px">${lang==='ku'?p.nameKu:p.nameEn}</h2>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-      <span style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold)">$${p.price}</span>
-      ${p.oldPrice?`<span style="text-decoration:line-through;color:var(--text2)">$${p.oldPrice}</span>`:''}
+    <img src="${p.img}" style="width:100%;height:200px;object-fit:cover;border-radius:12px;margin-bottom:18px;display:block"/>
+    <div style="font-size:10px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-weight:700">${t(cat.en,cat.ku)}</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;margin-bottom:10px;font-weight:700">${lang==='ku'?p.nameKu:p.nameEn}</h2>
+    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);font-weight:700">$${p.price}</span>
+      ${p.oldPrice?`<span style="text-decoration:line-through;color:var(--text2);font-size:14px">$${p.oldPrice}</span>`:''}
     </div>
-    <div style="color:var(--gold);margin-bottom:16px">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))} <span style="color:var(--text2);font-size:13px">(${p.reviews} ${t('reviews','نرخاندن')})</span></div>
-    <p style="color:var(--text2);font-size:14px;line-height:1.7;margin-bottom:24px">${t('Premium quality product designed for modern lifestyle. Crafted with precision and style.','بەرهەمی کوالیتی بالای دیزاینکراو بۆ ژیانی ئەمرۆ. دروستکراو بە تەقسیم و شیاوی.')}</p>
-    <div style="display:flex;gap:12px">
-      <button class="btn btn-gold" style="flex:1" onclick="addToCart(${p.id});closeProductModal()">🛒 ${t('Add to Cart','زیادکردن بۆ سەبەتە')}</button>
+    <div style="color:var(--gold);font-size:13px;margin-bottom:14px">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))} <span style="color:var(--text2);font-size:12px">(${p.reviews} ${t('reviews','نرخاندن')})</span></div>
+    <p style="color:var(--text2);font-size:13px;line-height:1.65;margin-bottom:22px">${t('Premium quality product crafted for the modern lifestyle. Designed with precision and style.','بەرهەمی کوالیتی بالای دروستکراو بۆ ژیانی ئەمرۆ.')}</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-gold" style="flex:1" onclick="addToCart(${p.id});closeProductModal()">${t('Add to Cart','زیادکردن بۆ سەبەتە')}</button>
       <button class="btn btn-outline" onclick="toggleWish(${p.id})">❤️</button>
     </div>`;
   document.getElementById('product-overlay').classList.add('active');
 }
 function closeProductModal(){document.getElementById('product-overlay').classList.remove('active')}
 
-// ═══════════════════════════════════════════════
-// CART
-// ═══════════════════════════════════════════════
+// ── CART ──
 function addToCart(id){
-  const p=PRODUCTS.find(x=>x.id===id);
   const existing=cart.find(i=>i.id===id);
   if(existing) existing.qty++;
   else cart.push({id,qty:1});
-  saveCart();
-  buildCartUI();
-  showToast('🛒 '+t('Added to cart!','زیادکرا بۆ سەبەتە!'),1800);
+  saveCart();buildCartUI();
+  showToast(t('Added to cart!','زیادکرا بۆ سەبەتە!'));
   openCart();
 }
 function removeFromCart(id){cart=cart.filter(i=>i.id!==id);saveCart();buildCartUI();}
 function changeQty(id,delta){
   const item=cart.find(i=>i.id===id);
-  if(item){item.qty+=delta;if(item.qty<1) cart=cart.filter(i=>i.id!==id);}
+  if(item){item.qty+=delta;if(item.qty<1)cart=cart.filter(i=>i.id!==id);}
   saveCart();buildCartUI();
 }
 function saveCart(){
@@ -844,17 +1051,19 @@ function saveCart(){
   document.getElementById('cart-count').textContent=cart.reduce((s,i)=>s+i.qty,0);
 }
 function cartTotal(){return cart.reduce((s,i)=>{const p=PRODUCTS.find(x=>x.id===i.id);return s+(p?p.price*i.qty:0);},0);}
+const trashSVG=`<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
 function buildCartUI(){
   const list=document.getElementById('cart-items-list');
   const footer=document.getElementById('cart-footer');
   if(!cart.length){
-    list.innerHTML=`<div class="cart-empty"><span>🛒</span><p>${t('Your cart is empty','سەبەتەکەت بەتاڵە')}</p></div>`;
+    list.innerHTML=`<div class="cart-empty"><span class="big">🛒</span><p>${t('Your cart is empty','سەبەتەکەت بەتاڵە')}</p></div>`;
     footer.style.display='none';return;
   }
   footer.style.display='block';
   list.innerHTML=cart.map(i=>{
     const p=PRODUCTS.find(x=>x.id===i.id);
-    return `<div class="cart-item">
+    if(!p)return'';
+    return`<div class="cart-item">
       <div class="cart-item-img"><img src="${p.img}" alt="${lang==='ku'?p.nameKu:p.nameEn}"/></div>
       <div class="cart-item-info">
         <div class="cart-item-name">${lang==='ku'?p.nameKu:p.nameEn}</div>
@@ -863,7 +1072,7 @@ function buildCartUI(){
           <button class="qty-btn" onclick="changeQty(${i.id},-1)">−</button>
           <span class="qty-num">${i.qty}</span>
           <button class="qty-btn" onclick="changeQty(${i.id},1)">+</button>
-          <button class="cart-item-del" onclick="removeFromCart(${i.id})">🗑️</button>
+          <button class="cart-del" onclick="removeFromCart(${i.id})">${trashSVG}</button>
         </div>
       </div>
     </div>`;
@@ -873,21 +1082,16 @@ function buildCartUI(){
 function openCart(){document.getElementById('cart-drawer').classList.add('open');document.getElementById('cart-bg').classList.add('show');}
 function closeCart(){document.getElementById('cart-drawer').classList.remove('open');document.getElementById('cart-bg').classList.remove('show');}
 
-// ═══════════════════════════════════════════════
-// CHECKOUT
-// ═══════════════════════════════════════════════
+// ── CHECKOUT ──
 function goCheckout(){
-  if(!cart.length){showToast('⚠️ '+t('Cart is empty','سەبەتە بەتاڵە'),2000);return;}
-  if(!currentUser){showToast('⚠️ '+t('Please login first','تکایە یەکەم چووە ژووەرەوە'),2000);openAuthModal();return;}
-  closeCart();
-  buildOrderSummary();
-  showPage('checkout');
+  if(!cart.length){showToast('⚠️ '+t('Cart is empty','سەبەتە بەتاڵە'));return;}
+  if(!currentUser){showToast('⚠️ '+t('Please login first','تکایە یەکەم چووە ژووەرەوە'));openAuthModal();return;}
+  closeCart();buildOrderSummary();showPage('checkout');
 }
 function buildOrderSummary(){
-  const el=document.getElementById('order-items');
-  el.innerHTML=cart.map(i=>{
+  document.getElementById('order-items').innerHTML=cart.map(i=>{
     const p=PRODUCTS.find(x=>x.id===i.id);
-    return `<div class="order-item"><span>${lang==='ku'?p.nameKu:p.nameEn} ×${i.qty}</span><span>$${(p.price*i.qty).toFixed(2)}</span></div>`;
+    return`<div class="order-item"><span>${lang==='ku'?p.nameKu:p.nameEn} ×${i.qty}</span><span>$${(p.price*i.qty).toFixed(2)}</span></div>`;
   }).join('');
   const sub=cartTotal();
   document.getElementById('order-sub').textContent='$'+sub.toFixed(2);
@@ -897,88 +1101,84 @@ function buildOrderSummary(){
 function selectPay(el){document.querySelectorAll('.pay-opt').forEach(p=>p.classList.remove('selected'));el.classList.add('selected');}
 function applyPromo(){
   const code=document.getElementById('promo-input').value.trim().toUpperCase();
-  if(code==='LUXE10'){discount=cartTotal()*0.1;showToast('✅ 10% '+t('discount applied!','داشکاندن جێبەجێکرا!'),2000);}
-  else{discount=0;showToast('❌ '+t('Invalid code','کۆدی نادروست'),2000);}
+  if(code==='LUXE10'){discount=cartTotal()*.1;showToast('✅ 10% '+t('discount applied!','داشکاندن جێبەجێکرا!'));}
+  else{discount=0;showToast('❌ '+t('Invalid code','کۆدی نادروست'));}
   buildOrderSummary();
 }
 function placeOrder(){
   const fname=document.getElementById('sh-fname').value.trim();
   const email=document.getElementById('sh-email').value.trim();
   const addr=document.getElementById('sh-addr').value.trim();
-  if(!fname||!email||!addr){showToast('⚠️ '+t('Please fill all fields','تکایە هەموو خانەکان پڕبکەرەوە'),2500);return;}
-  cart=[];saveCart();buildCartUI();discount=0;
-  showPage('success');
-  showToast('🎉 '+t('Order placed successfully!','داواکاری بە سەرکەوتوویی تۆمارکرا!'),3000);
+  if(!fname||!email||!addr){showToast('⚠️ '+t('Please fill required fields','تکایە خانە پێویستەکان پڕبکەرەوە'));return;}
+  cart=[];saveCart();buildCartUI();discount=0;showPage('success');
+  showToast('🎉 '+t('Order placed successfully!','داواکاری بە سەرکەوتوویی تۆمارکرا!'));
 }
 function formatCard(el){
   let v=el.value.replace(/\D/g,'').substring(0,16);
   el.value=v.replace(/(.{4})/g,'$1 ').trim();
 }
 
-// ═══════════════════════════════════════════════
-// AUTH MODAL
-// ═══════════════════════════════════════════════
+// ── AUTH ──
 function openAuthModal(){
-  if(currentUser){renderUserPanel();document.getElementById('auth-overlay').classList.add('active');return;}
-  authStep='login';renderAuthContent();
+  if(currentUser){renderUserPanel();}
+  else{authStep='login';renderAuthContent();}
   document.getElementById('auth-overlay').classList.add('active');
 }
 function closeAuth(){document.getElementById('auth-overlay').classList.remove('active');}
 function renderAuthContent(){
   const c=document.getElementById('auth-content');
   if(authStep==='login'){
-    c.innerHTML=`
-      <h2>${t('Welcome Back','بەخێر بێیتەوە')}</h2>
+    c.innerHTML=`<h2>${t('Welcome Back','بەخێر بێیتەوە')}</h2>
       <p class="sub">${t('Sign in to your account','بچووە ژووەرەوە ئەکاونتەکەت')}</p>
       <div class="tabs">
-        <button class="tab active" onclick="authStep='login';renderAuthContent()">${t('Login','چوونەژووەرەوە')}</button>
+        <button class="tab active">${t('Login','چوونەژووەرەوە')}</button>
         <button class="tab" onclick="authStep='register';renderAuthContent()">${t('Register','تۆمارکردن')}</button>
       </div>
       <div class="form-group"><label>${t('Email or Phone','ئیمەیڵ یاخوود ژمارە')}</label><input type="text" id="auth-contact" placeholder="email or +964…"/></div>
       <div class="form-group"><label>${t('Password','تێپەڕوشمار')}</label><input type="password" id="auth-pass" placeholder="••••••"/></div>
-      <button class="btn btn-gold btn-full" style="margin-top:8px" onclick="doLogin()">${t('Sign In','چوونەژووەرەوە')}</button>
-      <p style="text-align:center;margin-top:16px;color:var(--text2);font-size:13px">${t("Don't have an account?",'ئەکاونتت نییە؟')} <a href="#" style="color:var(--gold)" onclick="authStep='register';renderAuthContent()">${t('Register','تۆمارکردن')}</a></p>`;
-  } else if(authStep==='register'){
-    c.innerHTML=`
-      <h2>${t('Create Account','ئەکاونت دروستبکە')}</h2>
+      <button class="btn btn-gold btn-full" style="margin-top:6px" onclick="doLogin()">${t('Sign In','چوونەژووەرەوە')}</button>
+      <p style="text-align:center;margin-top:14px;color:var(--text2);font-size:12px">${t("No account?",'ئەکاونتت نییە؟')} <a href="#" style="color:var(--gold);text-decoration:none" onclick="authStep='register';renderAuthContent()">${t('Register','تۆمارکردن')}</a></p>`;
+  }else if(authStep==='register'){
+    c.innerHTML=`<h2>${t('Create Account','ئەکاونت دروستبکە')}</h2>
       <p class="sub">${t('Join us today','ئەمرۆ پێوەندیمان پێوە بکە')}</p>
       <div class="tabs">
         <button class="tab" onclick="authStep='login';renderAuthContent()">${t('Login','چوونەژووەرەوە')}</button>
-        <button class="tab active" onclick="authStep='register';renderAuthContent()">${t('Register','تۆمارکردن')}</button>
+        <button class="tab active">${t('Register','تۆمارکردن')}</button>
       </div>
-      <div class="form-group"><label>${t('Full Name','ناوی تەواو')}</label><input type="text" id="reg-name" placeholder="Your name"/></div>
+      <div class="form-group"><label>${t('Full Name','ناوی تەواو')}</label><input type="text" id="reg-name"/></div>
       <div class="form-group"><label>${t('Email or Phone','ئیمەیڵ یاخوود ژمارە')}</label><input type="text" id="reg-contact" placeholder="email or +964…"/></div>
-      <div class="form-group"><label>${t('Password','تێپەڕوشمار')}</label><input type="password" id="reg-pass" placeholder="••••••"/></div>
-      <div class="form-group"><label>${t('Confirm Password','دووپاتکردنەوەی تێپەڕوشمار')}</label><input type="password" id="reg-pass2" placeholder="••••••"/></div>
-      <button class="btn btn-gold btn-full" style="margin-top:8px" onclick="doRegister()">${t('Register & Verify','تۆمارکردن و پشتراستکردنەوە')}</button>`;
-  } else if(authStep==='otp'){
-    c.innerHTML=`
-      <h2>${t('Verify Code','کۆدی پشتراستکردنەوە')}</h2>
-      <p class="sub">${t('Enter the 6-digit code sent to','کۆدی ٦ ژمارەی نێردراو بنووسە بۆ')} <strong>${pendingAuth.contact}</strong></p>
+      <div class="form-group"><label>${t('Password','تێپەڕوشمار')}</label><input type="password" id="reg-pass"/></div>
+      <div class="form-group"><label>${t('Confirm Password','دووپاتکردنەوە')}</label><input type="password" id="reg-pass2"/></div>
+      <button class="btn btn-gold btn-full" style="margin-top:6px" onclick="doRegister()">${t('Register & Verify','تۆمارکردن و پشتراستکردنەوە')}</button>`;
+  }else if(authStep==='otp'){
+    c.innerHTML=`<h2>${t('Verify Code','کۆدی پشتراستکردنەوە')}</h2>
+      <p class="sub">${t('6-digit code sent to','کۆدی ٦ ژمارە نێردرا بۆ')} <strong style="color:var(--gold)">${pendingAuth.contact}</strong></p>
       <div class="otp-wrap">
-        <input type="text" maxlength="1" class="otp-digit" oninput="otpMove(this,0)"/>
-        <input type="text" maxlength="1" class="otp-digit" oninput="otpMove(this,1)"/>
-        <input type="text" maxlength="1" class="otp-digit" oninput="otpMove(this,2)"/>
-        <input type="text" maxlength="1" class="otp-digit" oninput="otpMove(this,3)"/>
-        <input type="text" maxlength="1" class="otp-digit" oninput="otpMove(this,4)"/>
-        <input type="text" maxlength="1" class="otp-digit" oninput="otpMove(this,5)"/>
+        ${[0,1,2,3,4,5].map(i=>`<input type="text" maxlength="1" inputmode="numeric" class="otp-digit" oninput="otpMove(this,${i})" onkeydown="otpBack(event,${i})"/>`).join('')}
       </div>
-      <p style="text-align:center;color:var(--text2);font-size:12px;margin-bottom:20px">${t('Demo code: ','کۆدی تاقیکردنەوە: ')}<strong style="color:var(--gold)">${pendingAuth.code}</strong></p>
+      <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px;text-align:center;margin-bottom:20px">
+        <p style="font-size:11px;color:var(--text2);margin-bottom:4px">${t('Demo verification code:','کۆدی تاقیکردنەوە:')}</p>
+        <strong style="color:var(--gold);font-size:22px;letter-spacing:.2em;font-family:'Cormorant Garamond',serif">${pendingAuth.code}</strong>
+      </div>
       <button class="btn btn-gold btn-full" onclick="doVerify()">${t('Verify','پشتراستکردنەوە')}</button>
-      <button class="btn btn-outline btn-full" style="margin-top:10px" onclick="authStep='register';renderAuthContent()">${t('← Back','← گەڕانەوە')}</button>`;
-    setTimeout(()=>document.querySelector('.otp-digit')?.focus(),100);
+      <button class="btn btn-outline btn-full" style="margin-top:8px" onclick="authStep='register';renderAuthContent()">${t('← Back','← گەڕانەوە')}</button>`;
+    setTimeout(()=>document.querySelector('.otp-digit')?.focus(),80);
   }
 }
 function otpMove(el,i){
-  if(el.value&&i<5) document.querySelectorAll('.otp-digit')[i+1]?.focus();
+  el.value=el.value.replace(/\D/g,'');
+  if(el.value&&i<5)document.querySelectorAll('.otp-digit')[i+1]?.focus();
 }
-function genCode(){return Math.floor(100000+Math.random()*900000).toString();}
+function otpBack(e,i){
+  if(e.key==='Backspace'&&!e.target.value&&i>0)document.querySelectorAll('.otp-digit')[i-1]?.focus();
+}
+function genCode(){return String(Math.floor(100000+Math.random()*900000));}
 function doLogin(){
   const contact=document.getElementById('auth-contact').value.trim();
   const pass=document.getElementById('auth-pass').value;
-  if(!contact||!pass){showToast('⚠️ '+t('Fill all fields','هەموو خانەکان پڕبکەرەوە'),2000);return;}
+  if(!contact||!pass){showToast('⚠️ '+t('Fill all fields','هەموو خانەکان'));return;}
   const user=users.find(u=>u.contact===contact&&u.pass===btoa(pass));
-  if(!user){showToast('❌ '+t('Invalid credentials','زانیاری نادروست'),2000);return;}
+  if(!user){showToast('❌ '+t('Invalid credentials','زانیاری نادروست'));return;}
   loginUser(user);
 }
 function doRegister(){
@@ -986,129 +1186,102 @@ function doRegister(){
   const contact=document.getElementById('reg-contact').value.trim();
   const pass=document.getElementById('reg-pass').value;
   const pass2=document.getElementById('reg-pass2').value;
-  if(!name||!contact||!pass||!pass2){showToast('⚠️ '+t('Fill all fields','هەموو خانەکان پڕبکەرەوە'),2000);return;}
-  if(pass!==pass2){showToast('❌ '+t('Passwords do not match','تێپەڕوشمارەکان یەک نین'),2000);return;}
-  if(users.find(u=>u.contact===contact)){showToast('❌ '+t('Account already exists','ئەکاونت پێشتر هەیە'),2000);return;}
+  if(!name||!contact||!pass||!pass2){showToast('⚠️ '+t('Fill all fields','هەموو خانەکان'));return;}
+  if(pass!==pass2){showToast('❌ '+t('Passwords do not match','تێپەڕوشمارەکان یەک نین'));return;}
+  if(users.find(u=>u.contact===contact)){showToast('❌ '+t('Account exists','ئەکاونت هەیە'));return;}
   pendingAuth={name,contact,pass:btoa(pass),code:genCode()};
   authStep='otp';renderAuthContent();
-  showToast(`📨 ${t('Code sent:','کۆد نێردرا:')} ${pendingAuth.code}`,4000);
+  showToast('📨 '+t('Code:','کۆد:')+' '+pendingAuth.code,4000);
 }
 function doVerify(){
   const entered=[...document.querySelectorAll('.otp-digit')].map(i=>i.value).join('');
-  if(entered!==pendingAuth.code){showToast('❌ '+t('Wrong code','کۆدی نادروست'),2000);return;}
+  if(entered!==pendingAuth.code){showToast('❌ '+t('Wrong code','کۆدی نادروست'));return;}
   const user={name:pendingAuth.name,contact:pendingAuth.contact,pass:pendingAuth.pass,joined:Date.now()};
-  users.push(user);
-  localStorage.setItem('lx_users',JSON.stringify(users));
-  loginUser(user);
-  showToast('✅ '+t('Account created!','ئەکاونت دروستکرا!'),2500);
+  users.push(user);localStorage.setItem('lx_users',JSON.stringify(users));
+  loginUser(user);showToast('✅ '+t('Account created!','ئەکاونت دروستکرا!'));
 }
 function loginUser(user){
-  currentUser=user;
-  localStorage.setItem('lx_me',JSON.stringify(user));
-  closeAuth();
-  document.getElementById('auth-btn').textContent='👤';
-  showToast('👋 '+t('Welcome','بەخێر بێیت')+' '+user.name+'!',2500);
-  updateAuthBtn();
-}
-function updateAuthBtn(){
-  const btn=document.getElementById('auth-btn');
-  if(currentUser) btn.title=currentUser.name+' — '+t('Click to manage','کلیک بکە بۆ بەڕێوەبردن');
-  else btn.title=t('Login','چوونەژووەرەوە');
+  currentUser=user;localStorage.setItem('lx_me',JSON.stringify(user));
+  closeAuth();showToast('👋 '+t('Welcome','بەخێر بێیت')+' '+user.name+'!');
 }
 function renderUserPanel(){
   document.getElementById('auth-content').innerHTML=`
     <h2>${t('My Account','ئەکاونتەکەم')}</h2>
     <p class="sub">${currentUser.name}</p>
-    <div style="background:var(--dark3);border-radius:12px;padding:20px;margin:20px 0">
-      <p style="font-size:13px;color:var(--text2);margin-bottom:8px">${t('Contact','پەیوەندی')}</p>
-      <p style="font-size:15px">${currentUser.contact}</p>
+    <div style="background:var(--dark3);border-radius:12px;padding:18px;margin:18px 0;font-size:13px">
+      <p style="color:var(--text2);font-size:11px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em">${t('Contact','پەیوەندی')}</p>
+      <p>${currentUser.contact}</p>
     </div>
-    <div style="background:var(--dark3);border-radius:12px;padding:20px;margin-bottom:20px">
-      <p style="font-size:13px;color:var(--text2);margin-bottom:8px">${t('Member since','ئەندامی لە')}</p>
-      <p style="font-size:15px">${new Date(currentUser.joined).toLocaleDateString()}</p>
+    <div style="background:var(--dark3);border-radius:12px;padding:18px;margin-bottom:18px;font-size:13px">
+      <p style="color:var(--text2);font-size:11px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em">${t('Member since','ئەندامی لە')}</p>
+      <p>${new Date(currentUser.joined).toLocaleDateString()}</p>
     </div>
     <button class="btn btn-danger btn-full" onclick="doLogout()">${t('Sign Out','چوونەدەرەوە')}</button>`;
 }
 function doLogout(){
   currentUser=null;localStorage.removeItem('lx_me');
-  closeAuth();showToast('👋 '+t('Signed out','چوونەدەرەوە'),2000);
+  closeAuth();showToast('👋 '+t('Signed out','چوونەدەرەوە'));
 }
 
-// ═══════════════════════════════════════════════
-// SEARCH
-// ═══════════════════════════════════════════════
+// ── SEARCH ──
 function openSearch(){
   showPage('home');
   setTimeout(()=>{
     document.getElementById('search-input').focus();
     document.getElementById('products-section').scrollIntoView({behavior:'smooth'});
-  },200);
+  },180);
 }
 
-// ═══════════════════════════════════════════════
-// MOBILE MENU
-// ═══════════════════════════════════════════════
+// ── CONTACT ──
+function sendContact(){
+  const name=document.getElementById('contact-name').value.trim();
+  const contact=document.getElementById('contact-contact').value.trim();
+  const msg=document.getElementById('contact-msg').value.trim();
+  if(!name||!contact||!msg){showToast('⚠️ '+t('Fill all fields','هەموو خانەکان پڕبکەرەوە'));return;}
+  document.getElementById('contact-name').value='';
+  document.getElementById('contact-contact').value='';
+  document.getElementById('contact-msg').value='';
+  showToast('✅ '+t('Message sent!','پەیام نێردرا!'));
+}
+
+// ── MOBILE MENU ──
 function toggleMenu(){
-  const m=document.getElementById('mobile-menu');
-  const h=document.getElementById('hamburger');
-  m.classList.toggle('open');h.classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
 }
 function closeMenu(){
   document.getElementById('mobile-menu').classList.remove('open');
   document.getElementById('hamburger').classList.remove('open');
 }
 
-// ═══════════════════════════════════════════════
-// CONTACT
-// ═══════════════════════════════════════════════
-function sendContact(){
-  const name=document.getElementById('contact-name').value.trim();
-  const contact=document.getElementById('contact-contact').value.trim();
-  const msg=document.getElementById('contact-msg').value.trim();
-  if(!name||!contact||!msg){showToast('⚠️ '+t('Fill all fields','هەموو خانەکان پڕبکەرەوە'),2000);return;}
-  document.getElementById('contact-name').value='';
-  document.getElementById('contact-contact').value='';
-  document.getElementById('contact-msg').value='';
-  showToast('✅ '+t('Message sent! We\'ll get back to you soon.','پەیام نێردرا! بە زووێک وەڵامتان دەدەینەوە.'),3000);
+// ── PROMO ──
+function copyCode(){
+  navigator.clipboard?.writeText('LUXE10').catch(()=>{});
+  showToast('✅ '+t('Code LUXE10 copied!','کۆدی LUXE10 کۆپی کرا!'));
 }
 
-// ═══════════════════════════════════════════════
-// TOAST
-// ═══════════════════════════════════════════════
-function showToast(msg,duration=2500){
-  const t=document.createElement('div');
-  t.className='toast-msg';t.textContent=msg;
-  document.getElementById('toast').appendChild(t);
-  setTimeout(()=>t.remove(),duration);
+// ── TOAST ──
+function showToast(msg,dur=2400){
+  const el=document.createElement('div');
+  el.className='toast-msg';el.textContent=msg;
+  document.getElementById('toast').appendChild(el);
+  setTimeout(()=>el.remove(),dur);
 }
 
-// ═══════════════════════════════════════════════
-// NAVBAR SCROLL
-// ═══════════════════════════════════════════════
+// ── NAVBAR SCROLL ──
 window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
-});
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+},{passive:true});
 
-// Close overlays on click
+// ── OVERLAY CLOSE ──
 document.getElementById('auth-overlay').addEventListener('click',function(e){if(e.target===this)closeAuth();});
 document.getElementById('product-overlay').addEventListener('click',function(e){if(e.target===this)closeProductModal();});
 
-// ═══════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════
-(function init(){
-  // Show home by default
+// ── INIT ──
+(function(){
   document.getElementById('home-page').style.display='block';
-  PAGES.slice(1).forEach(p=>{const el=document.getElementById(p);el.style.display='none';});
-
-  renderCats();
-  renderChips();
-  filterProducts();
-  buildCartUI();
-  updatePriceLabel();
-  updateAuthBtn();
-
-  // Cart count badge
+  ['about','contact','checkout','success'].forEach(p=>{document.getElementById(p+'-page').style.display='none';});
+  renderCats();renderChips();filterProducts();buildCartUI();updatePriceLabel();
   document.getElementById('cart-count').textContent=cart.reduce((s,i)=>s+i.qty,0);
 })();
 </script>
