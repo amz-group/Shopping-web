@@ -1501,7 +1501,7 @@ setTimeout(function() {
 btn.disabled = false;
 btn.innerHTML = ‘<span class="et">Sign In →</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">چوونەژوورەوە →</span>’;
 
-
+```
 var accounts = getAccounts();
 var user = accounts.find(function(a){ return a.email === e; });
 if (!user) { showAuthErr('loginErr', isKu ? '❌ ئەم ئیمەیلە تۆمار نەکراوە!' : '❌ No account found with this email.'); return; }
@@ -1517,7 +1517,7 @@ document.getElementById('authSuccess').style.display = 'block';
 document.getElementById('authSuccessTitle').textContent = isKu ? 'بەخێرهاتیتەوە، ' + user.name + '! 👋' : 'Welcome back, ' + user.name + '! 👋';
 document.getElementById('authSuccessMsg').textContent = isKu ? 'بەسەرکەوتوویی چووی ژوورەوە بۆ ئەکاونتی AMZ Shopping.' : 'You have signed in to your AMZ Shopping account.';
 setTimeout(function(){ closeOverlay('authOverlay'); }, 1800);
-
+```
 
 }, 700);
 }
@@ -1552,7 +1552,7 @@ setTimeout(function() {
 btn.disabled = false;
 btn.innerHTML = ‘<span class="et">Create My Account →</span><span class="kt" style="display:' + (isKu ? '' : 'none') + '">دروستکردنی ئەکاونت →</span>’;
 
-
+```
 var newUser = {
   name: n, email: e, phone: ph || '—',
   password: btoa(p),
@@ -1570,7 +1570,7 @@ document.getElementById('authSuccess').style.display = 'block';
 document.getElementById('authSuccessTitle').textContent = isKu ? 'بەخێربێیت، ' + n + '! 🎉' : 'Welcome to AMZ, ' + n + '! 🎉';
 document.getElementById('authSuccessMsg').textContent = isKu ? 'ئەکاونتەکەت بەسەرکەوتوویی دروست کرا!' : 'Your account has been created successfully!';
 setTimeout(function(){ closeOverlay('authOverlay'); }, 1800);
-
+```
 
 }, 700);
 }
