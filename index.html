@@ -2,1205 +2,346 @@
 
 <html lang="en" dir="ltr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LUXE SHOP | شۆپی لوکس</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&family=Noto+Kufi+Arabic:wght@400;600;700&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  --bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;
-  --sur:#16161f;--sur2:#1e1e2a;
-  --gold:#c9a84c;--gold2:#e8c97a;
-  --txt:#f0ede8;--mut:#8a8a9a;--sub:#5a5a6a;
-  --acc:#7c5cbf;--red:#e05c5c;--grn:#5ce08a;
-  --brd:rgba(201,168,76,.15);--brd2:rgba(201,168,76,.3);
-  --shd:0 8px 40px rgba(0,0,0,.6);
-  --tr:.32s cubic-bezier(.4,0,.2,1);
-  --r:16px;
-  --fn:'DM Sans',system-ui,sans-serif;
-  --fd:'Playfair Display',Georgia,serif;
-  --fk:'Noto Kufi Arabic','Segoe UI',sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:var(--fn);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer;border:none;background:none;font-family:inherit}
-input,textarea,select{font-family:inherit}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
-.ku{font-family:var(--fk);direction:rtl}
-.hidden{display:none!important}
-
-/* OVERLAY */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:800;opacity:0;pointer-events:none;transition:opacity var(–tr)}
-.overlay.on{opacity:1;pointer-events:all}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;height:68px;z-index:900;background:rgba(10,10,15,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(–brd);display:flex;align-items:center;padding:0 clamp(14px,4vw,52px);transition:box-shadow var(–tr)}
-nav.sc{box-shadow:0 2px 40px rgba(0,0,0,.5)}
-.ni{width:100%;max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:16px}
-.logo{display:flex;flex-direction:column;line-height:1;cursor:pointer;margin-right:auto;flex-shrink:0}
-.logo-e{font-family:var(–fd);font-size:20px;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,var(–gold),var(–gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.logo-k{font-family:var(–fk);font-size:10px;color:var(–mut);text-align:right;margin-top:2px}
-.nsearch{position:relative;flex:1;max-width:340px}
-.nsearch input{width:100%;padding:9px 40px 9px 16px;background:var(–sur);border:1px solid var(–brd);border-radius:50px;color:var(–txt);font-size:13px;outline:none;transition:border-color var(–tr),box-shadow var(–tr)}
-.nsearch input::placeholder{color:var(–sub)}
-.nsearch input:focus{border-color:var(–gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
-.nsearch .si{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(–mut);font-size:15px;pointer-events:none}
-.sres{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(–sur2);border:1px solid var(–brd2);border-radius:12px;overflow:hidden;box-shadow:var(–shd);z-index:200}
-.sri{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;transition:background var(–tr)}
-.sri:hover{background:var(–bg3)}
-.sri-img{width:38px;height:38px;border-radius:8px;background:var(–bg3);display:flex;align-items:center;justify-content:center;font-size:20px}
-.sri-name{font-size:13px;font-weight:600}
-.sri-price{font-size:12px;color:var(–gold)}
-.nlinks{display:flex;list-style:none;gap:4px}
-.nlinks a{font-size:13px;font-weight:600;padding:7px 13px;border-radius:8px;color:var(–mut);transition:all var(–tr)}
-.nlinks a:hover,.nlinks a.ac{color:var(–gold);background:rgba(201,168,76,.08)}
-.lsw{display:flex;background:var(–sur);border:1px solid var(–brd);border-radius:50px;padding:3px;gap:3px;flex-shrink:0}
-.lb{padding:5px 11px;border-radius:50px;font-size:11px;font-weight:700;color:var(–mut);transition:all var(–tr)}
-.lb.ac{background:var(–gold);color:var(–bg)}
-.cartbtn{position:relative;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(–sur);border:1px solid var(–brd);border-radius:11px;font-size:18px;color:var(–txt);transition:all var(–tr);flex-shrink:0}
-.cartbtn:hover{border-color:var(–gold);color:var(–gold)}
-.cbadge{position:absolute;top:-5px;right:-5px;background:var(–gold);color:var(–bg);font-size:9px;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:scale(0);transition:transform var(–tr)}
-.cbadge.on{transform:scale(1)}
-.nauth{display:flex;gap:7px;flex-shrink:0}
-.bg{padding:7px 16px;border-radius:8px;font-size:12px;font-weight:700;color:var(–mut);border:1px solid var(–brd);transition:all var(–tr)}
-.bg:hover{color:var(–gold);border-color:var(–gold)}
-.bp{padding:7px 17px;border-radius:8px;font-size:12px;font-weight:700;background:linear-gradient(135deg,var(–gold),var(–gold2));color:var(–bg);box-shadow:0 3px 12px rgba(201,168,76,.3);transition:all var(–tr)}
-.bp:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(201,168,76,.4)}
-.hbg{display:none;flex-direction:column;gap:5px;width:34px;padding:5px;cursor:pointer;flex-shrink:0}
-.hbg span{height:2px;background:var(–txt);border-radius:2px;transition:all var(–tr)}
-.hbg.op span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hbg.op span:nth-child(2){opacity:0;width:0}
-.hbg.op span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-
-/* MOBILE MENU */
-.mmenu{position:fixed;top:68px;left:0;bottom:0;width:min(320px,85vw);background:var(–bg2);border-right:1px solid var(–brd2);z-index:850;transform:translateX(-100%);transition:transform var(–tr);overflow-y:auto;padding:20px 16px;box-shadow:4px 0 40px rgba(0,0,0,.6)}
-.mmenu.op{transform:translateX(0)}
-.mmenu ul{list-style:none;display:flex;flex-direction:column;gap:4px;margin-bottom:20px}
-.mmenu ul a{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:12px;font-size:15px;font-weight:600;color:var(–txt);border:1px solid transparent;transition:all var(–tr)}
-.mmenu ul a:hover{color:var(–gold);background:rgba(201,168,76,.08);border-color:var(–brd);transform:translateX(4px)}
-.mdiv{height:1px;background:var(–brd);margin:16px 0}
-.mauth{display:flex;flex-direction:column;gap:10px}
-.mauth button{width:100%;padding:13px;border-radius:12px;font-size:14px;font-weight:700}
-.mlang{display:flex;gap:8px;margin-top:16px}
-.mlb{flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:700;border:1.5px solid var(–brd);color:var(–mut);transition:all var(–tr);text-align:center}
-.mlb.ac{background:var(–gold);border-color:var(–gold);color:var(–bg)}
-
-/* BUTTONS */
-.btn1{padding:14px 32px;border-radius:11px;font-size:14px;font-weight:700;background:linear-gradient(135deg,var(–gold),var(–gold2));color:var(–bg);box-shadow:0 6px 24px rgba(201,168,76,.3);transition:all var(–tr);position:relative;overflow:hidden}
-.btn1:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(201,168,76,.4)}
-.btn2{padding:14px 32px;border-radius:11px;font-size:14px;font-weight:600;border:1.5px solid var(–brd2);color:var(–txt);transition:all var(–tr)}
-.btn2:hover{border-color:var(–gold);color:var(–gold);background:rgba(201,168,76,.06);transform:translateY(-3px)}
-
-/* PAGE */
-.pg{display:none}
-.pg.on{display:block}
-
-/* HERO */
-.hero{min-height:100vh;padding-top:68px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:50px;max-width:1400px;margin:0 auto;padding-left:clamp(16px,5vw,80px);padding-right:clamp(16px,5vw,80px);position:relative}
-.hero::before{content:’’;position:absolute;top:-200px;right:-150px;width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,.07),transparent 70%);pointer-events:none}
-.htag{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:50px;padding:6px 16px;margin-bottom:24px;font-size:11px;font-weight:700;color:var(–gold);letter-spacing:2px;text-transform:uppercase}
-.htitle{font-family:var(–fd);font-size:clamp(38px,6vw,76px);font-weight:900;line-height:1.05;margin-bottom:14px}
-.htitle .l1{display:block;color:var(–txt)}
-.htitle .l2{display:block;background:linear-gradient(135deg,var(–gold),var(–gold2),#f5e0a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.htitle .l3{display:block;font-style:italic;color:var(–mut);font-size:68%}
-.hku{font-family:var(–fk);font-size:clamp(16px,2.5vw,22px);color:var(–mut);margin-bottom:28px;line-height:1.9;direction:rtl;text-align:right}
-.hku strong{color:var(–gold2)}
-.hacts{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
-.hstats{display:flex;gap:32px}
-.stn{font-family:var(–fd);font-size:26px;font-weight:900;color:var(–gold)}
-.stl{font-size:11px;color:var(–mut);font-weight:500}
-.hvisual{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;position:relative;z-index:1;width:100%}
-.mpc{background:var(–sur);border:1px solid var(–brd);border-radius:var(–r);overflow:hidden;cursor:pointer;transition:all var(–tr);animation:flt 6s ease-in-out infinite;width:100%}
-.mpc:nth-child(2){animation-delay:1s;margin-top:28px}
-.mpc:nth-child(3){animation-delay:2s}
-.mpc:nth-child(4){animation-delay:.5s;margin-top:-28px}
-.mpc:hover{transform:translateY(-8px) scale(1.02);border-color:var(–gold);box-shadow:0 0 30px rgba(201,168,76,.15);animation:none}
-@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.mpiw{height:130px;background:var(–bg3);display:flex;align-items:center;justify-content:center;font-size:52px}
-.mpb{padding:12px}
-.mpb .n{font-size:12px;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mpb .p{font-size:13px;font-weight:800;color:var(–gold);display:flex;align-items:center;justify-content:space-between}
-.mpb .p button{width:26px;height:26px;border-radius:7px;background:var(–gold);color:var(–bg);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:transform var(–tr)}
-.mpc:hover .mpb .p button{transform:rotate(90deg)}
-
-/* SECTION */
-.sec{padding:clamp(60px,8vw,110px) clamp(16px,5vw,60px)}
-.sec-inner{max-width:1400px;margin:0 auto}
-.sh{text-align:center;margin-bottom:52px}
-.sh .stag{display:inline-flex;color:var(–gold);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px}
-.sh h2{font-family:var(–fd);font-size:clamp(26px,4vw,44px);font-weight:900;margin-bottom:10px}
-.sh .ks{font-family:var(–fk);color:var(–mut);font-size:15px;direction:rtl}
-
-/* CATEGORIES */
-.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
-.ccard{background:var(–sur);border:1px solid var(–brd);border-radius:var(–r);padding:28px 16px;text-align:center;cursor:pointer;transition:all var(–tr);position:relative;overflow:hidden}
-.ccard::before{content:’’;position:absolute;inset:0;background:linear-gradient(135deg,var(–gold),var(–acc));opacity:0;transition:opacity var(–tr)}
-.ccard:hover{border-color:var(–gold);transform:translateY(-5px);box-shadow:0 0 28px rgba(201,168,76,.13)}
-.ccard:hover::before{opacity:.05}
-.ccard:hover .ci{transform:scale(1.2) rotate(-5deg)}
-.ci{font-size:38px;margin-bottom:12px;display:block;transition:transform var(–tr)}
-.cn{font-size:13px;font-weight:700;margin-bottom:3px}
-.cnk{font-family:var(–fk);font-size:11px;color:var(–mut)}
-.cc{font-size:10px;color:var(–sub);margin-top:5px}
-
-/* PRODUCTS */
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
-.pcard{background:var(–sur);border:1px solid var(–brd);border-radius:var(–r);overflow:hidden;cursor:pointer;transition:all var(–tr);position:relative}
-.pcard:hover{transform:translateY(-8px);border-color:rgba(201,168,76,.4);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 30px rgba(201,168,76,.1)}
-.pbadge{position:absolute;top:12px;left:12px;z-index:2;padding:3px 9px;border-radius:50px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
-.bn{background:var(–acc);color:#fff}
-.bs{background:var(–red);color:#fff}
-.bh{background:var(–gold);color:var(–bg)}
-.pwish{position:absolute;top:12px;right:12px;z-index:2;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all var(–tr);color:var(–mut)}
-.pwish:hover,.pwish.ac{color:var(–red);transform:scale(1.1)}
-.pimg{height:200px;background:var(–bg3);display:flex;align-items:center;justify-content:center;font-size:72px;position:relative;overflow:hidden}
-.povl{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;display:flex;align-items:center;justify-content:center;transition:opacity var(–tr)}
-.pcard:hover .povl{opacity:1}
-.qv{padding:9px 22px;border-radius:8px;background:rgba(255,255,255,.9);color:var(–bg);font-size:12px;font-weight:800;transform:translateY(10px);transition:transform var(–tr)}
-.pcard:hover .qv{transform:translateY(0)}
-.pbody{padding:18px}
-.pcat{font-size:10px;color:var(–gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px}
-.pname{font-size:15px;font-weight:700;margin-bottom:3px;line-height:1.3}
-.pnamek{font-family:var(–fk);font-size:12px;color:var(–mut);direction:rtl;margin-bottom:10px}
-.pstars{color:var(–gold);font-size:11px;margin-bottom:11px}
-.pstars span{color:var(–mut);font-size:10px;margin-left:3px}
-.pfoot{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.pprice{font-size:19px;font-weight:900;color:var(–gold);font-family:var(–fd)}
-.pprice .old{font-size:12px;color:var(–sub);text-decoration:line-through;font-family:var(–fn);font-weight:400;display:block}
-.acb{padding:9px 16px;border-radius:9px;background:linear-gradient(135deg,var(–gold),var(–gold2));color:var(–bg);font-size:12px;font-weight:800;display:flex;align-items:center;gap:5px;transition:all var(–tr);white-space:nowrap}
-.acb:hover{transform:scale(1.05);box-shadow:0 5px 18px rgba(201,168,76,.4)}
-.acb.dd{background:linear-gradient(135deg,var(–grn),#4db876)}
-
-/* FILTERS */
-.fltrs{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:44px}
-.fb{padding:8px 20px;border-radius:50px;font-size:12px;font-weight:700;border:1px solid var(–brd);color:var(–mut);transition:all var(–tr)}
-.fb:hover,.fb.ac{background:var(–gold);border-color:var(–gold);color:var(–bg);box-shadow:0 3px 12px rgba(201,168,76,.3)}
-
-/* BANNER */
-.bnr{background:linear-gradient(135deg,#1a1228,#111118);border:1px solid rgba(124,92,191,.2);border-radius:22px;padding:clamp(36px,6vw,72px);display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;position:relative;overflow:hidden;max-width:1400px;margin:0 auto clamp(60px,8vw,100px)}
-.bnr::before{content:’’;position:absolute;top:-120px;right:-80px;width:420px;height:420px;background:radial-gradient(circle,rgba(124,92,191,.18),transparent 70%)}
-.btag{color:#9d7de0;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
-.bnr h2{font-family:var(–fd);font-size:clamp(22px,4vw,40px);font-weight:900;line-height:1.2;margin-bottom:10px}
-.bnrk{font-family:var(–fk);color:var(–mut);font-size:14px;direction:rtl;text-align:right;margin-bottom:24px}
-.bnem{font-size:clamp(70px,12vw,150px);text-align:center;filter:drop-shadow(0 0 40px rgba(124,92,191,.35))}
-
-/* CART SIDEBAR */
-.cside{position:fixed;right:-480px;top:0;bottom:0;width:min(480px,100vw);background:var(–bg2);border-left:1px solid var(–brd2);z-index:950;transition:right var(–tr);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.5)}
-.cside.op{right:0}
-.chdr{padding:22px 26px;border-bottom:1px solid var(–brd);display:flex;align-items:center;justify-content:space-between}
-.chdr h3{font-family:var(–fd);font-size:20px;font-weight:700}
-.chdr .ku{font-family:var(–fk);font-size:12px;color:var(–mut);display:block}
-.cclose{width:34px;height:34px;border-radius:8px;background:var(–sur);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(–mut);transition:all var(–tr)}
-.cclose:hover{background:var(–red);color:#fff}
-.citms{flex:1;overflow-y:auto;padding:18px 26px}
-.cemp{text-align:center;padding:56px 16px;color:var(–mut)}
-.cemp .ei{font-size:60px;margin-bottom:14px;opacity:.5}
-.cemp p{font-size:13px}
-.cemp .ku{font-family:var(–fk);font-size:12px;margin-top:4px}
-.citm{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(–brd)}
-.citm-img{width:64px;height:64px;border-radius:11px;background:var(–bg3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:1px solid var(–brd)}
-.citm-info{flex:1;min-width:0}
-.citm-name{font-size:13px;font-weight:700;margin-bottom:3px}
-.citm-price{font-size:15px;font-weight:800;color:var(–gold);margin-bottom:9px}
-.qtyrow{display:flex;align-items:center;gap:10px}
-.qb{width:27px;height:27px;border-radius:7px;background:var(–sur2);border:1px solid var(–brd);color:var(–txt);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all var(–tr)}
-.qb:hover{background:var(–gold);border-color:var(–gold);color:var(–bg)}
-.qn{font-size:13px;font-weight:700;min-width:18px;text-align:center}
-.citm-rm{color:var(–sub);font-size:17px;align-self:flex-start;padding:3px;transition:color var(–tr)}
-.citm-rm:hover{color:var(–red)}
-.cfoot{padding:22px 26px;border-top:1px solid var(–brd)}
-.crow{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
-.crow .l{color:var(–mut);font-size:13px}
-.crow .v{font-size:13px;font-weight:600}
-.ctot{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;padding-top:11px;border-top:1px solid var(–brd)}
-.ctot .l{font-size:15px;font-weight:700}
-.ctot .v{font-size:21px;font-weight:900;color:var(–gold);font-family:var(–fd)}
-.chkbtn{width:100%;padding:15px;border-radius:11px;background:linear-gradient(135deg,var(–gold),var(–gold2));color:var(–bg);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:7px;transition:all var(–tr);position:relative;overflow:hidden}
-.chkbtn:hover{box-shadow:0 7px 28px rgba(201,168,76,.4)}
-
-/* MODALS */
-.modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity var(–tr)}
-.modal.op{opacity:1;pointer-events:all}
-.mbox{background:var(–bg2);border:1px solid var(–brd2);border-radius:22px;width:100%;max-width:430px;padding:36px;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.7);transform:scale(.92) translateY(18px);transition:transform var(–tr);max-height:92vh;overflow-y:auto}
-.modal.op .mbox{transform:scale(1) translateY(0)}
-.mcls{position:absolute;top:14px;right:14px;width:33px;height:33px;border-radius:8px;background:var(–sur);color:var(–mut);display:flex;align-items:center;justify-content:center;font-size:17px;transition:all var(–tr)}
-.mcls:hover{background:var(–red);color:#fff}
-.mlogo{font-family:var(–fd);font-size:24px;font-weight:900;background:linear-gradient(135deg,var(–gold),var(–gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;margin-bottom:7px}
-.msub{text-align:center;color:var(–mut);font-size:13px;margin-bottom:28px}
-.msub .ku{font-family:var(–fk);display:block;margin-top:3px;font-size:12px}
-.atabs{display:flex;background:var(–sur);border-radius:9px;padding:3px;margin-bottom:24px;gap:3px}
-.atab{flex:1;padding:9px;border-radius:7px;font-size:13px;font-weight:700;text-align:center;color:var(–mut);transition:all var(–tr)}
-.atab.ac{background:var(–gold);color:var(–bg)}
-.fg{margin-bottom:16px}
-.fl{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;color:var(–mut);margin-bottom:7px}
-.fl .ku{font-family:var(–fk);font-size:11px}
-.fi{width:100%;padding:11px 15px;background:var(–sur);border:1px solid var(–brd);border-radius:9px;color:var(–txt);font-size:14px;outline:none;transition:border-color var(–tr),box-shadow var(–tr)}
-.fi:focus{border-color:var(–gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
-.fi::placeholder{color:var(–sub)}
-.scbtn{width:100%;padding:13px;border-radius:11px;font-size:13px;font-weight:700;background:var(–sur2);border:1.5px solid var(–brd2);color:var(–txt);margin-bottom:11px;transition:all var(–tr)}
-.scbtn:hover{border-color:var(–gold);color:var(–gold)}
-.scbtn.sn{border-color:var(–grn);color:var(–grn)}
-.otpr{display:flex;gap:8px;justify-content:center;margin-bottom:18px}
-.oi{width:48px;height:52px;text-align:center;background:var(–sur);border:1px solid var(–brd);border-radius:11px;color:var(–txt);font-size:20px;font-weight:700;outline:none;transition:all var(–tr)}
-.oi:focus{border-color:var(–gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
-.rn{text-align:center;font-size:11px;color:var(–sub);margin-bottom:18px}
-.rn .ku{font-family:var(–fk);display:block;margin-top:2px}
-
-/* PAYMENT MODAL */
-.pmbox{max-width:500px}
-.pstep{display:none}
-.pstep.on{display:block}
-.pbar{display:flex;gap:6px;margin-bottom:22px}
-.pbar span{flex:1;height:4px;border-radius:2px;background:var(–brd);transition:background var(–tr)}
-.pbar span.ac{background:var(–gold)}
-.psteplbl{font-size:10px;color:var(–gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px}
-.pmethods label{display:flex;align-items:center;gap:12px;padding:14px;background:var(–sur);border:1.5px solid var(–brd);border-radius:11px;cursor:pointer;margin-bottom:9px;transition:all var(–tr)}
-.pmethods label:hover{border-color:rgba(201,168,76,.4)}
-.pmethods label.sel{border-color:var(–gold);background:rgba(201,168,76,.05)}
-.pmethods label input{accent-color:var(–gold);width:16px;height:16px}
-.pmethods .pm-icon{font-size:20px}
-.pmethods .pm-name{font-size:13px;font-weight:700}
-.pmethods .pm-ku{font-size:11px;color:var(–mut);font-family:var(–fk)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.pbtn-row{display:flex;gap:9px;margin-top:6px}
-.back-btn{padding:13px 18px;border-radius:11px;font-size:13px;font-weight:700;border:1.5px solid var(–brd);color:var(–mut);transition:all var(–tr)}
-.back-btn:hover{border-color:var(–gold);color:var(–gold)}
-.ords{background:var(–sur);border:1px solid var(–brd);border-radius:13px;padding:18px;margin-bottom:18px}
-.ords-lbl{font-size:12px;color:var(–gold);font-weight:700;margin-bottom:11px}
-.ori{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(–brd);font-size:12px}
-.ori:last-of-type{border:none}
-.succ{text-align:center;padding:10px 0}
-.succ .si{font-size:68px;margin-bottom:14px}
-.succ h3{font-family:var(–fd);font-size:24px;color:var(–gold);margin-bottom:8px}
-.succ .ks{font-family:var(–fk);color:var(–mut);font-size:14px;line-height:2}
-.succ .onum{background:var(–sur);border:1px solid var(–brd);border-radius:11px;padding:14px;margin:18px 0;font-size:13px}
-.sec-note{background:rgba(201,168,76,.05);border:1px solid var(–brd2);border-radius:11px;padding:13px;margin-bottom:18px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(–mut)}
-
-/* CONTACT */
-.cgrd2{display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:start}
-.ci-item{display:flex;align-items:center;gap:13px;padding:14px 18px;background:var(–sur);border:1px solid var(–brd);border-radius:11px;transition:all var(–tr);margin-bottom:12px}
-.ci-item:hover{border-color:var(–gold);transform:translateX(5px)}
-.ci-icon{font-size:20px;width:40px;height:40px;background:rgba(201,168,76,.1);border-radius:9px;display:flex;align-items:center;justify-content:center}
-.ci-lbl{font-size:11px;color:var(–mut);font-weight:700;text-transform:uppercase;letter-spacing:1px}
-.ci-val{font-size:14px;font-weight:600}
-.cform{background:var(–sur);border:1px solid var(–brd);border-radius:18px;padding:32px}
-textarea.fi{resize:vertical;min-height:110px}
-
-/* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-.stat-card{background:var(–sur);border:1px solid var(–brd);border-radius:14px;padding:22px;text-align:center}
-.stn2{font-family:var(–fd);font-size:32px;font-weight:900;color:var(–gold)}
-
-/* FOOTER */
-footer{background:var(–bg2);border-top:1px solid var(–brd);padding:56px clamp(16px,5vw,60px) 28px}
-.fi2{max-width:1400px;margin:0 auto}
-.fgrd{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:44px}
-.fl-logo{font-family:var(–fd);font-size:26px;font-weight:900;background:linear-gradient(135deg,var(–gold),var(–gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:11px}
-.fl-p{color:var(–mut);font-size:13px;line-height:1.8;max-width:260px}
-.fcol h5{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;color:var(–txt)}
-.fcol ul{list-style:none;display:flex;flex-direction:column;gap:9px}
-.fcol ul li a{font-size:13px;color:var(–mut);transition:color var(–tr)}
-.fcol ul li a:hover{color:var(–gold)}
-.fbot{border-top:1px solid var(–brd);padding-top:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:11px}
-.fbot p{font-size:12px;color:var(–sub)}
-.socials{display:flex;gap:9px}
-.sl{width:34px;height:34px;border-radius:8px;background:var(–sur);border:1px solid var(–brd);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(–mut);transition:all var(–tr)}
-.sl:hover{background:var(–gold);border-color:var(–gold);color:var(–bg);transform:translateY(-3px)}
-
-/* TOAST */
-.tcon{position:fixed;bottom:22px;right:22px;z-index:2000;display:flex;flex-direction:column;gap:9px}
-.tst{padding:13px 18px;border-radius:11px;background:var(–sur2);border:1px solid var(–brd2);font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:var(–shd);min-width:220px;animation:tin .4s cubic-bezier(.34,1.56,.64,1);transition:opacity .3s}
-@keyframes tin{from{opacity:0;transform:translateX(36px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
-.tst.s{border-color:rgba(92,224,138,.25)}
-.tst.e{border-color:rgba(224,92,92,.25)}
-.ti{font-size:17px}
-.bktop{position:fixed;bottom:22px;left:22px;z-index:500;width:42px;height:42px;border-radius:11px;background:var(–sur2);border:1px solid var(–brd2);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(–mut);transition:all var(–tr);opacity:0;pointer-events:none}
-.bktop.on{opacity:1;pointer-events:all}
-.bktop:hover{background:var(–gold);border-color:var(–gold);color:var(–bg);transform:translateY(-3px)}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:1024px){
-.hero{grid-template-columns:1fr;text-align:center;padding-top:90px;gap:40px;min-height:auto;padding-bottom:60px}
-.hku{text-align:center;font-size:15px}
-.htitle .l3{text-align:center}
-.hacts,.hstats{justify-content:center}
-.hvisual{max-width:420px;margin:0 auto}
-.bnr{grid-template-columns:1fr;text-align:center}
-.bnrk{text-align:center}
-.cgrd2{grid-template-columns:1fr}
-.about-grid{grid-template-columns:1fr}
-.fgrd{grid-template-columns:1fr 1fr}
-}
-@media(max-width:768px){
-.nlinks,.nsearch,.nauth{display:none}
-.hbg{display:flex}
-.ni{gap:10px}
-.logo-e{font-size:17px;letter-spacing:3px}
-.pgrid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
-.fgrd{grid-template-columns:1fr}
-.htitle{font-size:clamp(40px,11vw,68px);line-height:1.05;margin-bottom:12px}
-/* HERO VISUAL: force 2x2 grid, no staggered offsets on small screens */
-.hvisual{grid-template-columns:1fr 1fr !important;max-width:100%;gap:10px;align-items:stretch}
-.hvisual .mpc{display:block !important;margin-top:0 !important;animation:none}
-.mpiw{height:110px;font-size:42px}
-.mpb{padding:10px}
-.mpb .n{font-size:11px}
-.mpb .p{font-size:12px}
-.mpb .p button{width:24px;height:24px;font-size:13px}
-.hku{font-size:14px;line-height:1.85}
-.hacts{gap:10px}
-.hacts .btn1,.hacts .btn2{padding:12px 22px;font-size:13px}
-.hstats{gap:20px}
-.stn{font-size:22px}
-.stl{font-size:10px}
-.sec{padding:48px 16px}
-.sh{margin-bottom:36px}
-.sh h2{font-size:clamp(22px,6vw,36px)}
-.cgrid{grid-template-columns:repeat(3,1fr);gap:10px}
-.ccard{padding:20px 10px}
-.ci{font-size:30px;margin-bottom:8px}
-.cn{font-size:11px}
-.cnk{font-size:10px}
-.pimg{height:160px;font-size:60px}
-.pbody{padding:13px}
-.pname{font-size:13px}
-.pprice{font-size:16px}
-.acb{padding:7px 12px;font-size:11px}
-.bnr{padding:36px 24px}
-.bnem{display:none}
-.fgrd{grid-template-columns:1fr 1fr;gap:24px}
-.fltrs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
-.fltrs::-webkit-scrollbar{height:3px}
-.fltrs::-webkit-scrollbar-thumb{background:var(–gold);border-radius:2px}
-.fb{flex-shrink:0}
-}
-@media(max-width:480px){
-nav{height:60px;padding:0 14px}
-.mmenu{top:60px}
-.ni{gap:8px}
-.logo-e{font-size:15px;letter-spacing:2px}
-.logo-k{font-size:9px}
-.lsw{padding:2px;gap:2px}
-.lb{padding:4px 9px;font-size:10px}
-.cartbtn{width:38px;height:38px;font-size:16px;border-radius:9px}
-.hbg{width:30px}
-.hero{padding-top:80px;padding-left:16px;padding-right:16px}
-.htitle{font-size:clamp(34px,10vw,50px)}
-.htag{font-size:9px;padding:5px 13px}
-.hku{font-size:13px}
-/* 2x2 grid on small phones too */
-.hvisual{grid-template-columns:1fr 1fr !important;max-width:100%;gap:8px;align-items:stretch}
-.hvisual .mpc{display:block !important;margin-top:0 !important;animation:none}
-.mpiw{height:90px;font-size:34px}
-.mpb{padding:8px}
-.mpb .n{font-size:10px}
-.mpb .p{font-size:11px}
-.mpb .p button{width:22px;height:22px;font-size:11px}
-.cgrid{grid-template-columns:repeat(3,1fr);gap:8px}
-.ccard{padding:16px 8px}
-.ci{font-size:26px}
-.pgrid{grid-template-columns:1fr 1fr;gap:10px}
-.pimg{height:130px;font-size:46px}
-.pbody{padding:11px}
-.pname{font-size:12px}
-.pnamek{font-size:10px;margin-bottom:7px}
-.pstars{font-size:10px;margin-bottom:8px}
-.pprice{font-size:15px}
-.pprice .old{font-size:10px}
-.acb{padding:6px 9px;font-size:10px;gap:3px}
-.fgrd{grid-template-columns:1fr;gap:28px}
-.cside{width:100%}
-.mbox{padding:24px 20px;border-radius:18px}
-.otpr{gap:5px}
-.oi{width:42px;height:46px;font-size:18px}
-}
-/* force reset stagger on ALL mobile — desktop stagger handled via JS class */
-@media(max-width:1024px){
-.hvisual .mpc:nth-child(n){margin-top:0 !important;animation:none}
-.hvisual{grid-template-columns:1fr 1fr !important;align-items:stretch;max-width:440px;margin:0 auto}
-}
-.htitle .l2{
-background:linear-gradient(135deg,var(–gold),var(–gold2),#f5e0a0);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-background-clip:text;
-display:block;
-/* fallback for browsers that block -webkit-text-fill-color in certain contexts */
-color:var(–gold2);
-}
-/* ensure all 3 hero title lines are block */
-.htitle .l1,.htitle .l2,.htitle .l3{display:block}
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUXE SHOP | شۆپی لوکس</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-<!-- OVERLAY -->
-<div class="overlay" id="overlay" onclick="closeAll()"></div>
-<!-- TOASTS -->
-<div class="tcon" id="tcon"></div>
-<!-- BACK TOP -->
-<button class="bktop" id="bktop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-<!-- NAV -->
+<!-- ======== AUTH MODAL ======== -->
 
-<nav id="nav">
-<div class="ni">
-  <div class="logo" onclick="showPg('home')">
-    <span class="logo-e">LUXE SHOP</span>
-    <span class="logo-k">شۆپی لوکس</span>
-  </div>
-  <div class="nsearch" id="nsearch">
-    <input type="text" placeholder="Search / گەڕان..." id="sinp" oninput="doSearch(this.value)" autocomplete="off"/>
-    <span class="si">🔍</span>
-    <div id="sres" class="sres hidden"></div>
-  </div>
-  <ul class="nlinks">
-    <li><a href="#" onclick="showPg('home');return false" id="lnk-home" class="ac">Home</a></li>
-    <li><a href="#" onclick="showPg('shop');return false" id="lnk-shop">Shop</a></li>
-    <li><a href="#" onclick="showPg('about');return false" id="lnk-about">About</a></li>
-    <li><a href="#" onclick="showPg('contact');return false" id="lnk-contact">Contact</a></li>
-  </ul>
-  <div class="lsw">
-    <button class="lb ac" id="lben" onclick="setLang('en')">EN</button>
-    <button class="lb" id="lbku" onclick="setLang('ku')">کو</button>
-  </div>
-  <button class="cartbtn" onclick="toggleCart()">🛒<span class="cbadge" id="cbadge">0</span></button>
-  <div class="nauth">
-    <button class="bg" id="nbtnLogin" onclick="openAuth('login')">Login</button>
-    <button class="bp" id="nbtnSignup" onclick="openAuth('signup')">Sign Up</button>
-  </div>
-  <button class="hbg" id="hbg" onclick="toggleMobile()"><span></span><span></span><span></span></button>
-</div>
-</nav>
-
-<!-- MOBILE MENU -->
-
-<div class="mmenu" id="mmenu">
-  <ul>
-    <li><a href="#" onclick="showPg('home');closeMobile();return false">🏠 <span id="mlnk-home">Home</span></a></li>
-    <li><a href="#" onclick="showPg('shop');closeMobile();return false">🛍️ <span id="mlnk-shop">Shop</span></a></li>
-    <li><a href="#" onclick="showPg('about');closeMobile();return false">ℹ️ <span id="mlnk-about">About</span></a></li>
-    <li><a href="#" onclick="showPg('contact');closeMobile();return false">📬 <span id="mlnk-contact">Contact</span></a></li>
-  </ul>
-  <div class="mdiv"></div>
-  <div class="mauth">
-    <button class="bg" style="width:100%;padding:13px;border-radius:11px;font-size:14px;" onclick="openAuth('login');closeMobile()" id="mbtnLogin">🔑 Login</button>
-    <button class="bp" style="width:100%;padding:13px;border-radius:11px;font-size:14px;" onclick="openAuth('signup');closeMobile()" id="mbtnSignup">✨ Sign Up</button>
-  </div>
-  <div class="mdiv"></div>
-  <div style="font-size:12px;color:var(--mut);text-align:center;margin-bottom:8px;font-family:var(--fk)">زمان / Language</div>
-  <div class="mlang">
-    <button class="mlb ac" id="mlben" onclick="setLang('en')">🇬🇧 English</button>
-    <button class="mlb" id="mlbku" onclick="setLang('ku')">کوردی</button>
-  </div>
-  <div class="mdiv"></div>
-  <input type="text" class="fi" placeholder="🔍 گەڕان / Search..." oninput="doSearch(this.value)" style="border-radius:50px"/>
-</div>
-
-<!-- ============ HOME PAGE ============ -->
-
-<div class="pg on" id="pg-home">
-
-<!-- HERO -->
-
-<section class="hero">
-  <div style="position:relative;z-index:1">
-    <div class="htag" id="h-tag">✦ New Season 2025 ✦ وەرزی نوێ</div>
-    <h1 class="htitle">
-      <span class="l1" id="h-l1">Discover</span>
-      <span class="l2" id="h-l2" style="background:linear-gradient(135deg,#c9a84c,#e8c97a,#f5e0a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block">Luxury</span>
-      <span class="l3" id="h-l3">Shopping</span>
-    </h1>
-    <p class="hku" id="h-ku"><strong>دۆزینەوەی جیهانی نوێ</strong><br/>کاڵاکانی باشترین براند لە جیهانەوە<br/>بەگوازراوەی خێرا تا دەرگاکەت</p>
-    <div class="hacts">
-      <button class="btn1" id="h-btn1" onclick="showPg('shop')">Shop Now 🛍️</button>
-      <button class="btn2" id="h-btn2" onclick="showPg('about')">Our Story ✦</button>
+<div id="authModal" class="modal-overlay active">
+  <div class="modal-box">
+    <div class="modal-brand">
+      <span class="brand-dot"></span>
+      <h1>LUXE</h1>
     </div>
-    <div class="hstats">
-      <div><div class="stn">12K+</div><div class="stl" id="h-s1">Products</div></div>
-      <div><div class="stn">98%</div><div class="stl" id="h-s2">Happy Clients</div></div>
-      <div><div class="stn">50+</div><div class="stl" id="h-s3">Brands</div></div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')" id="tab-login">Sign In / چوونەژوورەوە</button>
+      <button class="auth-tab" onclick="switchTab('register')" id="tab-register">Register / تۆمارکردن</button>
+    </div>
+
+```
+<!-- Login Form -->
+<div id="form-login" class="auth-form active">
+  <h2>Welcome Back <span>/ بەخێربێیتەوە</span></h2>
+  <div class="input-group">
+    <label>Email or Phone / ئیمەیل یان مۆبایل</label>
+    <input type="text" id="loginContact" placeholder="email@example.com or 07501234567" />
+  </div>
+  <div class="input-group">
+    <label>Password / پاسووەرد</label>
+    <input type="password" id="loginPassword" placeholder="••••••••" />
+  </div>
+  <button class="btn-primary" onclick="handleLogin()">Sign In / چوونەژوورەوە</button>
+  <p class="auth-switch">New here? <a href="#" onclick="switchTab('register')">Create account / ئەکاونت دروست بکە</a></p>
+</div>
+
+<!-- Register Form -->
+<div id="form-register" class="auth-form">
+  <h2>Create Account <span>/ ئەکاونت دروست بکە</span></h2>
+  <div class="input-group">
+    <label>Full Name / ناوی تەواو</label>
+    <input type="text" id="regName" placeholder="Your name" />
+  </div>
+  <div class="input-group">
+    <label>Email / ئیمەیل</label>
+    <input type="email" id="regEmail" placeholder="email@example.com" />
+  </div>
+  <div class="input-group">
+    <label>Phone / مۆبایل</label>
+    <input type="tel" id="regPhone" placeholder="07501234567" />
+  </div>
+  <div class="input-group">
+    <label>Password / پاسووەرد</label>
+    <input type="password" id="regPassword" placeholder="Min 6 chars" />
+  </div>
+  <div class="input-group">
+    <label>Verification Method / شێوازی پشتراستکردنەوە</label>
+    <select id="verifyMethod">
+      <option value="email">Email / ئیمەیل</option>
+      <option value="phone">SMS / مەسەج</option>
+    </select>
+  </div>
+  <button class="btn-primary" onclick="sendVerificationCode()">Send Code / کۆد بنێرە</button>
+</div>
+
+<!-- Verification Form -->
+<div id="form-verify" class="auth-form">
+  <h2>Enter Code <span>/ کۆد بنووسە</span></h2>
+  <p class="verify-info" id="verifyInfo"></p>
+  <div class="code-inputs">
+    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,0)" />
+    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,1)" />
+    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,2)" />
+    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,3)" />
+    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,4)" />
+    <input type="text" maxlength="1" class="code-box" oninput="moveNext(this,5)" />
+  </div>
+  <div class="code-hint">Demo code: <strong>123456</strong></div>
+  <button class="btn-primary" onclick="verifyCode()">Verify / پشتراستکردنەوە</button>
+  <button class="btn-ghost" onclick="resendCode()">Resend / دووبارە بنێرە</button>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ======== TOAST NOTIFICATION ======== -->
+
+<div id="toast" class="toast"></div>
+
+<!-- ======== MAIN SITE ======== -->
+
+<div id="mainSite" class="hidden">
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-dot"></span>
+        <span>LUXE</span>
+      </div>
+
+```
+  <div class="nav-links" id="navLinks">
+    <a href="#home" onclick="closeNav()">Home / ماڵەوە</a>
+    <a href="#products" onclick="closeNav()">Shop / فرۆشگا</a>
+    <a href="#about" onclick="closeNav()">About / دەربارە</a>
+    <a href="#contact" onclick="closeNav()">Contact / پەیوەندی</a>
+    <div class="lang-toggle">
+      <button onclick="toggleLang()" id="langBtn">🌐 کوردی</button>
     </div>
   </div>
-  <div class="hvisual">
-    <div class="mpc" onclick="addToCart(0)">
-      <div class="mpiw">👟</div>
-      <div class="mpb"><div class="n">Air Runner Pro</div><div class="p">$129<button onclick="event.stopPropagation();addToCart(0)">+</button></div></div>
+
+  <div class="nav-actions">
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Search... / گەڕان..." oninput="filterSearch()" />
+      <span class="search-icon">🔍</span>
     </div>
-    <div class="mpc" onclick="addToCart(1)">
-      <div class="mpiw">👜</div>
-      <div class="mpb"><div class="n">Luxe Handbag</div><div class="p">$349<button onclick="event.stopPropagation();addToCart(1)">+</button></div></div>
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <button class="user-btn" onclick="toggleUserMenu()">
+      👤 <span id="navUsername"></span>
+    </button>
+    <div class="user-dropdown" id="userDropdown">
+      <p id="dropUsername"></p>
+      <a href="#" onclick="logout()">Logout / چوونەدەرەوە</a>
     </div>
-    <div class="mpc" onclick="addToCart(2)">
-      <div class="mpiw">⌚</div>
-      <div class="mpb"><div class="n">Smart Watch</div><div class="p">$299<button onclick="event.stopPropagation();addToCart(2)">+</button></div></div>
-    </div>
-    <div class="mpc" onclick="addToCart(3)">
-      <div class="mpiw">🕶️</div>
-      <div class="mpb"><div class="n">Sunglasses</div><div class="p">$89<button onclick="event.stopPropagation();addToCart(3)">+</button></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CATEGORIES -->
-
-<section class="sec">
-<div class="sec-inner">
-  <div class="sh">
-    <div class="stag" id="cat-tag">✦ Browse by Category</div>
-    <h2 id="cat-h2">Shop by Category</h2>
-    <p class="ks" id="cat-ku">دابەشکردن بەپێی جۆرەکان</p>
-  </div>
-  <div class="cgrid">
-    <div class="ccard" onclick="filterGo('Fashion')"><span class="ci">👗</span><div class="cn">Fashion</div><div class="cnk">جلوبەرگ</div><div class="cc">248 items</div></div>
-    <div class="ccard" onclick="filterGo('Electronics')"><span class="ci">💻</span><div class="cn">Electronics</div><div class="cnk">ئەلیکترۆنیک</div><div class="cc">192 items</div></div>
-    <div class="ccard" onclick="filterGo('Shoes')"><span class="ci">👟</span><div class="cn">Shoes</div><div class="cnk">پێلاو</div><div class="cc">164 items</div></div>
-    <div class="ccard" onclick="filterGo('Accessories')"><span class="ci">💎</span><div class="cn">Accessories</div><div class="cnk">ئەکسسوار</div><div class="cc">310 items</div></div>
-    <div class="ccard" onclick="filterGo('Beauty')"><span class="ci">💄</span><div class="cn">Beauty</div><div class="cnk">جوانکاری</div><div class="cc">127 items</div></div>
-    <div class="ccard" onclick="filterGo('Home')"><span class="ci">🏠</span><div class="cn">Home & Living</div><div class="cnk">ماڵ و ژیان</div><div class="cc">89 items</div></div>
+    <button class="hamburger" onclick="toggleNav()" id="hamburger">☰</button>
   </div>
 </div>
-</section>
+```
 
-<!-- FEATURED -->
+  </nav>
 
-<section class="sec" style="background:linear-gradient(180deg,transparent,var(--bg2) 8%,var(--bg2) 92%,transparent)">
-<div class="sec-inner">
-  <div class="sh">
-    <div class="stag" id="feat-tag">✦ Handpicked for You</div>
-    <h2 id="feat-h2">Featured Products</h2>
-    <p class="ks" id="feat-ku">کاڵاکانی تایبەت بۆت دیاریکراون</p>
-  </div>
-  <div class="fltrs" id="hfltrs">
-    <button class="fb ac" onclick="hFilter(this,'All')" id="hf-all">All ✦</button>
-    <button class="fb" onclick="hFilter(this,'Fashion')">Fashion 👗</button>
-    <button class="fb" onclick="hFilter(this,'Electronics')">Electronics 💻</button>
-    <button class="fb" onclick="hFilter(this,'Shoes')">Shoes 👟</button>
-    <button class="fb" onclick="hFilter(this,'Accessories')">Accessories 💎</button>
-  </div>
-  <div class="pgrid" id="hprods"></div>
-</div>
-</section>
+  <!-- HERO / SLIDER -->
 
-<!-- BANNER -->
-
-<div style="padding:0 clamp(16px,5vw,60px) clamp(60px,8vw,100px)">
-<div class="bnr">
-  <div>
-    <div class="btag">✦ Limited Time Offer ✦ کاتی سنووردار</div>
-    <h2>Up to 50% Off<br/>Summer Collection</h2>
-    <p class="bnrk">هەتا ٥٠٪ داشکاندن لەسەر کۆڵێکشنی هاوینی ئەمساڵ</p>
-    <button class="btn1" onclick="showPg('shop')">Shop The Sale 🔥</button>
-  </div>
-  <div class="bnem">🌟</div>
-</div>
-</div>
-
-</div><!-- end home -->
-
-<!-- ============ SHOP PAGE ============ -->
-
-<div class="pg" id="pg-shop">
-<div style="padding:clamp(96px,12vw,150px) clamp(16px,5vw,60px) clamp(60px,8vw,110px);max-width:1400px;margin:0 auto">
-  <div class="sh">
-    <div class="stag">✦ Full Collection</div>
-    <h2 id="shop-h2">All Products</h2>
-    <p class="ks" id="shop-ku">هەموو کاڵاکان</p>
-  </div>
-  <div style="max-width:460px;margin:0 auto 32px;position:relative">
-    <input type="text" class="fi" placeholder="🔍 Search... / گەڕان..." id="shopSrch" oninput="renderShop(this.value)" style="border-radius:50px;padding-left:20px"/>
-  </div>
-  <div class="fltrs" id="sfltrs">
-    <button class="fb ac" onclick="sFilter(this,'All')">All ✦</button>
-    <button class="fb" onclick="sFilter(this,'Fashion')">Fashion 👗</button>
-    <button class="fb" onclick="sFilter(this,'Electronics')">Electronics 💻</button>
-    <button class="fb" onclick="sFilter(this,'Shoes')">Shoes 👟</button>
-    <button class="fb" onclick="sFilter(this,'Accessories')">Accessories 💎</button>
-    <button class="fb" onclick="sFilter(this,'Beauty')">Beauty 💄</button>
-    <button class="fb" onclick="sFilter(this,'Home')">Home 🏠</button>
-  </div>
-  <div class="pgrid" id="sprods"></div>
-</div>
-</div>
-
-<!-- ============ ABOUT PAGE ============ -->
-
-<div class="pg" id="pg-about">
-<div style="padding:clamp(96px,12vw,150px) clamp(16px,5vw,60px) clamp(60px,8vw,110px);max-width:960px;margin:0 auto">
-  <div class="sh" style="text-align:left">
-    <div class="stag">✦ Our Story</div>
-    <h2 style="font-size:clamp(30px,5vw,56px)">About LUXE SHOP</h2>
-  </div>
-  <div class="about-grid">
-    <div>
-      <p style="color:var(--mut);line-height:2;font-size:14px;margin-bottom:20px">LUXE SHOP was founded with a simple vision: to bring the world's finest products to your doorstep with unparalleled convenience and style.</p>
-      <p style="color:var(--mut);line-height:2;font-size:14px;margin-bottom:28px">We curate collections from over 50 premium brands worldwide, ensuring every product meets our rigorous quality standards.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="stat-card"><div class="stn2">2019</div><div style="font-size:12px;color:var(--mut)">Founded</div></div>
-        <div class="stat-card"><div class="stn2">50+</div><div style="font-size:12px;color:var(--mut)">Brands</div></div>
-        <div class="stat-card"><div class="stn2">12K+</div><div style="font-size:12px;color:var(--mut)">Products</div></div>
-        <div class="stat-card"><div class="stn2">98%</div><div style="font-size:12px;color:var(--mut)">Satisfaction</div></div>
+  <section id="home" class="hero">
+    <div class="slider-track" id="sliderTrack">
+      <div class="slide slide-1">
+        <div class="slide-content">
+          <span class="slide-tag">New Collection / کەلێکشنی نوێ</span>
+          <h1>Elevate Your <em>Style</em></h1>
+          <p>Discover luxury fashion curated for the modern soul / بدۆزەرەوە مۆدی لوکس بۆ کەسایەتیەکانی ئەمڕۆ</p>
+          <button class="btn-hero" onclick="scrollToProducts()">Shop Now / ئێستا بکڕە</button>
+        </div>
+      </div>
+      <div class="slide slide-2">
+        <div class="slide-content">
+          <span class="slide-tag">Best Sellers / باشترین فرۆشراوەکان</span>
+          <h1>Timeless <em>Elegance</em></h1>
+          <p>Premium quality, unforgettable design / کواڵیتی بەرز، دیزاینی نەفراموش</p>
+          <button class="btn-hero" onclick="scrollToProducts()">Explore / دەرکۆڵێنە</button>
+        </div>
+      </div>
+      <div class="slide slide-3">
+        <div class="slide-content">
+          <span class="slide-tag">Sale Up To 50% / داشکاندنی تا ٥٠٪</span>
+          <h1>Limited <em>Offers</em></h1>
+          <p>Don't miss exclusive deals this season / دەرفەتە تایبەتەکان لەدەست مەدە</p>
+          <button class="btn-hero" onclick="scrollToProducts()">Grab Deal / پێشکەش وەربگرە</button>
+        </div>
       </div>
     </div>
-    <div>
-      <div style="background:var(--sur);border:1px solid var(--brd);border-radius:18px;padding:28px;font-family:var(--fk);direction:rtl;line-height:2.2;color:var(--mut);font-size:14px;margin-bottom:20px">
-        <h3 style="color:var(--gold);font-size:20px;margin-bottom:14px;font-family:var(--fk)">دەربارەی شۆپی لوکس</h3>
-        شۆپی لوکس لەسالی ٢٠١٩ دامەزراوە بە مەبەستی گەیاندنی باشترین کاڵاکانی جیهان بە دەرگاکەت. ئێمە پشتمان بە کوالیتی و باوەڕی کڕیارەکانمانە.
-        <br/><br/>
-        <strong style="color:var(--gold2)">هەموو کاڵایەک ✦ هەموو براندێک ✦ هەموو جۆرێک</strong>
+    <div class="slider-dots" id="sliderDots"></div>
+    <button class="slider-arrow left" onclick="changeSlide(-1)">‹</button>
+    <button class="slider-arrow right" onclick="changeSlide(1)">›</button>
+  </section>
+
+  <!-- PRODUCTS -->
+
+  <section id="products" class="products-section">
+    <div class="section-header">
+      <h2>Our Collection <span>/ کەلێکشنەکەمان</span></h2>
+      <p>Hand-picked pieces for the discerning customer / تەکتەکە دەستچینراو بۆ کڕیارانی ناوازە</p>
+    </div>
+
+```
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterProducts('all', this)">All / هەموو</button>
+  <button class="filter-btn" onclick="filterProducts('clothing', this)">Clothing / جل</button>
+  <button class="filter-btn" onclick="filterProducts('shoes', this)">Shoes / پێڵاو</button>
+  <button class="filter-btn" onclick="filterProducts('accessories', this)">Accessories / ئەکسسوار</button>
+  <button class="filter-btn" onclick="filterProducts('bags', this)">Bags / جانتا</button>
+</div>
+
+<div class="products-grid" id="productsGrid">
+  <!-- Injected by JS -->
+</div>
+```
+
+  </section>
+
+  <!-- CART DRAWER -->
+
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>🛒 Your Cart / سەبەتەکەت</h3>
+      <button onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total / کۆی گشتی:</span>
+        <strong id="cartTotal">$0.00</strong>
       </div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--sur);border:1px solid var(--brd);border-radius:11px"><span style="font-size:22px">🚚</span><div><div style="font-weight:700;font-size:13px">Free Shipping</div><div style="font-size:12px;color:var(--mut)">On orders over $50</div></div></div>
-        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--sur);border:1px solid var(--brd);border-radius:11px"><span style="font-size:22px">🔒</span><div><div style="font-weight:700;font-size:13px">Secure Payment</div><div style="font-size:12px;color:var(--mut)">100% secure transactions</div></div></div>
-        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--sur);border:1px solid var(--brd);border-radius:11px"><span style="font-size:22px">↩️</span><div><div style="font-weight:700;font-size:13px">Easy Returns</div><div style="font-size:12px;color:var(--mut)">30-day return policy</div></div></div>
-      </div>
+      <button class="btn-primary" onclick="goToCheckout()">Checkout / پارەدان</button>
+      <button class="btn-ghost" onclick="clearCart()">Clear Cart / سەبەتە پاک بکەوە</button>
     </div>
   </div>
-</div>
-</div>
 
-<!-- ============ CONTACT PAGE ============ -->
+  <!-- CHECKOUT PAGE -->
 
-<div class="pg" id="pg-contact">
-<section style="padding:clamp(96px,12vw,150px) clamp(16px,5vw,60px) clamp(60px,8vw,110px);max-width:1400px;margin:0 auto">
-  <div class="sh">
-    <div class="stag">✦ Get In Touch</div>
-    <h2 id="cnt-h2">Contact Us</h2>
-    <p class="ks" id="cnt-ku">پەیوەندیمان پێوەبکە</p>
-  </div>
-  <div class="cgrd2">
-    <div>
-      <h3 style="font-family:var(--fd);font-size:28px;font-weight:900;margin-bottom:14px">Let's Talk</h3>
-      <p style="font-family:var(--fk);color:var(--mut);font-size:14px;line-height:2.1;direction:rtl;text-align:right;margin-bottom:28px">هەر پرسیارێکت هەیە؟ ئێمە ئامادەی هاریکاریتین!<br/>تیمی ئێمە لە ٢٤ کاتژمێر وەڵامی دەدەنەوە.</p>
-      <div class="ci-item"><div class="ci-icon">📧</div><div><div class="ci-lbl">Email / ئیمەیل</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e189848d8d8ea18d94998492898e91cf828e8c">[email&#160;protected]</a></div></div></div>
-      <div class="ci-item"><div class="ci-icon">📱</div><div><div class="ci-lbl">Phone / تەلەفۆن</div><div class="ci-val">+964 750 000 0000</div></div></div>
-      <div class="ci-item"><div class="ci-icon">📍</div><div><div class="ci-lbl">Location / شوێن</div><div class="ci-val">Erbil, Kurdistan Region</div></div></div>
-      <div class="ci-item"><div class="ci-icon">🕐</div><div><div class="ci-lbl">Hours / کاتەکان</div><div class="ci-val">Sun–Thu, 9AM–6PM</div></div></div>
-    </div>
-    <div class="cform">
-      <h4 style="font-size:18px;font-weight:700;margin-bottom:4px">Send a Message</h4>
-      <span class="ku" style="font-size:12px;color:var(--mut);display:block;margin-bottom:24px">پەیامت بنێرە</span>
-      <div class="fg"><div class="fl">Full Name <span class="ku">ناوی تەواو</span></div><input type="text" class="fi" placeholder="Your name..."/></div>
-      <div class="fg"><div class="fl">Email <span class="ku">ئیمەیل</span></div><input type="email" class="fi" placeholder="your@email.com"/></div>
-      <div class="fg"><div class="fl">Subject <span class="ku">بابەت</span></div><input type="text" class="fi" placeholder="How can we help?"/></div>
-      <div class="fg"><div class="fl">Message <span class="ku">پەیام</span></div><textarea class="fi" rows="5" placeholder="Write here..."></textarea></div>
-      <button class="btn1" style="width:100%;padding:13px" onclick="toast('✉️ پەیامت نێردرا! / Message sent!','s')">Send Message ✉️</button>
-    </div>
-  </div>
-</section>
-</div>
-
-<!-- ============ CART SIDEBAR ============ -->
-
-<div class="cside" id="cside">
-  <div class="chdr">
-    <div><h3 id="cart-title">Shopping Cart 🛒</h3><span class="ku" id="cart-ku">سەبەتەی کڕین</span></div>
-    <button class="cclose" onclick="toggleCart()">✕</button>
-  </div>
-  <div class="citms" id="citms"></div>
-  <div class="cfoot" id="cfoot" style="display:none">
-    <div class="crow"><span class="l">Subtotal / کۆی گشتی</span><span class="v" id="csub">$0</span></div>
-    <div class="crow"><span class="l">Shipping / گازووبار</span><span class="v" style="color:var(--grn)">FREE</span></div>
-    <div class="ctot"><span class="l">Total</span><span class="v" id="ctot">$0</span></div>
-    <button class="chkbtn" onclick="openPayment()">Checkout 💳 / پرداختکردن</button>
-  </div>
-</div>
-
-<!-- ============ AUTH MODAL ============ -->
-
-<div class="modal" id="authModal">
-<div class="mbox">
-  <button class="mcls" onclick="closeAuth()">✕</button>
-  <div class="mlogo">LUXE SHOP</div>
-  <div class="msub">Welcome! / بەخێربێیتەوە<span class="ku">چوونەژوورەوە یان تۆمارکردن</span></div>
-  <div class="atabs">
-    <button class="atab ac" id="atab-l" onclick="switchAuth('login')">Login / چوونەژوورەوە</button>
-    <button class="atab" id="atab-s" onclick="switchAuth('signup')">Sign Up / تۆمارکردن</button>
-  </div>
-  <!-- LOGIN -->
-  <div id="aform-l">
-    <div class="fg"><div class="fl">Phone / Email <span class="ku">تەلەفۆن / ئیمەیل</span></div><input type="text" class="fi" id="loginInp" placeholder="+964 750... or email"/></div>
-    <button class="scbtn" id="scbtn" onclick="sendOtp()">📱 Send Verification Code / کۆدی پشتڕاستکردنەوە بنێرە</button>
-    <div id="otpsec" class="hidden">
-      <div class="rn">Code sent! Enter below:<span class="ku">کۆد نێردرا! لەژێرەوە بنووسەوە</span></div>
-      <div class="otpr">
-        <input class="oi" maxlength="1" oninput="otpM(this,0)" id="o0"/>
-        <input class="oi" maxlength="1" oninput="otpM(this,1)" id="o1"/>
-        <input class="oi" maxlength="1" oninput="otpM(this,2)" id="o2"/>
-        <input class="oi" maxlength="1" oninput="otpM(this,3)" id="o3"/>
-        <input class="oi" maxlength="1" oninput="otpM(this,4)" id="o4"/>
-        <input class="oi" maxlength="1" oninput="otpM(this,5)" id="o5"/>
-      </div>
-      <button class="btn1" style="width:100%;padding:13px" onclick="verifyOtp()">✅ Verify & Login / پشتڕاستکردنەوە</button>
-    </div>
-  </div>
-  <!-- SIGNUP -->
-  <div id="aform-s" class="hidden">
-    <div class="fg"><div class="fl">Full Name <span class="ku">ناوی تەواو</span></div><input type="text" class="fi" placeholder="Ahmad Karimi"/></div>
-    <div class="fg"><div class="fl">Email <span class="ku">ئیمەیل</span></div><input type="email" class="fi" placeholder="your@email.com"/></div>
-    <div class="fg"><div class="fl">Phone <span class="ku">تەلەفۆن</span></div><input type="tel" class="fi" placeholder="+964 750 000 0000"/></div>
-    <button class="scbtn" onclick="toast('📱 کۆد نێردرا! / Code sent!','s')">📱 Send Code / کۆد بنێرە</button>
-    <div class="otpr" style="margin-top:14px">
-      <input class="oi" maxlength="1"/><input class="oi" maxlength="1"/><input class="oi" maxlength="1"/>
-      <input class="oi" maxlength="1"/><input class="oi" maxlength="1"/><input class="oi" maxlength="1"/>
-    </div>
-    <button class="btn1" style="width:100%;padding:13px" onclick="toast('🎉 بەخێربێیتەوە! / Welcome!','s');closeAuth()">✨ Create Account / ئەکاونت دروست بکە</button>
-  </div>
-</div>
-</div>
-
-<!-- ============ PAYMENT MODAL ============ -->
-
-<div class="modal" id="payModal">
-<div class="mbox pmbox">
-  <button class="mcls" onclick="closePay()">✕</button>
-  <div class="mlogo">Secure Checkout 💳</div>
-  <div class="msub">Complete your order<span class="ku">تکایە داواکاریەکەت تەواو بکە</span></div>
-
-  <!-- STEP 1 -->
-
-  <div class="pstep on" id="ps1">
-    <div class="pbar"><span class="ac"></span><span></span><span></span></div>
-    <div class="psteplbl">Step 1: Delivery / گوازراوە</div>
-    <div class="fg"><div class="fl">Full Name <span class="ku">ناوی تەواو</span></div><input type="text" class="fi" id="pname" placeholder="Ahmad Karimi"/></div>
-    <div class="g2">
-      <div class="fg"><div class="fl">Phone <span class="ku">تەلەفۆن</span></div><input type="tel" class="fi" id="pphone" placeholder="+964..."/></div>
-      <div class="fg"><div class="fl">City <span class="ku">شار</span></div><input type="text" class="fi" id="pcity" placeholder="Erbil / هەولێر"/></div>
-    </div>
-    <div class="fg"><div class="fl">Address <span class="ku">ناونیشان</span></div><input type="text" class="fi" id="paddress" placeholder="Street..."/></div>
-    <button class="btn1" style="width:100%;padding:13px" onclick="goStep(2)">Next: Payment ➜ / شێوازی پارەدان</button>
-  </div>
-
-  <!-- STEP 2 -->
-
-  <div class="pstep" id="ps2">
-    <div class="pbar"><span class="ac"></span><span class="ac"></span><span></span></div>
-    <div class="psteplbl">Step 2: Payment Method / شێوازی پارەدان</div>
-    <div class="pmethods" id="pmethods">
-      <label class="sel" onclick="selPay(this,'card')">
-        <input type="radio" name="pm" value="card" checked/><span class="pm-icon">💳</span>
-        <div><div class="pm-name">Credit / Debit Card</div><div class="pm-ku">کارتی کرێدیت / دێبیت</div></div>
-      </label>
-      <label onclick="selPay(this,'cash')">
-        <input type="radio" name="pm" value="cash"/><span class="pm-icon">💵</span>
-        <div><div class="pm-name">Cash on Delivery</div><div class="pm-ku">پارە لە دەرگا</div></div>
-      </label>
-      <label onclick="selPay(this,'zain')">
-        <input type="radio" name="pm" value="zain"/><span class="pm-icon">📱</span>
-        <div><div class="pm-name">Zain Cash / FastPay</div><div class="pm-ku">زەین کاش / فاستپەی</div></div>
-      </label>
-    </div>
-    <div id="cardFlds">
-      <div class="fg"><div class="fl">Card Number <span class="ku">ژمارەی کارت</span></div><input type="text" class="fi" placeholder="1234 5678 9012 3456" maxlength="19" oninput="fmtCard(this)"/></div>
-      <div class="g2">
-        <div class="fg"><div class="fl">Expiry</div><input type="text" class="fi" placeholder="MM/YY" maxlength="5" oninput="fmtExp(this)"/></div>
-        <div class="fg"><div class="fl">CVV</div><input type="text" class="fi" placeholder="123" maxlength="3"/></div>
+  <div id="checkoutPage" class="checkout-page hidden">
+    <div class="checkout-inner">
+      <button class="back-btn" onclick="closeCheckout()">← Back / گەڕانەوە</button>
+      <h2>Checkout <span>/ پارەدان</span></h2>
+      <div class="checkout-grid">
+        <div class="checkout-form-wrap">
+          <h3>Shipping Info / زانیاری ناردن</h3>
+          <div class="input-group"><label>Full Name / ناوی تەواو</label><input type="text" id="ckName" placeholder="John Doe" /></div>
+          <div class="input-group"><label>Address / ناونیشان</label><input type="text" id="ckAddress" placeholder="Street, City" /></div>
+          <div class="input-group"><label>Phone / مۆبایل</label><input type="tel" id="ckPhone" placeholder="07501234567" /></div>
+          <div class="input-group"><label>Email / ئیمەیل</label><input type="email" id="ckEmail" placeholder="email@example.com" /></div>
+          <h3>Payment / پارەدان</h3>
+          <div class="payment-methods">
+            <label class="pay-option"><input type="radio" name="pay" value="card" checked /> 💳 Credit Card</label>
+            <label class="pay-option"><input type="radio" name="pay" value="cash" /> 💵 Cash on Delivery</label>
+          </div>
+          <div id="cardFields">
+            <div class="input-group"><label>Card Number</label><input type="text" id="ckCard" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)" /></div>
+            <div class="row-two">
+              <div class="input-group"><label>Expiry</label><input type="text" id="ckExpiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)" /></div>
+              <div class="input-group"><label>CVV</label><input type="text" id="ckCvv" placeholder="123" maxlength="3" /></div>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="placeOrder()">Place Order / داواکاری بنێرە</button>
+        </div>
+        <div class="checkout-summary">
+          <h3>Order Summary / کورتەی داواکاری</h3>
+          <div id="checkoutItems"></div>
+          <div class="summary-total">
+            <span>Total / کۆی گشتی</span>
+            <strong id="checkoutTotal">$0.00</strong>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="pbtn-row">
-      <button class="back-btn" onclick="goStep(1)">← Back</button>
-      <button class="btn1" style="flex:1;padding:13px" onclick="goStep(3)">Review Order ➜</button>
+  </div>
+
+  <!-- ORDER SUCCESS -->
+
+  <div id="orderSuccess" class="order-success hidden">
+    <div class="success-inner">
+      <div class="success-icon">✅</div>
+      <h2>Order Placed! / داواکاری نێردرا!</h2>
+      <p>Thank you for your purchase. / سوپاس بۆ کڕینەکەت.</p>
+      <p id="successOrderId"></p>
+      <button class="btn-primary" onclick="closeSuccess()">Continue Shopping / بەردەوام بە</button>
     </div>
   </div>
 
-  <!-- STEP 3 -->
+  <!-- ABOUT SECTION -->
 
-  <div class="pstep" id="ps3">
-    <div class="pbar"><span class="ac"></span><span class="ac"></span><span class="ac"></span></div>
-    <div class="psteplbl">Step 3: Confirm / پشتڕاستکردنەوە</div>
-    <div class="ords" id="ordsum"></div>
-    <div class="sec-note">🔒 <span>Your payment is secured with SSL encryption<br/><span style="font-family:var(--fk)">پارەدانەکەت بە SSL ئەمنە</span></span></div>
-    <div class="pbtn-row">
-      <button class="back-btn" onclick="goStep(2)">← Back</button>
-      <button class="btn1" style="flex:1;padding:13px" onclick="placeOrder()">✅ Place Order / داواکاری تۆمار بکە</button>
+  <section id="about" class="about-section">
+    <div class="about-inner">
+      <div class="about-text">
+        <span class="section-tag">About Us / دەربارەمان</span>
+        <h2>We Are <em>LUXE</em></h2>
+        <p>LUXE is a premium fashion destination bringing together the finest clothing, shoes, and accessories from around the world. Our curated collection reflects elegance, quality, and modern style.</p>
+        <p dir="rtl" class="kurdish-text">LUXE شوێنێکی مۆدی بەرزە کە باشترین جل و بەرگ، پێڵاو و ئەکسسوار لە چوارگۆشەی جیهانەوە کۆ دەکاتەوە. کەلێکشنی دەستچینراوی ئێمە ئەلیگانس، کواڵیتی و ستایلی ئەمڕۆ نیشان دەدات.</p>
+        <div class="about-stats">
+          <div class="stat"><strong>500+</strong><span>Products</span></div>
+          <div class="stat"><strong>10K+</strong><span>Customers</span></div>
+          <div class="stat"><strong>5★</strong><span>Rating</span></div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-img">🏆</div>
+          <p>Premium Brand Since 2020</p>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- SUCCESS -->
+  <!-- CONTACT SECTION -->
 
-  <div class="pstep" id="psucc">
-    <div class="succ">
-      <div class="si">🎉</div>
-      <h3>Order Placed!</h3>
-      <p class="ks">داواکاریت بەسەرکەوتووی تۆمارکرا!<br/>دەگاتە دەرگاکەت لە ٢-٥ ڕۆژدا</p>
-      <div class="onum">Order #<strong style="color:var(--gold)" id="ordnum">LX-00000</strong> confirmed ✓</div>
-      <button class="btn1" style="padding:13px 28px" onclick="closePay()">Continue Shopping 🛍️</button>
+  <section id="contact" class="contact-section">
+    <div class="contact-inner">
+      <div class="contact-info">
+        <span class="section-tag">Contact / پەیوەندی</span>
+        <h2>Get In <em>Touch</em></h2>
+        <div class="contact-item">📧 <span>luxe@shop.com</span></div>
+        <div class="contact-item">📞 <span>+964 750 123 4567</span></div>
+        <div class="contact-item">📍 <span>Erbil, Kurdistan Region, Iraq</span></div>
+        <div class="contact-item">🕐 <span>Mon–Sat 9am–8pm</span></div>
+        <div class="social-links">
+          <a href="#" class="social-link">Instagram</a>
+          <a href="#" class="social-link">Facebook</a>
+          <a href="#" class="social-link">TikTok</a>
+        </div>
+      </div>
+      <div class="contact-form-wrap">
+        <h3>Send Message / پەیام بنێرە</h3>
+        <div class="input-group"><label>Name / ناو</label><input type="text" id="ctName" placeholder="Your name" /></div>
+        <div class="input-group"><label>Email / ئیمەیل</label><input type="email" id="ctEmail" placeholder="email@example.com" /></div>
+        <div class="input-group"><label>Message / پەیام</label><textarea id="ctMessage" rows="4" placeholder="How can we help?"></textarea></div>
+        <button class="btn-primary" onclick="sendMessage()">Send / بنێرە</button>
+      </div>
     </div>
-  </div>
-</div>
-</div>
+  </section>
 
-<!-- ============ FOOTER ============ -->
+  <!-- FOOTER -->
 
-<footer>
-<div class="fi2">
-  <div class="fgrd">
-    <div>
-      <div class="fl-logo">LUXE SHOP</div>
-      <p class="fl-p">Your premier destination for luxury shopping. Discover the finest brands from around the world.</p>
-      <p class="fl-p ku" style="margin-top:8px;text-align:right">شۆپی لوکس، شوێنی یەکەمت بۆ کڕینی باشترین کاڵاکان.</p>
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-dot"></span>
+        <strong>LUXE</strong>
+        <p>Premium Fashion Store</p>
+      </div>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#products">Shop</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-copy">© 2025 LUXE Shop. All rights reserved.</div>
     </div>
-    <div class="fcol"><h5>Shop / بازار</h5><ul><li><a href="#" onclick="showPg('shop');return false">All Products</a></li><li><a href="#" onclick="filterGo('Fashion');return false">Fashion</a></li><li><a href="#" onclick="filterGo('Electronics');return false">Electronics</a></li><li><a href="#" onclick="filterGo('Shoes');return false">Shoes</a></li></ul></div>
-    <div class="fcol"><h5>Company / کۆمپانیا</h5><ul><li><a href="#" onclick="showPg('about');return false">About Us</a></li><li><a href="#" onclick="showPg('contact');return false">Contact</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
-    <div class="fcol"><h5>Support / پشتگیری</h5><ul><li><a href="#">FAQ</a></li><li><a href="#">Shipping Info</a></li><li><a href="#">Returns</a></li><li><a href="#">Track Order</a></li></ul></div>
-  </div>
-  <div class="fbot">
-    <p>© 2025 LUXE SHOP. All rights reserved. <span class="ku">/ هەموو مافەکان پارێزراون</span></p>
-    <div class="socials"><a class="sl" href="#">📘</a><a class="sl" href="#">📸</a><a class="sl" href="#">🐦</a><a class="sl" href="#">▶️</a></div>
-  </div>
-</div>
-</footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ===== DATA =====
-const PRODS = [
-  {id:0,name:'Air Runner Pro',ku:'ئایر ڕەنەر پرۆ',cat:'Shoes',price:129,old:189,em:'👟',badge:'new',stars:5,rev:284},
-  {id:1,name:'Luxe Leather Bag',ku:'جانتای چەرمی لوکس',cat:'Fashion',price:349,old:499,em:'👜',badge:'hot',stars:5,rev:193},
-  {id:2,name:'Smart Watch X9',ku:'کاتژمێری زیرەک X9',cat:'Electronics',price:299,old:399,em:'⌚',badge:'new',stars:4,rev:521},
-  {id:3,name:'UV Sunglasses',ku:'چاوێلکەی UV',cat:'Accessories',price:89,old:129,em:'🕶️',badge:'sale',stars:4,rev:147},
-  {id:4,name:'Silk Evening Dress',ku:'کراسی ئابرێشمی',cat:'Fashion',price:219,old:null,em:'👗',badge:'new',stars:5,rev:88},
-  {id:5,name:'Wireless Earbuds',ku:'گوێبەستی وایەرلێس',cat:'Electronics',price:149,old:199,em:'🎧',badge:'hot',stars:5,rev:673},
-  {id:6,name:'Gold Necklace',ku:'گەردەنبەندی زێڕ',cat:'Accessories',price:189,old:null,em:'📿',badge:null,stars:5,rev:234},
-  {id:7,name:'Perfume Collection',ku:'کۆمەڵی بۆن',cat:'Beauty',price:129,old:169,em:'🌸',badge:'sale',stars:4,rev:412},
-  {id:8,name:'Leather Sneakers',ku:'گوانیەی چەرمی',cat:'Shoes',price:159,old:219,em:'👞',badge:'new',stars:4,rev:156},
-  {id:9,name:'Laptop Pro Max',ku:'لاپتۆپی پرۆ ماکس',cat:'Electronics',price:1299,old:1599,em:'💻',badge:'hot',stars:5,rev:89},
-  {id:10,name:'Cashmere Sweater',ku:'سوێتەری کاشمیر',cat:'Fashion',price:179,old:249,em:'🧥',badge:null,stars:4,rev:203},
-  {id:11,name:'Diamond Ring',ku:'ئەنگووستی ئەلماس',cat:'Accessories',price:899,old:null,em:'💍',badge:'hot',stars:5,rev:67},
-  {id:12,name:'Yoga Mat',ku:'مەتی یۆگا',cat:'Home',price:49,old:79,em:'🧘',badge:'sale',stars:4,rev:320},
-  {id:13,name:'Lip Gloss Set',ku:'کۆمەڵی رووناکی لێو',cat:'Beauty',price:39,old:null,em:'💋',badge:'new',stars:4,rev:189},
-];
+  </footer>
 
-let cart=[], lang=‘en’, hCat=‘All’, sCat=‘All’;
+</div><!-- end mainSite -->
 
-// ===== TRANSLATIONS =====
-const T={
-en:{
-navHome:‘Home’,navShop:‘Shop’,navAbout:‘About’,navContact:‘Contact’,
-login:‘Login’,signup:‘Sign Up’,
-catTag:‘✦ Browse by Category’,catH:‘Shop by Category’,
-featTag:‘✦ Handpicked for You’,featH:‘Featured Products’,
-cartTitle:‘Shopping Cart 🛒’,cartEmpty:‘Your cart is empty’,
-shopH:‘All Products’,cntH:‘Contact Us’,
-filterAll:‘All ✦’
-},
-ku:{
-navHome:‘ماڵەوە’,navShop:‘بازار’,navAbout:‘دەربارە’,navContact:‘پەیوەندی’,
-login:‘چوونەژوورەوە’,signup:‘تۆمارکردن’,
-catTag:‘✦ بەپێی جۆر’,catH:‘کاڵا بەپێی جۆر’,
-featTag:‘✦ دیاریکراو بۆت’,featH:‘کاڵاکانی تایبەت’,
-cartTitle:‘سەبەتەی کڕین 🛒’,cartEmpty:‘سەبەتەکەت بەتاڵە’,
-shopH:‘هەموو کاڵاکان’,cntH:‘پەیوەندیمان پێوەبکە’,
-filterAll:‘هەموو ✦’
-}
-};
-
-// ===== PRODUCT CARD =====
-function card(p){
-const st=‘★’.repeat(p.stars)+‘☆’.repeat(5-p.stars);
-const bd=p.badge?`<span class="pbadge b${p.badge[0]}">${p.badge}</span>`:’’;
-const op=p.old?`<span class="old">$${p.old}</span>`:’’;
-return `<div class="pcard" data-cat="${p.cat}">
-${bd}
-<button class="pwish" onclick="wish(this);event.stopPropagation()">♡</button>
-<div class="pimg"><span>${p.em}</span>
-<div class="povl"><button class="qv" onclick="event.stopPropagation();addToCart(${p.id})">Quick Add 🛒</button></div>
-</div>
-<div class="pbody">
-<div class="pcat">${p.cat}</div>
-<div class="pname">${p.name}</div>
-<div class="pnamek">${p.ku}</div>
-<div class="pstars">${st} <span>(${p.rev})</span></div>
-<div class="pfoot">
-<div class="pprice">${op}$${p.price}</div>
-<button class="acb" id="ab${p.id}" onclick="addToCart(${p.id})">🛒 Add</button>
-</div>
-</div>
-
-  </div>`;
-}
-
-function renderH(f=‘All’){
-const el=document.getElementById(‘hprods’);
-const list=f===‘All’?PRODS.slice(0,8):PRODS.filter(p=>p.cat===f);
-el.innerHTML=list.map(card).join(’’);
-}
-function renderS(q=’’,f=‘All’){
-const el=document.getElementById(‘sprods’);
-let list=PRODS;
-if(f!==‘All’) list=list.filter(p=>p.cat===f);
-if(q) list=list.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||p.ku.includes(q));
-el.innerHTML=list.map(card).join(’’);
-}
-
-// ===== FILTERS =====
-function hFilter(btn,cat){
-document.querySelectorAll(’#hfltrs .fb’).forEach(b=>b.classList.remove(‘ac’));
-btn.classList.add(‘ac’); hCat=cat; renderH(cat);
-}
-function sFilter(btn,cat){
-document.querySelectorAll(’#sfltrs .fb’).forEach(b=>b.classList.remove(‘ac’));
-btn.classList.add(‘ac’); sCat=cat;
-renderS(document.getElementById(‘shopSrch’).value,cat);
-}
-function filterGo(cat){
-showPg(‘shop’);
-setTimeout(()=>{
-document.querySelectorAll(’#sfltrs .fb’).forEach(b=>{
-const ac=b.textContent.includes(cat);
-b.classList.toggle(‘ac’,ac);
-});
-sCat=cat; renderS(’’,cat);
-},80);
-}
-
-// ===== CART =====
-function addToCart(id){
-const p=PRODS.find(x=>x.id===id);
-const ex=cart.find(x=>x.id===id);
-if(ex) ex.qty++; else cart.push({…p,qty:1});
-updateCart();
-const b=document.getElementById(‘ab’+id);
-if(b){b.classList.add(‘dd’);b.textContent=‘✓ Added’;setTimeout(()=>{b.classList.remove(‘dd’);b.innerHTML=‘🛒 Add’;},1800);}
-toast(p.em+’ ‘+p.name+’ added to cart!’,‘s’);
-openCart();
-}
-function changeQty(id,d){
-const it=cart.find(x=>x.id===id);
-if(!it) return;
-it.qty+=d;
-if(it.qty<=0) cart=cart.filter(x=>x.id!==id);
-updateCart();
-}
-function removeItem(id){cart=cart.filter(x=>x.id!==id);updateCart();}
-function updateCart(){
-const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-const cnt=cart.reduce((s,i)=>s+i.qty,0);
-const b=document.getElementById(‘cbadge’);
-b.textContent=cnt; b.classList.toggle(‘on’,cnt>0);
-const el=document.getElementById(‘citms’);
-const ft=document.getElementById(‘cfoot’);
-if(cart.length===0){
-el.innerHTML=`<div class="cemp"><div class="ei">🛒</div><p>Your cart is empty</p><p class="ku">سەبەتەکەت بەتاڵە</p></div>`;
-ft.style.display=‘none’;
-} else {
-el.innerHTML=cart.map(i=>`<div class="citm"> <div class="citm-img">${i.em}</div> <div class="citm-info"> <div class="citm-name">${i.name}</div> <div class="citm-price">$${(i.price*i.qty)}</div> <div class="qtyrow"> <button class="qb" onclick="changeQty(${i.id},-1)">−</button> <span class="qn">${i.qty}</span> <button class="qb" onclick="changeQty(${i.id},1)">+</button> </div> </div> <button class="citm-rm" onclick="removeItem(${i.id})">✕</button> </div>`).join(’’);
-document.getElementById(‘csub’).textContent=’$’+total;
-document.getElementById(‘ctot’).textContent=’$’+total;
-ft.style.display=‘block’;
-}
-}
-
-// ===== CART TOGGLE =====
-let cartOpen=false;
-function openCart(){cartOpen=true;document.getElementById(‘cside’).classList.add(‘op’);document.getElementById(‘overlay’).classList.add(‘on’);}
-function closeCart(){cartOpen=false;document.getElementById(‘cside’).classList.remove(‘op’);document.getElementById(‘overlay’).classList.remove(‘on’);}
-function toggleCart(){cartOpen?closeCart():openCart();}
-
-// ===== SEARCH =====
-function doSearch(v){
-const el=document.getElementById(‘sres’);
-if(!el) return;
-if(!v.trim()){el.classList.add(‘hidden’);return;}
-const res=PRODS.filter(p=>p.name.toLowerCase().includes(v.toLowerCase())||p.ku.includes(v)).slice(0,5);
-if(!res.length){el.classList.add(‘hidden’);return;}
-el.innerHTML=res.map(p=>`<div class="sri" onclick="addToCart(${p.id})"><div class="sri-img">${p.em}</div><div><div class="sri-name">${p.name}</div><div class="sri-price">$${p.price}</div></div></div>`).join(’’);
-el.classList.remove(‘hidden’);
-}
-document.addEventListener(‘click’,e=>{
-if(!e.target.closest(’#nsearch’)){const r=document.getElementById(‘sres’);if(r)r.classList.add(‘hidden’);}
-});
-
-// ===== AUTH =====
-function openAuth(tab){
-switchAuth(tab);
-document.getElementById(‘authModal’).classList.add(‘op’);
-document.getElementById(‘overlay’).classList.add(‘on’);
-}
-function closeAuth(){
-document.getElementById(‘authModal’).classList.remove(‘op’);
-document.getElementById(‘overlay’).classList.remove(‘on’);
-}
-function switchAuth(tab){
-document.getElementById(‘atab-l’).classList.toggle(‘ac’,tab===‘login’);
-document.getElementById(‘atab-s’).classList.toggle(‘ac’,tab===‘signup’);
-document.getElementById(‘aform-l’).classList.toggle(‘hidden’,tab!==‘login’);
-document.getElementById(‘aform-s’).classList.toggle(‘hidden’,tab!==‘signup’);
-}
-function sendOtp(){
-const v=document.getElementById(‘loginInp’).value;
-if(!v){toast(‘تکایە ژمارەکەت بنووسە / Enter your phone or email’,‘e’);return;}
-const b=document.getElementById(‘scbtn’);
-b.textContent=‘✅ Code Sent! / کۆد نێردرا!’;b.classList.add(‘sn’);
-document.getElementById(‘otpsec’).classList.remove(‘hidden’);
-document.getElementById(‘o0’).focus();
-toast(‘📱 Verification code sent!’,‘s’);
-}
-function otpM(inp,i){
-if(inp.value.length===1&&i<5) document.getElementById(‘o’+(i+1)).focus();
-if(i===5){
-const full=[0,1,2,3,4,5].map(n=>document.getElementById(‘o’+n).value).join(’’);
-if(full.length===6) verifyOtp();
-}
-}
-function verifyOtp(){toast(‘🎉 Welcome to LUXE SHOP! / بەخێربێیتەوە!’,‘s’);closeAuth();}
-function wish(btn){event.stopPropagation();btn.classList.toggle(‘ac’);btn.textContent=btn.classList.contains(‘ac’)?‘♥’:‘♡’;}
-
-// ===== LANGUAGE =====
-function setLang(l){
-lang=l;const t=T[l];const ku=l===‘ku’;
-// nav buttons
-[‘lben’,‘lbku’,‘mlben’,‘mlbku’].forEach(id=>{
-const el=document.getElementById(id);if(!el)return;
-el.classList.toggle(‘ac’,(id.includes(‘ku’)&&ku)||(id.includes(‘en’)&&!ku));
-});
-// nav links
-[‘home’,‘shop’,‘about’,‘contact’].forEach(k=>{
-const el=document.getElementById(‘lnk-’+k);if(el) el.textContent=t[‘nav’+k.charAt(0).toUpperCase()+k.slice(1)];
-const mel=document.getElementById(‘mlnk-’+k);if(mel) mel.textContent=t[‘nav’+k.charAt(0).toUpperCase()+k.slice(1)];
-});
-// auth buttons
-const nbl=document.getElementById(‘nbtnLogin’);if(nbl) nbl.textContent=t.login;
-const nbs=document.getElementById(‘nbtnSignup’);if(nbs) nbs.textContent=t.signup;
-const mbl=document.getElementById(‘mbtnLogin’);if(mbl) mbl.textContent=’🔑 ’+t.login;
-const mbs=document.getElementById(‘mbtnSignup’);if(mbs) mbs.textContent=‘✨ ‘+t.signup;
-// hero - use innerHTML for l2 to keep gradient style
-const set=(id,v)=>{const e=document.getElementById(id);if(e) e.textContent=v;};
-const setL2=(v)=>{
-const e=document.getElementById(‘h-l2’);
-if(e){
-e.textContent=v;
-e.style.background=‘linear-gradient(135deg,#c9a84c,#e8c97a,#f5e0a0)’;
-e.style.webkitBackgroundClip=‘text’;
-e.style.webkitTextFillColor=‘transparent’;
-e.style.backgroundClip=‘text’;
-e.style.display=‘block’;
-}
-};
-if(ku){
-set(‘h-l1’,‘دۆزینەوە’);setL2(‘لوکس’);set(‘h-l3’,‘شۆپینگ’);
-set(‘h-btn1’,‘ئێستا بکڕە 🛍️’);set(‘h-btn2’,‘چیرۆکمان ✦’);
-set(‘h-s1’,‘کاڵا’);set(‘h-s2’,‘کڕیاری خۆشحاڵ’);set(‘h-s3’,‘براند’);
-set(‘h-tag’,‘✦ وەرزی نوێ ٢٠٢٥ ✦’);
-} else {
-set(‘h-l1’,‘Discover’);setL2(‘Luxury’);set(‘h-l3’,‘Shopping’);
-set(‘h-btn1’,‘Shop Now 🛍️’);set(‘h-btn2’,‘Our Story ✦’);
-set(‘h-s1’,‘Products’);set(‘h-s2’,‘Happy Clients’);set(‘h-s3’,‘Brands’);
-set(‘h-tag’,‘✦ New Season 2025 ✦ وەرزی نوێ’);
-}
-// sections
-set(‘cat-tag’,t.catTag);set(‘cat-h2’,t.catH);
-set(‘feat-tag’,t.featTag);set(‘feat-h2’,t.featH);
-set(‘cart-title’,t.cartTitle);
-set(‘shop-h2’,t.shopH);set(‘cnt-h2’,t.cntH);
-// filter all buttons
-document.querySelectorAll(’.fb’).forEach(b=>{if(b.textContent.match(/^(All|هەموو)/)) b.textContent=t.filterAll;});
-// search placeholder
-const si=document.getElementById(‘sinp’);if(si) si.placeholder=ku?‘گەڕان لە کاڵاکان…’:‘Search products…’;
-// re-render
-renderH(hCat);
-if(document.getElementById(‘pg-shop’).classList.contains(‘on’)) renderS(document.getElementById(‘shopSrch’).value,sCat);
-toast(ku?‘🌐 زمان گۆڕدرا بۆ کوردی ✓’:‘🌐 Language set to English ✓’,‘s’);
-}
-
-// ===== PAGE NAV =====
-function showPg(p){
-document.querySelectorAll(’.pg’).forEach(e=>e.classList.remove(‘on’));
-document.getElementById(‘pg-’+p).classList.add(‘on’);
-document.querySelectorAll(’.nlinks a’).forEach(a=>a.classList.remove(‘ac’));
-const l=document.getElementById(‘lnk-’+p);if(l) l.classList.add(‘ac’);
-window.scrollTo(0,0);
-if(p===‘shop’) renderS(document.getElementById(‘shopSrch’).value,sCat);
-}
-
-// ===== MOBILE MENU =====
-let mobOpen=false;
-function toggleMobile(){
-mobOpen=!mobOpen;
-document.getElementById(‘mmenu’).classList.toggle(‘op’,mobOpen);
-document.getElementById(‘hbg’).classList.toggle(‘op’,mobOpen);
-document.getElementById(‘overlay’).classList.toggle(‘on’,mobOpen);
-}
-function closeMobile(){
-mobOpen=false;
-document.getElementById(‘mmenu’).classList.remove(‘op’);
-document.getElementById(‘hbg’).classList.remove(‘op’);
-}
-
-// ===== CLOSE ALL =====
-function closeAll(){
-closeCart(); closeMobile();
-document.getElementById(‘authModal’).classList.remove(‘op’);
-document.getElementById(‘payModal’).classList.remove(‘op’);
-document.getElementById(‘overlay’).classList.remove(‘on’);
-}
-
-// ===== PAYMENT =====
-function openPayment(){
-if(!cart.length){toast(‘سەبەتەکەت بەتاڵە! / Cart is empty!’,‘e’);return;}
-closeCart();
-goStep(1);
-document.getElementById(‘payModal’).classList.add(‘op’);
-document.getElementById(‘overlay’).classList.add(‘on’);
-}
-function closePay(){
-document.getElementById(‘payModal’).classList.remove(‘op’);
-document.getElementById(‘overlay’).classList.remove(‘on’);
-}
-function goStep(n){
-[‘ps1’,‘ps2’,‘ps3’,‘psucc’].forEach(id=>{
-const el=document.getElementById(id);if(el) el.classList.remove(‘on’);
-});
-const t=document.getElementById(n===‘succ’?‘psucc’:‘ps’+n);
-if(t) t.classList.add(‘on’);
-if(n===3){
-const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-const meth={card:‘💳 Credit Card’,cash:‘💵 Cash on Delivery’,zain:‘📱 Zain Cash’};
-const sel=document.querySelector(‘input[name=“pm”]:checked’);
-const mv=sel?sel.value:‘card’;
-document.getElementById(‘ordsum’).innerHTML=` <div class="ords-lbl">Order Summary / پوختەی داواکاری</div> ${cart.map(i=>`<div class="ori"><span>${i.em} ${i.name} ×${i.qty}</span><span style="color:var(--gold)">$${i.price*i.qty}</span></div>`).join('')} <div class="ori" style="font-weight:700;font-size:14px"><span>Total / کۆی گشتی</span><span style="color:var(--gold)">$${total}</span></div> <div style="font-size:11px;color:var(--mut);margin-top:8px">Payment: ${meth[mv]||meth.card}</div>`;
-}
-}
-function selPay(lbl,val){
-document.querySelectorAll(’.pmethods label’).forEach(l=>l.classList.remove(‘sel’));
-lbl.classList.add(‘sel’);
-document.getElementById(‘cardFlds’).style.display=val===‘card’?‘block’:‘none’;
-lbl.querySelector(‘input’).checked=true;
-}
-function fmtCard(i){let v=i.value.replace(/\D/g,’’).substring(0,16);i.value=v.replace(/(.{4})/g,’$1 ‘).trim();}
-function fmtExp(i){let v=i.value.replace(/\D/g,’’);if(v.length>=2)v=v.substring(0,2)+’/’+v.substring(2,4);i.value=v;}
-function placeOrder(){
-const n=‘LX-’+Math.floor(10000+Math.random()*90000);
-document.getElementById(‘ordnum’).textContent=n;
-[‘ps1’,‘ps2’,‘ps3’].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove(‘on’);});
-document.getElementById(‘psucc’).classList.add(‘on’);
-cart=[]; updateCart();
-toast(‘🎉 داواکاریت تۆمارکرا! / Order placed!’,‘s’);
-}
-
-// ===== TOAST =====
-function toast(msg,type=‘s’){
-const c=document.getElementById(‘tcon’);
-const d=document.createElement(‘div’);
-d.className=’tst ’+type;
-d.innerHTML=`<span class="ti">${type==='s'?'✅':'❌'}</span><span>${msg}</span>`;
-c.appendChild(d);
-setTimeout(()=>d.style.opacity=‘0’,2600);
-setTimeout(()=>d.remove(),3000);
-}
-
-// ===== SCROLL =====
-window.addEventListener(‘scroll’,()=>{
-document.getElementById(‘nav’).classList.toggle(‘sc’,scrollY>50);
-document.getElementById(‘bktop’).classList.toggle(‘on’,scrollY>400);
-});
-
-// ===== INIT =====
-renderH(); updateCart();
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
